@@ -506,7 +506,7 @@ namespace SynDriver
                         else
                         {
                             secondOperand = list[index + 2];
-                            secondOperandType = subScope.Item2.TableEntries.First(c => c.Name.Equals(firstOperand)).Type;
+                            secondOperandType = subScope.Item2.TableEntries.FirstOrDefault(c => c.Name.Equals(secondOperand))?.Type;
                         }
 
                         if (!firstOperandType.Equals(secondOperandType))

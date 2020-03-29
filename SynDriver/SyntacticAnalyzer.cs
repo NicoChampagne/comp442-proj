@@ -44,10 +44,6 @@ namespace SynDriver
                         {
                             currentNode.AddChild(new TreeNode<string>(currentToken.Lexeme));
                         }
-                        else if (ParseTable.TerminalExpression.Contains(tempString))
-                        {
-                            currentNode.AddChild(new TreeNode<string>(currentToken.Lexeme));
-                        }
 
                         synStack.Pop();
                         if (index != tokensToParse.Count-1)
