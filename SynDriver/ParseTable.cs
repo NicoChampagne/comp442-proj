@@ -27,9 +27,9 @@ namespace SynDriver
             { ("OptLocalVD", "local"), "local RepVarDecl"},
             { ("VarDecl", "integer"), "Type id RepArraySize ;"}, { ("VarDecl", "float"), "Type id RepArraySize ;"}, { ("VarDecl", "id"), "Type id RepArraySize ;"},
             { ("RepVarDecl", "integer"), "VarDecl RepVarDecl"}, { ("RepVarDecl", "float"), "VarDecl RepVarDecl"}, { ("RepVarDecl", "id"), "VarDecl RepVarDecl"},
-            { ("Statement", "if"), "if ( RelExpr ) then StatBlock else StatBlock ;"}, { ("Statement", "while"), "while ( RelExpr ) StatBlock ;"}, { ("Statement", "read"), "read ( Variable ) ;"}, { ("Statement", "write"), "write ( Expr ) ;"}, { ("Statement", "return"), "return ( Expr ) ;"}, { ("Statement", "id"), "AssignStat ;"}, //Assignstat or functioncall is still ambiguous
+            { ("Statement", "if"), "if ( RelExpr ) then StatBlock else StatBlock ;"}, { ("Statement", "while"), "while ( RelExpr ) StatBlock ;"}, { ("Statement", "read"), "read ( Variable ) ;"}, { ("Statement", "write"), "write ( Expr ) ;"}, { ("Statement", "return"), "return ( Expr ) ;"}, { ("Statement", "id"), "RepIdnest id AssignOrFuncCall ;"}, //Assignstat or functioncall is still ambiguous
             { ("RepStatement", "if"), "Statement RepStatement"}, { ("RepStatement", "while"), "Statement RepStatement"}, { ("RepStatement", "read"), "Statement RepStatement"}, { ("RepStatement", "write"), "Statement RepStatement"}, { ("RepStatement", "return"), "Statement RepStatement"}, { ("RepStatement", "id"), "Statement RepStatement"}, 
-            { ("AssignStat", "id"), "Variable AssignOp Expr"},
+            { ("AssignOrFuncCall", "("), "( AParams )"}, { ("AssignOrFuncCall", "["), "RepIndice AssignOp Expr"}, { ("AssignOrFuncCall", "="), "AssignOp Expr"},
             { ("StatBlock", "do"), "do RepStatement end"}, { ("StatBlock", "if"), "Statement"}, { ("StatBlock", "while"), "Statement"}, { ("StatBlock", "read"), "Statement"}, { ("StatBlock", "write"), "Statement"}, { ("StatBlock", "return"), "Statement"}, { ("StatBlock", "id"), "Statement"},
             { ("Expr", "intnum"), "ArithExpr"}, { ("Expr", "floatnum"), "ArithExpr"}, { ("Expr", "("), "RelExpr"}, { ("Expr", "not"), "RelExpr"}, { ("Expr", "+"), "ArithExpr"}, { ("Expr", "-"), "ArithExpr"}, { ("Expr", "id"), "ArithExpr"},
             { ("RelExpr", "intnum"), "ArithExpr RelOp ArithExpr"}, { ("RelExpr", "floatnum"), "ArithExpr RelOp ArithExpr"}, { ("RelExpr", "("), "ArithExpr RelOp ArithExpr"}, { ("RelExpr", "not"), "ArithExpr RelOp ArithExpr"}, { ("RelExpr", "+"), "ArithExpr RelOp ArithExpr"}, { ("RelExpr", "-"), "ArithExpr RelOp ArithExpr"}, { ("RelExpr", "id"), "ArithExpr RelOp ArithExpr"},
@@ -39,7 +39,8 @@ namespace SynDriver
             { ("Factor", "intnum"), "intnum"}, { ("Factor", "floatnum"), "floatnum"}, { ("Factor", "("), "( ArithExpr )"}, { ("Factor", "not"), "not Factor"}, { ("Factor", "+"), "Sign Factor"}, { ("Factor", "-"), "Sign Factor"}, { ("Factor", "id"), "Variable"},
             { ("Variable", "id"), "id RepIdnest RepIndice"},
             { ("FunctionCall", "id"), "id RepIdnest ( AParams )"},
-            { ("Idnest", "id"), "id RepIndice ."},
+            { ("Idnest", "id"), "id OptNest"},
+            { ("OptNest", "["), "RepIndice ."}, { ("OptNest", "."), "RepIndice ."},
             { ("RepIdnest", "id"), "Idnest RepIdnest"},
             { ("Indice", "["), "[ ArithExpr ]"},
             { ("RepIndice", "["), "Indice RepIndice"},
@@ -71,6 +72,7 @@ namespace SynDriver
             { ("RepStatement", "end"), "EPSILON"},
             //{ ("AssignStat", ";"), "AssignStat → Variable AssignOp Expr"},
             { ("StatBlock", ";"), "EPSILON"}, { ("StatBlock", "else"), "EPSILON"},
+            //{ ("AssignOrFuncCall", ";"), "EPSILON"}, { ("AssignOrFuncCall", "else"), "EPSILON"},
             //{ ("Expr", ")"), "Expr → ArithExpr"}, { ("Expr", ";"), "Expr → ArithExpr"}, { ("Expr", ","), "Expr → ArithExpr"},
             //{ ("RelExpr", ")"), "RelExpr → ArithExpr RelOp ArithExpr"}, { ("RelExpr", ";"), "RelExpr → ArithExpr RelOp ArithExpr"}, { ("RelExpr", ","), "RelExpr → ArithExpr RelOp ArithExpr"},
             { ("ArithExpr", ")"), "ArithExpr AddOp Term"}, //{ ("ArithExpr", ";"), "ArithExpr → Term"}, { ("ArithExpr", "eq"), "ArithExpr → Term"}, { ("ArithExpr", "neq"), "ArithExpr → Term"}, { ("lt", "+"), "ArithExpr -> Term"}, { ("ArithExpr", "gt"), "ArithExpr → Term"}, { ("ArithExpr", "or"), "ArithExpr → ArithExpr AddOp Term"}, { ("ArithExpr", "]"), "ArithExpr → Term"}, { ("ArithExpr", ","), "ArithExpr → Term"},
@@ -80,6 +82,7 @@ namespace SynDriver
             //{ ("Variable", "id"), "Variable → RepIdnest id RepIndice"},
             //{ ("FunctionCall", "id"), "FunctionCall → RepIdnest id ( AParams )"},
             //{ ("Idnest", "id"), "Idnest → id RepIndice ."},
+            { ("OptNest", "id"), "EPSILON"},
             { ("RepIdnest", "["), "EPSILON"}, { ("RepIdnest", ")"), "EPSILON"}, { ("RepIdnest", "="), "EPSILON"}, { ("RepIdnest", ";"), "EPSILON"}, { ("RepIdnest", "eq"), "EPSILON"}, { ("RepIdnest", "neq"), "EPSILON"}, { ("RepIdnest", "lt"), "EPSILON"}, { ("RepIdnest", "gt"), "EPSILON"}, { ("RepIdnest", "leq"), "EPSILON"}, { ("RepIdnest", "geq"), "EPSILON"}, { ("RepIdnest", "+"), "EPSILON"}, { ("RepIdnest", "-"), "EPSILON"}, { ("RepIdnest", "or"), "EPSILON"}, { ("RepIdnest", "*"), "EPSILON"}, { ("RepIdnest", "/"), "EPSILON"}, { ("RepIdnest", "and"), "EPSILON"}, { ("RepIdnest", "("), "EPSILON"}, { ("RepIdnest", "]"), "EPSILON"}, { ("RepIdnest", ","), "EPSILON"},
             //{ ("Indice", "["), "Indice → [ ArithExpr ]"},
             { ("RepIndice", ")"), "EPSILON"}, { ("RepIndice", "="), "EPSILON"},{ ("RepIndice", ";"), "EPSILON"}, { ("RepIndice", "eq"), "EPSILON"},{ ("RepIndice", "new"), "EPSILON"}, { ("RepIndice", "lt"), "EPSILON"},{ ("RepIndice", "gt"), "EPSILON"}, { ("RepIndice", "leq"), "EPSILON"},{ ("RepIndice", "geq"), "EPSILON"}, { ("RepIndice", "+"), "EPSILON"},{ ("RepIndice", "-"), "EPSILON"}, { ("RepIndice", "or"), "EPSILON"},{ ("RepIndice", "*"), "EPSILON"}, { ("RepIndice", "/"), "EPSILON"},{ ("RepIndice", "and"), "EPSILON"}, { ("RepIndice", "."), "EPSILON"}, { ("RepIndice", "]"), "EPSILON"},{ ("RepIndice", ","), "EPSILON"},
@@ -116,7 +119,7 @@ namespace SynDriver
             "RepFuncDef", "RepClassDecl", "OptInherits", "RepExtraInherits", "RepMembers",
             "OptId", "OptLocalVD", "RepVarDecl", "RepStatement", "RepExpr", "RepIdnest",
             "RepIndice", "RepArraySize", "RepAParamsTail", "RepFParamsTail", "VoidOrType",
-            "OptIntNum"
+            "OptIntNum", "AssignOrFuncCall", "OptNest"
 
         };
 
@@ -127,7 +130,13 @@ namespace SynDriver
             "void", ".", "*", "/", "and", "inherits", "local", "sr", "main",
             "eq", "geq", "gt", "leq", "lt", "neq", "if", "then", "else", "read",
             "return", "while", "write", "float", "integer", "private", "public",
-            "EPSILON"
+            "EPSILON", "="
+        };
+
+        public static HashSet<string> TerminalExpression = new HashSet<string>()
+        {
+            "+", "-", "or", "=", "!=", "*", "/", "and",
+            "eq", "geq", "gt", "leq", "lt", "neq"
         };
     }
 }
