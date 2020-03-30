@@ -21,18 +21,15 @@ START
                            float
                               x
                         id
-                        RepArraySize
-                           EPSILON
-                        RepFParamsTail
-                           EPSILON
+                        EPSILON
+                        EPSILON
                      )
                      :
                      VoidOrType
                         Type
                            float
                      ;
-               RepMembers
-                  EPSILON
+               EPSILON
             }
             ;
          RepClassDecl
@@ -44,8 +41,7 @@ START
                   inherits
                      POLYNOMIAL
                   id
-                  RepExtraInherits
-                     EPSILON
+                  EPSILON
                {
                RepMembers
                   Visibility
@@ -56,8 +52,7 @@ START
                            float
                               a
                         id
-                        RepArraySize
-                           EPSILON
+                        EPSILON
                         ;
                   RepMembers
                      Visibility
@@ -68,8 +63,7 @@ START
                               float
                                  b
                            id
-                           RepArraySize
-                              EPSILON
+                           EPSILON
                            ;
                      RepMembers
                         Visibility
@@ -84,8 +78,7 @@ START
                                     float
                                        A
                                  id
-                                 RepArraySize
-                                    EPSILON
+                                 EPSILON
                                  RepFParamsTail
                                     FParamsTail
                                        ,
@@ -93,10 +86,8 @@ START
                                           float
                                              B
                                        id
-                                       RepArraySize
-                                          EPSILON
-                                    RepFParamsTail
                                        EPSILON
+                                    EPSILON
                               )
                               :
                               VoidOrType
@@ -117,22 +108,18 @@ START
                                        float
                                           x
                                     id
-                                    RepArraySize
-                                       EPSILON
-                                    RepFParamsTail
-                                       EPSILON
+                                    EPSILON
+                                    EPSILON
                                  )
                                  :
                                  VoidOrType
                                     Type
                                        float
                                  ;
-                           RepMembers
-                              EPSILON
+                           EPSILON
                }
                ;
-            RepClassDecl
-               EPSILON
+            EPSILON
       RepFuncDef
          FuncDef
             FuncHead
@@ -144,8 +131,7 @@ START
                      float
                         A
                   id
-                  RepArraySize
-                     EPSILON
+                  EPSILON
                   RepFParamsTail
                      FParamsTail
                         ,
@@ -153,8 +139,7 @@ START
                            float
                               B
                         id
-                        RepArraySize
-                           EPSILON
+                        EPSILON
                      RepFParamsTail
                         FParamsTail
                            ,
@@ -162,10 +147,8 @@ START
                               float
                                  C
                            id
-                           RepArraySize
-                              EPSILON
-                        RepFParamsTail
                            EPSILON
+                        EPSILON
                )
                :
                VoidOrType
@@ -188,8 +171,7 @@ START
                                     0
                      )
                      ;
-                  RepStatement
-                     EPSILON
+                  EPSILON
                end
          RepFuncDef
             FuncDef
@@ -202,10 +184,8 @@ START
                         float
                            x
                      id
-                     RepArraySize
-                        EPSILON
-                     RepFParamsTail
-                        EPSILON
+                     EPSILON
+                     EPSILON
                   )
                   :
                   VoidOrType
@@ -220,41 +200,39 @@ START
                               float
                                  result
                            id
-                           RepArraySize
-                              EPSILON
-                           ;
-                        RepVarDecl
                            EPSILON
+                           ;
+                        EPSILON
                   do
                   RepStatement
                      Statement
-                        AssignStat
-                           Variable
+                        RepIdnest
+                           Idnest
                               id
                                  result
-                              RepIdnest
+                              OptNest
                                  EPSILON
-                              RepIndice
-                                 EPSILON
+                           EPSILON
+                        AssignOrFuncCall
                            AssignOp
                               =
                            Expr
                               ArithExpr
                                  Term
                                     Factor
-                                       floatnum
-                                          0.0
+                                       intnum
+                                          0
                         ;
                      RepStatement
                         Statement
-                           AssignStat
-                              Variable
+                           RepIdnest
+                              Idnest
                                  id
                                     result
-                                 RepIdnest
+                                 OptNest
                                     EPSILON
-                                 RepIndice
-                                    EPSILON
+                              EPSILON
+                           AssignOrFuncCall
                               AssignOp
                                  =
                               Expr
@@ -262,12 +240,14 @@ START
                                     Term
                                        Factor
                                           Variable
-                                             id
-                                                a
                                              RepIdnest
+                                                Idnest
+                                                   id
+                                                      a
+                                                   OptNest
+                                                      EPSILON
                                                 EPSILON
-                                             RepIndice
-                                                EPSILON
+                                             EPSILON
                            ;
                         RepStatement
                            Statement
@@ -278,16 +258,17 @@ START
                                     Term
                                        Factor
                                           Variable
-                                             id
-                                                result
                                              RepIdnest
+                                                Idnest
+                                                   id
+                                                      result
+                                                   OptNest
+                                                      EPSILON
                                                 EPSILON
-                                             RepIndice
-                                                EPSILON
+                                             EPSILON
                               )
                               ;
-                           RepStatement
-                              EPSILON
+                           EPSILON
                   end
             RepFuncDef
                FuncDef
@@ -300,10 +281,8 @@ START
                            float
                               x
                         id
-                        RepArraySize
-                           EPSILON
-                        RepFParamsTail
-                           EPSILON
+                        EPSILON
+                        EPSILON
                      )
                      :
                      VoidOrType
@@ -318,22 +297,20 @@ START
                                  float
                                     result
                               id
-                              RepArraySize
-                                 EPSILON
-                              ;
-                           RepVarDecl
                               EPSILON
+                              ;
+                           EPSILON
                      do
                      RepStatement
                         Statement
-                           AssignStat
-                              Variable
+                           RepIdnest
+                              Idnest
                                  id
                                     result
-                                 RepIdnest
+                                 OptNest
                                     EPSILON
-                                 RepIndice
-                                    EPSILON
+                              EPSILON
+                           AssignOrFuncCall
                               AssignOp
                                  =
                               Expr
@@ -341,23 +318,25 @@ START
                                     Term
                                        Factor
                                           Variable
-                                             id
-                                                a
                                              RepIdnest
+                                                Idnest
+                                                   id
+                                                      a
+                                                   OptNest
+                                                      EPSILON
                                                 EPSILON
-                                             RepIndice
-                                                EPSILON
+                                             EPSILON
                            ;
                         RepStatement
                            Statement
-                              AssignStat
-                                 Variable
+                              RepIdnest
+                                 Idnest
                                     id
                                        result
-                                    RepIdnest
+                                    OptNest
                                        EPSILON
-                                    RepIndice
-                                       EPSILON
+                                 EPSILON
+                              AssignOrFuncCall
                                  AssignOp
                                     =
                                  Expr
@@ -365,23 +344,25 @@ START
                                        Term
                                           Factor
                                              Variable
-                                                id
-                                                   result
                                                 RepIdnest
+                                                   Idnest
+                                                      id
+                                                         result
+                                                      OptNest
+                                                         EPSILON
                                                    EPSILON
-                                                RepIndice
-                                                   EPSILON
+                                                EPSILON
                               ;
                            RepStatement
                               Statement
-                                 AssignStat
-                                    Variable
+                                 RepIdnest
+                                    Idnest
                                        id
                                           result
-                                       RepIdnest
+                                       OptNest
                                           EPSILON
-                                       RepIndice
-                                          EPSILON
+                                    EPSILON
+                                 AssignOrFuncCall
                                     AssignOp
                                        =
                                     Expr
@@ -389,12 +370,14 @@ START
                                           Term
                                              Factor
                                                 Variable
-                                                   id
-                                                      result
                                                    RepIdnest
+                                                      Idnest
+                                                         id
+                                                            result
+                                                         OptNest
+                                                            EPSILON
                                                       EPSILON
-                                                   RepIndice
-                                                      EPSILON
+                                                   EPSILON
                                  ;
                               RepStatement
                                  Statement
@@ -405,16 +388,17 @@ START
                                           Term
                                              Factor
                                                 Variable
-                                                   id
-                                                      result
                                                    RepIdnest
+                                                      Idnest
+                                                         id
+                                                            result
+                                                         OptNest
+                                                            EPSILON
                                                       EPSILON
-                                                   RepIndice
-                                                      EPSILON
+                                                   EPSILON
                                     )
                                     ;
-                                 RepStatement
-                                    EPSILON
+                                 EPSILON
                      end
                RepFuncDef
                   FuncDef
@@ -427,8 +411,7 @@ START
                               float
                                  A
                            id
-                           RepArraySize
-                              EPSILON
+                           EPSILON
                            RepFParamsTail
                               FParamsTail
                                  ,
@@ -436,10 +419,8 @@ START
                                     float
                                        B
                                  id
-                                 RepArraySize
-                                    EPSILON
-                              RepFParamsTail
                                  EPSILON
+                              EPSILON
                         )
                         :
                         VoidOrType
@@ -456,88 +437,476 @@ START
                                        LINEAR
                                        new_function
                                  id
-                                 RepArraySize
-                                    EPSILON
-                                 ;
-                              RepVarDecl
                                  EPSILON
+                                 ;
+                              EPSILON
                         do
                         RepStatement
                            Statement
-                              AssignStat
-                                 Variable
+                              RepIdnest
+                                 Idnest
                                     id
                                        new_function
+                                    OptNest
+                                       .
+                                 RepIdnest
+                                    Idnest
+                                       id
+                                          a
+                                       OptNest
+                                          EPSILON
+                                    EPSILON
+                              AssignOrFuncCall
+                                 AssignOp
+                                    =
+                                 Expr
+                                    ArithExpr
+                                       Term
+                                          Factor
+                                             Variable
+                                                RepIdnest
+                                                   Idnest
+                                                      id
+                                                         A
+                                                      OptNest
+                                                         EPSILON
+                                                   EPSILON
+                                                EPSILON
+                              ;
+                           RepStatement
+                              Statement
+                                 RepIdnest
+                                    Idnest
+                                       id
+                                          new_function
+                                       OptNest
+                                          .
+                                    RepIdnest
+                                       Idnest
+                                          id
+                                             b
+                                          OptNest
+                                             EPSILON
+                                       EPSILON
+                                 AssignOrFuncCall
+                                    AssignOp
+                                       =
+                                    Expr
+                                       ArithExpr
+                                          Term
+                                             Factor
+                                                Variable
+                                                   RepIdnest
+                                                      Idnest
+                                                         id
+                                                            B
+                                                         OptNest
+                                                            EPSILON
+                                                      EPSILON
+                                                   EPSILON
+                                 ;
+                              RepStatement
+                                 Statement
+                                    return
+                                    (
+                                    Expr
+                                       ArithExpr
+                                          Term
+                                             Factor
+                                                Variable
+                                                   RepIdnest
+                                                      Idnest
+                                                         id
+                                                            new_function
+                                                         OptNest
+                                                            EPSILON
+                                                      EPSILON
+                                                   EPSILON
+                                    )
+                                    ;
+                                 EPSILON
+                        end
+                  RepFuncDef
+                     FuncDef
+                        FuncHead
+                           id
+                              QUADRATIC
+                           (
+                           FParams
+                              Type
+                                 float
+                                    A
+                              id
+                              EPSILON
+                              RepFParamsTail
+                                 FParamsTail
+                                    ,
+                                    Type
+                                       float
+                                          B
+                                    id
+                                    EPSILON
+                                 RepFParamsTail
+                                    FParamsTail
+                                       ,
+                                       Type
+                                          float
+                                             C
+                                       id
+                                       EPSILON
+                                    EPSILON
+                           )
+                           :
+                           VoidOrType
+                              Type
+                                 id
+                                    QUADRATIC
+                        FuncBody
+                           OptLocalVD
+                              local
+                              RepVarDecl
+                                 VarDecl
+                                    Type
+                                       id
+                                          QUADRATIC
+                                          new_function
+                                    id
+                                    EPSILON
+                                    ;
+                                 EPSILON
+                           do
+                           RepStatement
+                              Statement
+                                 RepIdnest
+                                    Idnest
+                                       id
+                                          new_function
+                                       OptNest
+                                          .
                                     RepIdnest
                                        Idnest
                                           id
                                              a
-                                          RepIndice
+                                          OptNest
                                              EPSILON
-                                          .
+                                       EPSILON
+                                 AssignOrFuncCall
+                                    AssignOp
+                                       =
+                                    Expr
+                                       ArithExpr
+                                          Term
+                                             Factor
+                                                Variable
+                                                   RepIdnest
+                                                      Idnest
+                                                         id
+                                                            A
+                                                         OptNest
+                                                            EPSILON
+                                                      EPSILON
+                                                   EPSILON
+                                 ;
+                              RepStatement
+                                 Statement
+                                    RepIdnest
+                                       Idnest
+                                          id
+                                             new_function
+                                          OptNest
+                                             .
                                        RepIdnest
                                           Idnest
                                              id
                                                 b
-                                             RepIndice
+                                             OptNest
                                                 EPSILON
-                                             .
-                                          RepIdnest
-                                             Idnest
-                                                id
-                                                   a
-                                                RepIndice
-                                                   EPSILON
-                                                .
-                                             RepIdnest
-                                                Idnest
-                                                   id
-                                                      b
-                                                   RepIndice
-                                                      EPSILON
-                                                   .
-                                                RepIdnest
-                                                   Idnest
-                                                      id
-                                                         c
-                                                      RepIndice
-                                                         EPSILON
-                                                      .
-                                                   RepIdnest
-                                                      Idnest
-                                                         id
-                                                            build
-                                                         RepIndice
-                                                            EPSILON
-                                                         .
+                                          EPSILON
+                                    AssignOrFuncCall
+                                       AssignOp
+                                          =
+                                       Expr
+                                          ArithExpr
+                                             Term
+                                                Factor
+                                                   Variable
                                                       RepIdnest
                                                          Idnest
                                                             id
-                                                               build
-                                                            RepIndice
+                                                               B
+                                                            OptNest
                                                                EPSILON
+                                                         EPSILON
+                                                      EPSILON
+                                    ;
+                                 RepStatement
+                                    Statement
+                                       RepIdnest
+                                          Idnest
+                                             id
+                                                new_function
+                                             OptNest
+                                                .
+                                          RepIdnest
+                                             Idnest
+                                                id
+                                                   c
+                                                OptNest
+                                                   EPSILON
+                                             EPSILON
+                                       AssignOrFuncCall
+                                          AssignOp
+                                             =
+                                          Expr
+                                             ArithExpr
+                                                Term
+                                                   Factor
+                                                      Variable
+                                                         RepIdnest
+                                                            Idnest
+                                                               id
+                                                                  C
+                                                               OptNest
+                                                                  EPSILON
+                                                            EPSILON
+                                                         EPSILON
+                                       ;
+                                    RepStatement
+                                       Statement
+                                          return
+                                          (
+                                          Expr
+                                             ArithExpr
+                                                Term
+                                                   Factor
+                                                      Variable
+                                                         RepIdnest
+                                                            Idnest
+                                                               id
+                                                                  new_function
+                                                               OptNest
+                                                                  EPSILON
+                                                            EPSILON
+                                                         EPSILON
+                                          )
+                                          ;
+                                       EPSILON
+                           end
+                     EPSILON
+      main
+      FuncBody
+         OptLocalVD
+            local
+            RepVarDecl
+               VarDecl
+                  Type
+                     id
+                        LINEAR
+                        f1
+                  id
+                  EPSILON
+                  ;
+               RepVarDecl
+                  VarDecl
+                     Type
+                        id
+                           QUADRATIC
+                           f2
+                     id
+                     EPSILON
+                     ;
+                  RepVarDecl
+                     VarDecl
+                        Type
+                           integer
+                              counter
+                        id
+                        EPSILON
+                        ;
+                     EPSILON
+         do
+         RepStatement
+            Statement
+               RepIdnest
+                  Idnest
+                     id
+                        f1
+                     OptNest
+                        EPSILON
+                  EPSILON
+               AssignOrFuncCall
+                  AssignOp
+                     =
+                  Expr
+                     ArithExpr
+                        Term
+                           Factor
+                              Variable
+                                 RepIdnest
+                                    Idnest
+                                       id
+                                          f1
+                                       OptNest
+                                          .
+                                    RepIdnest
+                                       Idnest
+                                          id
+                                             build
+                                          OptNest
+                                             EPSILON
+                                       EPSILON
+                                 EPSILON
+               ;
+            RepStatement
+               Statement
+                  RepIdnest
+                     Idnest
+                        id
+                           f2
+                        OptNest
+                           EPSILON
+                     EPSILON
+                  AssignOrFuncCall
+                     AssignOp
+                        =
+                     Expr
+                        ArithExpr
+                           Term
+                              Factor
+                                 Variable
+                                    RepIdnest
+                                       Idnest
+                                          id
+                                             f2
+                                          OptNest
+                                             .
+                                       RepIdnest
+                                          Idnest
+                                             id
+                                                build
+                                             OptNest
+                                                EPSILON
+                                          EPSILON
+                                    EPSILON
+                  ;
+               RepStatement
+                  Statement
+                     RepIdnest
+                        Idnest
+                           id
+                              counter
+                           OptNest
+                              EPSILON
+                        EPSILON
+                     AssignOrFuncCall
+                        AssignOp
+                           =
+                        Expr
+                           ArithExpr
+                              Term
+                                 Factor
+                                    intnum
+                                       1
+                     ;
+                  RepStatement
+                     Statement
+                        while
+                        (
+                        RelExpr
+                           ArithExpr
+                              Term
+                                 Factor
+                                    Variable
+                                       RepIdnest
+                                          Idnest
+                                             id
+                                                counter
+                                             OptNest
+                                                EPSILON
+                                          EPSILON
+                                       EPSILON
+                           RelOp
+                              lt
+                                 <
+                           ArithExpr
+                              Term
+                                 Factor
+                                    intnum
+                                       10
+                        )
+                        StatBlock
+                           do
+                           RepStatement
+                              Statement
+                                 write
+                                 (
+                                 Expr
+                                    ArithExpr
+                                       Term
+                                          Factor
+                                             Variable
+                                                RepIdnest
+                                                   Idnest
+                                                      id
+                                                         counter
+                                                      OptNest
+                                                         EPSILON
+                                                   EPSILON
+                                                EPSILON
+                                 )
+                                 ;
+                              RepStatement
+                                 Statement
+                                    write
+                                    (
+                                    Expr
+                                       ArithExpr
+                                          Term
+                                             Factor
+                                                Variable
+                                                   RepIdnest
+                                                      Idnest
+                                                         id
+                                                            f1
+                                                         OptNest
                                                             .
+                                                      RepIdnest
+                                                         Idnest
+                                                            id
+                                                               evaluate
+                                                            OptNest
+                                                               EPSILON
+                                                         EPSILON
+                                                   EPSILON
+                                    )
+                                    ;
+                                 RepStatement
+                                    Statement
+                                       write
+                                       (
+                                       Expr
+                                          ArithExpr
+                                             Term
+                                                Factor
+                                                   Variable
+                                                      RepIdnest
+                                                         Idnest
+                                                            id
+                                                               f2
+                                                            OptNest
+                                                               .
                                                          RepIdnest
                                                             Idnest
                                                                id
                                                                   evaluate
-                                                               RepIndice
+                                                               OptNest
                                                                   EPSILON
-                                                               .
-                                                            RepIdnest
-                                                               Idnest
-                                                                  id
-                                                                     evaluate
-                                                                  RepIndice
-                                                                     EPSILON
-                                                                  .
-                                                               RepIdnest
-                                    RepIndice
-                                 AssignOp
-                                 Expr
-                              ;
-                           RepStatement
-                        end
-                  RepFuncDef
-      main
-      FuncBody
+                                                            EPSILON
+                                                      EPSILON
+                                       )
+                                       ;
+                                    EPSILON
+                           end
+                        ;
+                     EPSILON
+         end

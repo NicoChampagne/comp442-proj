@@ -36,7 +36,7 @@ namespace LexDriver
                     // Analyze the line
                     foreach (string key in TokenData.ReservedWordDictionary.Keys)
                     {
-                        if (key.Equals(".") || key.Equals("*") || key.Equals("/") || key.Equals("or") || key.Equals("and"))
+                        if (key.Equals("*") || key.Equals("/") || key.Equals("or") || key.Equals("and"))
                         {
                             continue;
                         }

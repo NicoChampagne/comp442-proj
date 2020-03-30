@@ -8,6 +8,8 @@ namespace SynDriver
 {
     public class SemanticAnalyzer
     {
+        public static List<string> allClassNames = new List<string>();
+
         public static (SymbolTable symbolTable, List<string> errorList) CreateSymbolTable(Tree<string> tree)
         {
             var globalTable = new SymbolTable("Global");
@@ -33,36 +35,81 @@ namespace SynDriver
         public static void SeparateClassDeclarations(TreeNode<string> currentNode, SymbolTable currentTable)
         {
             var nextNodes = Tree<string>.NextSubNodes(currentNode);
+            var classTables = new List<SymbolTable>();
 
             // Separate each class node
             foreach (var node in nextNodes)
             {
-                BuildTableFromClassNode(node, currentTable);
+                classTables.Add(BuildTableFromClassNode(node, currentTable));
+            }
+
+            // add inherited values to class that are inherited
+            foreach (var classTable in classTables)
+            {
+                if (classTable.IsInherited)
+                {
+                    foreach (var inheritedClassName in classTable.InheritedTables)
+                    {
+                        var parentClass = classTables.Find(c => c.Name.Equals(inheritedClassName));
+
+                        foreach (var entry in parentClass.TableEntries)
+                        {
+                            classTable.Insert(entry);
+                        }
+                    }
+                }
             }
         }
 
-        public static void BuildTableFromClassNode(TreeNode<string> currentNode, SymbolTable currentTable)
+        public static SymbolTable BuildTableFromClassNode(TreeNode<string> currentNode, SymbolTable currentTable)
         {
             var nodesInPreOrder = Tree<string>.PreOrderingOfSubNodes(currentNode, new List<string>());
             var classTable = new SymbolTable(name: nodesInPreOrder[2]);
             var count = nodesInPreOrder.Count;
             var index = 3;
 
-            // Find a way to handle inheritance
-            currentTable.Insert(new SymbolValue(name: nodesInPreOrder[2], kind: "Class", link: classTable));
+            var classSymbol = new SymbolValue(name: nodesInPreOrder[2], kind: "Class", link: classTable);
+            allClassNames.Add(nodesInPreOrder[2]);
+
+            if (nodesInPreOrder[3].Equals("inherits") || nodesInPreOrder[4].Equals("inherits"))
+            {
+                classSymbol.Link.IsInherited = true;
+                classSymbol.Link.InheritedTables.Add(nodesInPreOrder[5]);
+
+                if (nodesInPreOrder[6].Equals("inherits"))
+                {
+                    classSymbol.Link.InheritedTables.Add(nodesInPreOrder[8]);
+
+                    if (nodesInPreOrder[9].Equals("inherits"))
+                    {
+                        classSymbol.Link.InheritedTables.Add(nodesInPreOrder[11]);
+                        if (nodesInPreOrder[12].Equals("inherits"))
+                        {
+                            classSymbol.Link.InheritedTables.Add(nodesInPreOrder[14]);
+                            if (nodesInPreOrder[15].Equals("inherits"))
+                            {
+                                classSymbol.Link.InheritedTables.Add(nodesInPreOrder[17]);
+                            }
+                        }
+                    }
+                }
+            }
+
+            currentTable.Insert(classSymbol);
 
             while (index != count - 1)
             {
                 // Parse functions from class
 
+                // Todo: Parse class variables from classes?
                 if (nodesInPreOrder[index].Equals("integer") || nodesInPreOrder[index].Equals("float"))
                 {
                     // Parse variable names and types, then insert into class table.
-                    if (nodesInPreOrder[index + 3].Equals("[") && (nodesInPreOrder[index + 4].Equals("]") || nodesInPreOrder[index + 5].Equals("]")) && (nodesInPreOrder[index + 6].Equals("[") || nodesInPreOrder[index + 7].Equals("[")) && (nodesInPreOrder[index + 7].Equals("]") || nodesInPreOrder[index + 8].Equals("]") || nodesInPreOrder[index + 9].Equals("]")))
+                    if (index + 9 < count && (nodesInPreOrder[index + 3]?.Equals("[") ?? false) && ((nodesInPreOrder[index + 4]?.Equals("]") ?? false) || (nodesInPreOrder[index + 5]?.Equals("]") ?? false)) && ((nodesInPreOrder[index + 6]?.Equals("[") ?? false) || (nodesInPreOrder[index + 7]?.Equals("[") ?? false)) && ((nodesInPreOrder[index + 7]?.Equals("]") ?? false) || (nodesInPreOrder[index + 8]?.Equals("]") ?? false) || (nodesInPreOrder[index + 9]?.Equals("]") ?? false)))
                     {
                         classTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 1], kind: "Variable", type: nodesInPreOrder[index] + "[][]"));
                     }
-                    else if (nodesInPreOrder[index + 3].Equals("[") && (nodesInPreOrder[index + 4].Equals("]") || nodesInPreOrder[index + 5].Equals("]")))
+                    else if (index + 5 < count && (nodesInPreOrder[index + 3]?.Equals("[") ?? false) && ((nodesInPreOrder[index + 4]?.Equals("]") ?? false) || (nodesInPreOrder[index + 5]?.Equals("]") ?? false)))
                     {
                         classTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 1], kind: "Variable", type: nodesInPreOrder[index] + "[]"));
                     }
@@ -74,6 +121,8 @@ namespace SynDriver
 
                 index++;
             }
+
+            return classTable;
         }
 
         public static void SeparateFunctionDeclarations(TreeNode<string> currentNode, SymbolTable currentTable)
@@ -173,6 +222,22 @@ namespace SynDriver
                         funcTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 1], kind: "Variable", type: nodesInPreOrder[index]));
                     }
                 }
+                else if (allClassNames.Any(c => c.Equals(nodesInPreOrder[index])))
+                {
+                    // Parse variable names and types, then insert into function table.
+                    if (nodesInPreOrder[index + 4].Equals("[") && (nodesInPreOrder[index + 5].Equals("]") || nodesInPreOrder[index + 6].Equals("]")) && (nodesInPreOrder[index + 7].Equals("[") || nodesInPreOrder[index + 8].Equals("[")) && (nodesInPreOrder[index + 8].Equals("]") || nodesInPreOrder[index + 9].Equals("]") || nodesInPreOrder[index + 10].Equals("]")))
+                    {
+                        funcTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[][]"));
+                    }
+                    else if (nodesInPreOrder[index + 4].Equals("[") && (nodesInPreOrder[index + 5].Equals("]") || nodesInPreOrder[index + 6].Equals("]")))
+                    {
+                        funcTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[]"));
+                    }
+                    else
+                    {
+                        funcTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index]));
+                    }
+                }
 
                 index++;
             }
@@ -203,6 +268,22 @@ namespace SynDriver
                     else
                     {
                         mainTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 1], kind: "Variable", type: nodesInPreOrder[index]));
+                    }
+                }
+                else if (allClassNames.Any(c => c.Equals(nodesInPreOrder[index])))
+                {
+                    // Parse variable names and types, then insert into function table.
+                    if (nodesInPreOrder[index + 4].Equals("[") && (nodesInPreOrder[index + 5].Equals("]") || nodesInPreOrder[index + 6].Equals("]")) && (nodesInPreOrder[index + 7].Equals("[") || nodesInPreOrder[index + 8].Equals("[")) && (nodesInPreOrder[index + 8].Equals("]") || nodesInPreOrder[index + 9].Equals("]") || nodesInPreOrder[index + 10].Equals("]")))
+                    {
+                        mainTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[][]"));
+                    }
+                    else if (nodesInPreOrder[index + 4].Equals("[") && (nodesInPreOrder[index + 5].Equals("]") || nodesInPreOrder[index + 6].Equals("]")))
+                    {
+                        mainTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[]"));
+                    }
+                    else
+                    {
+                        mainTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index]));
                     }
                 }
 
@@ -263,13 +344,16 @@ namespace SynDriver
             {
                 if (table.IsInherited)
                 {
-                    var parentTable = classTables.Find(t => t.Name.Equals(table.InheritedTable));
-                    foreach (var parentSymbols in parentTable.TableEntries)
+                    foreach (var inheritedTable in table.InheritedTables)
                     {
-                        if (table.TableEntries.Where(t => t.Name.Equals(parentSymbols.Name) && t.Kind.Equals(parentSymbols.Kind) && !t.Type.Equals(parentSymbols.Type)).Count() > 0)
+                        var parentTable = classTables.Find(t => t.Name.Equals(inheritedTable));
+                        foreach (var parentSymbols in parentTable.TableEntries)
                         {
-                            //Warning for shadowed inherited members (classes)
-                            errorList.Add("Warning: shadowed inherited class member: " + parentSymbols.Name);
+                            if (table.TableEntries.Where(t => t.Name.Equals(parentSymbols.Name) && t.Kind.Equals(parentSymbols.Kind) && !t.Type.Equals(parentSymbols.Type)).Count() > 0)
+                            {
+                                //Warning for shadowed inherited members (classes)
+                                errorList.Add("Warning: shadowed inherited class member: " + parentSymbols.Name);
+                            }
                         }
                     }
                 }
@@ -309,10 +393,13 @@ namespace SynDriver
             foreach (var classNode in nextClassNodes)
             {
                 var subscopeNodes = Tree<string>.PreOrderingOfSubNodes(classNode, new List<string>());
-                var classTable = symbolTable.TableEntries.First(c => c.Name.Equals(subscopeNodes[1])).Link;
+                var classTable = symbolTable.TableEntries.FirstOrDefault(c => c.Name.Equals(subscopeNodes[1]))?.Link;
 
-                var subScopeEntry = (subscopeNodes, classTable);
-                listOfSubScopes.Add(subScopeEntry);
+                if (classTable != null)
+                {
+                    var subScopeEntry = (subscopeNodes, classTable);
+                    listOfSubScopes.Add(subScopeEntry);
+                }
             }
 
             var functions = progStart.GetChild(1);
@@ -345,21 +432,50 @@ namespace SynDriver
                 var index = 0;
                 var count = list.Count();
                 var isaFunc = list[0].Equals("Function:");
+                var passedReturnType = false;
 
                 while (index != count - 1)
                 {
+                    // if func have we passed its return type
+                    if (isaFunc)
+                    {
+                        if (list[index].Equals(":"))
+                        {
+                            passedReturnType = true;
+                        }
+                    }
+
                     // Id must by defined in scope
-                    if (list[index].Equals("id"))
+                    if (list[index].Equals("id") && !isaFunc)
                     {
                         var idName = list[index + 1];
 
-                        // Check tables
-                        var checkGlobalTable = symbolTable.TableEntries.Where(c => c.Name.Equals(idName));
-                        var checkLocalTable = subScope.Item2.TableEntries.Where(c => c.Name.Equals(idName));
-
-                        if (checkGlobalTable.Count() == 0 && checkLocalTable.Count() == 0)
+                        if (!idName.Equals("integer") && !idName.Equals("float") && !idName.Equals("do") && !idName.Equals("["))
                         {
-                            errorList.Add("Error: use of undeclared local variable, variable: " + idName);
+                            // Check tables
+                            var checkGlobalTable = symbolTable.TableEntries.Where(c => c.Name.Equals(idName));
+                            var checkLocalTable = subScope.Item2.TableEntries.Where(c => c.Name.Equals(idName));
+
+                            if (checkGlobalTable.Count() == 0 && checkLocalTable.Count() == 0)
+                            {
+                                errorList.Add("Error: use of undeclared local variable or function, name: " + idName);
+                            }
+                        }
+                    }
+                    else if (list[index].Equals("id") && isaFunc && passedReturnType)
+                    {
+                        var idName = list[index + 1];
+
+                        if (!idName.Equals("integer") && !idName.Equals("float") && !idName.Equals("do") && !idName.Equals("["))
+                        {
+                            // Check tables
+                            var checkGlobalTable = symbolTable.TableEntries.Where(c => c.Name.Equals(idName));
+                            var checkLocalTable = subScope.Item2.TableEntries.Where(c => c.Name.Equals(idName));
+
+                            if (checkGlobalTable.Count() == 0 && checkLocalTable.Count() == 0)
+                            {
+                                errorList.Add("Error: use of undeclared local variable, variable: " + idName);
+                            }
                         }
                     }
 
@@ -509,7 +625,7 @@ namespace SynDriver
                             secondOperandType = subScope.Item2.TableEntries.FirstOrDefault(c => c.Name.Equals(secondOperand))?.Type;
                         }
 
-                        if (!firstOperandType.Equals(secondOperandType))
+                        if (!(firstOperandType?.Contains(secondOperandType ?? string.Empty) ?? true) || (firstOperandType != secondOperandType))
                         {
                             errorList.Add("Error: expression types are incompatible, first operand: " + firstOperand + ", second operand: " + secondOperand);
                         }
@@ -671,20 +787,20 @@ namespace SynDriver
                         var returnVariable = "";
                         var returnType = "";
 
-                        if (list[index + 3].Equals("["))
+                        if (list[index + 4].Equals("["))
                         {
-                            returnVariable = list[index + 2];
+                            returnVariable = list[index + 3];
                             returnType = subScope.Item2.TableEntries.First(c => c.Name.Equals(returnVariable)).Type;
 
                             // array index type checking
-                            if (int.TryParse(list[index + 4], out _))
+                            if (int.TryParse(list[index + 5], out _))
                             {
-                                if (list[index + 6].Equals("["))
+                                if (list[index + 7].Equals("["))
                                 {
-                                    if (int.TryParse(list[index + 7], out _))
+                                    if (int.TryParse(list[index + 8], out _))
                                     {
-                                        var arrayVar = list[index + 8];
-                                        if (!subScope.Item2.TableEntries.First(c => c.Name.Equals(arrayVar)).Type.Equals("integer"))
+                                        var arrayVar = list[index + 9];
+                                        if (!(subScope.Item2.TableEntries.FirstOrDefault(c => c.Name.Equals(arrayVar))?.Type.Equals("integer") ?? false))
                                         {
                                             errorList.Add("Error: array index not an integer, array: " + returnVariable);
                                         }
@@ -693,13 +809,13 @@ namespace SynDriver
                             }
                             else
                             {
-                                if (list[index + 7].Equals("["))
+                                if (list[index + 8].Equals("["))
                                 {
-                                    if (int.TryParse(list[index + 8], out _))
+                                    if (int.TryParse(list[index + 9], out _))
                                     {
-                                        var arrayVar1 = list[index + 5];
-                                        var arrayVar2 = list[index + 9];
-                                        if (!subScope.Item2.TableEntries.First(c => c.Name.Equals(arrayVar1)).Type.Equals("integer") || !subScope.Item2.TableEntries.First(c => c.Name.Equals(arrayVar2)).Type.Equals("integer"))
+                                        var arrayVar1 = list[index + 6];
+                                        var arrayVar2 = list[index + 10];
+                                        if (!(subScope.Item2.TableEntries.FirstOrDefault(c => c.Name.Equals(arrayVar1))?.Type.Equals("integer") ?? false) || !(subScope.Item2.TableEntries.FirstOrDefault(c => c.Name.Equals(arrayVar2))?.Type.Equals("integer") ?? false))
                                         {
                                             errorList.Add("Error: array index not an integer, array: " + returnVariable);
                                         }
@@ -707,20 +823,20 @@ namespace SynDriver
                                 }
                             }
                         }
-                        else if (int.TryParse(list[index + 1], out _))
+                        else if (int.TryParse(list[index + 2], out _))
                         {
-                            returnVariable = list[index + 1];
+                            returnVariable = list[index + 2];
                             returnType = "integer";
                         }
-                        else if (float.TryParse(list[index + 1], out _))
+                        else if (float.TryParse(list[index + 2], out _))
                         {
-                            returnVariable = list[index + 1];
+                            returnVariable = list[index + 2];
                             returnType = "float";
                         }
                         else
                         {
-                            returnVariable = list[index + 2];
-                            returnType = subScope.Item2.TableEntries.First(c => c.Name.Equals(returnVariable)).Type;
+                            returnVariable = list[index + 3];
+                            returnType = subScope.Item2.TableEntries.FirstOrDefault(c => c.Name.Equals(returnVariable))?.Type;
                         }
 
                         var functionName = list[2];
@@ -787,11 +903,16 @@ namespace SynDriver
                                 {
                                     var varName = list[index + paramIndex + 1];
                                     var varType = subScope.Item2.TableEntries.First(c => c.Name.Equals(varName) && c.Kind.Equals("Variable")).Type;
-                                    paramType += varType;
+                                    paramType = varType;
+                                    parameters.Add(paramType);
                                 }
-                                else if (int.TryParse(list[index + paramIndex], out _) || float.TryParse(list[index + paramIndex], out _))
+                                else if (int.TryParse(list[index + paramIndex], out _))
                                 {
-                                    paramType += list[index + paramIndex];
+                                    parameters.Add("integer");
+                                }
+                                else if (float.TryParse(list[index + paramIndex], out _))
+                                {
+                                    parameters.Add("float");
                                 }
 
                                 newParam = false;
@@ -799,7 +920,6 @@ namespace SynDriver
 
                             if (list[index + paramIndex].Equals(","))
                             {
-                                parameters.Add(paramType);
                                 newParam = true;
                             }
 
@@ -826,7 +946,7 @@ namespace SynDriver
                         functionsCalled.Add(functionCalled);
                         allCalledFunctions.Add(functionCalled);
 
-                        if (!symbolTable.GetFunctions().Any(c => c.Name.Equals(functionName) && c.Type.Equals(concatenatedParams)))
+                        if (!symbolTable.GetFunctions().Any(c => c.Name.Equals(functionName) && c.Type.Contains(concatenatedParams)))
                         {
                             // Error function parameters do not match function definition
                             errorList.Add("Error: function call parameters do not match function definition, function: " + functionName);
@@ -836,7 +956,7 @@ namespace SynDriver
                     // Every called function has a definition
                     foreach (var functionThatWasCalled in functionsCalled)
                     {
-                        if (!allFunctions.Any(c => c.Name.Equals(functionThatWasCalled.fName) && c.Type.Equals(functionThatWasCalled.fParams)))
+                        if (!allFunctions.Any(c => c.Name.Equals(functionThatWasCalled.fName) && c.Type.Contains(functionThatWasCalled.fParams)))
                         {
                             errorList.Add("Error: function called does not contain definition, function: " + functionThatWasCalled.fName + ", with parameters: " + functionThatWasCalled.fParams);
                         }
@@ -845,13 +965,13 @@ namespace SynDriver
                     index++;
                 }
             }
-            
+
             // Every function definition has a function call
             foreach (var aFunc in allFunctions)
             {
-                if (!allCalledFunctions.Any(c => c.fName.Equals(aFunc.Name) && c.fParams.Equals(aFunc.Type)) && !aFunc.Name.Equals("main"))
+                if (!allCalledFunctions.Any(c => c.fName.Equals(aFunc.Name) && aFunc.Type.Contains(c.fParams)) && !aFunc.Name.Equals("main"))
                 {
-                    errorList.Add("Warning: function definition is not used, function: " + aFunc.Name + ", with parameters: " + aFunc.Type);
+                    errorList.Add("Warning: function definition is not used, function: " + aFunc.Name + ", with return and parameters; " + aFunc.Type);
                 }
             }
         }

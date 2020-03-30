@@ -1,12 +1,12 @@
 START
    ->
       ->
-         ->
+         Class:
             class
                POLYNOMIAL
             id
             ->
-               EPSILON
+               
             {
             ->
                ->
@@ -21,22 +21,19 @@ START
                            float
                               x
                         id
-                        ->
-                           EPSILON
-                        ->
-                           EPSILON
+                        
+                        
                      )
                      :
                      ->
                         ->
                            float
-                     ;
-               ->
-                  EPSILON
+                     
+               
             }
-            ;
+            
          ->
-            ->
+            Class:
                class
                   LINEAR
                id
@@ -44,8 +41,7 @@ START
                   inherits
                      POLYNOMIAL
                   id
-                  ->
-                     EPSILON
+                  
                {
                ->
                   ->
@@ -56,9 +52,8 @@ START
                            float
                               a
                         id
-                        ->
-                           EPSILON
-                        ;
+                        
+                        
                   ->
                      ->
                         private
@@ -68,9 +63,8 @@ START
                               float
                                  b
                            id
-                           ->
-                              EPSILON
-                           ;
+                           
+                           
                      ->
                         ->
                            public
@@ -84,8 +78,7 @@ START
                                     float
                                        A
                                  id
-                                 ->
-                                    EPSILON
+                                 
                                  ->
                                     ->
                                        ,
@@ -93,17 +86,15 @@ START
                                           float
                                              B
                                        id
-                                       ->
-                                          EPSILON
-                                    ->
-                                       EPSILON
+                                       
+                                    
                               )
                               :
                               ->
                                  ->
                                     id
                                        LINEAR
-                              ;
+                              
                         ->
                            ->
                               public
@@ -117,24 +108,20 @@ START
                                        float
                                           x
                                     id
-                                    ->
-                                       EPSILON
-                                    ->
-                                       EPSILON
+                                    
+                                    
                                  )
                                  :
                                  ->
                                     ->
                                        float
-                                 ;
-                           ->
-                              EPSILON
+                                 
+                           
                }
-               ;
-            ->
-               EPSILON
+               
+            
       ->
-         ->
+         Function:
             ->
                id
                   b
@@ -144,8 +131,7 @@ START
                      float
                         A
                   id
-                  ->
-                     EPSILON
+                  
                   ->
                      ->
                         ,
@@ -153,8 +139,7 @@ START
                            float
                               B
                         id
-                        ->
-                           EPSILON
+                        
                      ->
                         ->
                            ,
@@ -162,10 +147,8 @@ START
                               float
                                  C
                            id
-                           ->
-                              EPSILON
-                        ->
-                           EPSILON
+                           
+                        
                )
                :
                ->
@@ -174,7 +157,7 @@ START
                         QUADRATIC
             ->
                ->
-                  EPSILON
+                  
                do
                ->
                   ->
@@ -184,15 +167,14 @@ START
                         ->
                            ->
                               ->
-                                 intnum
+                                 
                                     0
                      )
-                     ;
-                  ->
-                     EPSILON
+                     
+                  
                end
          ->
-            ->
+            Function:
                ->
                   id
                      LINEAR
@@ -202,10 +184,8 @@ START
                         float
                            x
                      id
-                     ->
-                        EPSILON
-                     ->
-                        EPSILON
+                     
+                     
                   )
                   :
                   ->
@@ -220,11 +200,9 @@ START
                               float
                                  result
                            id
-                           ->
-                              EPSILON
-                           ;
-                        ->
-                           EPSILON
+                           
+                           
+                        
                   do
                   ->
                      ->
@@ -233,18 +211,18 @@ START
                               id
                                  result
                               ->
-                                 EPSILON
-                              ->
-                                 EPSILON
+                                 
+                           
+                        ->
                            ->
                               =
                            ->
                               ->
                                  ->
                                     ->
-                                       floatnum
-                                          0.0
-                        ;
+                                       
+                                          0
+                        
                      ->
                         ->
                            ->
@@ -252,9 +230,9 @@ START
                                  id
                                     result
                                  ->
-                                    EPSILON
-                                 ->
-                                    EPSILON
+                                    
+                              
+                           ->
                               ->
                                  =
                               ->
@@ -262,13 +240,15 @@ START
                                     ->
                                        ->
                                           ->
-                                             id
-                                                a
                                              ->
-                                                EPSILON
-                                             ->
-                                                EPSILON
-                           ;
+                                                ->
+                                                   id
+                                                      a
+                                                   ->
+                                                      
+                                                
+                                             
+                           
                         ->
                            ->
                               return
@@ -278,19 +258,20 @@ START
                                     ->
                                        ->
                                           ->
-                                             id
-                                                result
                                              ->
-                                                EPSILON
-                                             ->
-                                                EPSILON
+                                                ->
+                                                   id
+                                                      result
+                                                   ->
+                                                      
+                                                
+                                             
                               )
-                              ;
-                           ->
-                              EPSILON
+                              
+                           
                   end
             ->
-               ->
+               Function:
                   ->
                      id
                         QUADRATIC
@@ -300,10 +281,8 @@ START
                            float
                               x
                         id
-                        ->
-                           EPSILON
-                        ->
-                           EPSILON
+                        
+                        
                      )
                      :
                      ->
@@ -318,11 +297,9 @@ START
                                  float
                                     result
                               id
-                              ->
-                                 EPSILON
-                              ;
-                           ->
-                              EPSILON
+                              
+                              
+                           
                      do
                      ->
                         ->
@@ -331,9 +308,9 @@ START
                                  id
                                     result
                                  ->
-                                    EPSILON
-                                 ->
-                                    EPSILON
+                                    
+                              
+                           ->
                               ->
                                  =
                               ->
@@ -341,13 +318,15 @@ START
                                     ->
                                        ->
                                           ->
-                                             id
-                                                a
                                              ->
-                                                EPSILON
-                                             ->
-                                                EPSILON
-                           ;
+                                                ->
+                                                   id
+                                                      a
+                                                   ->
+                                                      
+                                                
+                                             
+                           
                         ->
                            ->
                               ->
@@ -355,9 +334,9 @@ START
                                     id
                                        result
                                     ->
-                                       EPSILON
-                                    ->
-                                       EPSILON
+                                       
+                                 
+                              ->
                                  ->
                                     =
                                  ->
@@ -365,13 +344,15 @@ START
                                        ->
                                           ->
                                              ->
-                                                id
-                                                   result
                                                 ->
-                                                   EPSILON
-                                                ->
-                                                   EPSILON
-                              ;
+                                                   ->
+                                                      id
+                                                         result
+                                                      ->
+                                                         
+                                                   
+                                                
+                              
                            ->
                               ->
                                  ->
@@ -379,9 +360,9 @@ START
                                        id
                                           result
                                        ->
-                                          EPSILON
-                                       ->
-                                          EPSILON
+                                          
+                                    
+                                 ->
                                     ->
                                        =
                                     ->
@@ -389,13 +370,15 @@ START
                                           ->
                                              ->
                                                 ->
-                                                   id
-                                                      result
                                                    ->
-                                                      EPSILON
-                                                   ->
-                                                      EPSILON
-                                 ;
+                                                      ->
+                                                         id
+                                                            result
+                                                         ->
+                                                            
+                                                      
+                                                   
+                                 
                               ->
                                  ->
                                     return
@@ -405,19 +388,20 @@ START
                                           ->
                                              ->
                                                 ->
-                                                   id
-                                                      result
                                                    ->
-                                                      EPSILON
-                                                   ->
-                                                      EPSILON
+                                                      ->
+                                                         id
+                                                            result
+                                                         ->
+                                                            
+                                                      
+                                                   
                                     )
-                                    ;
-                                 ->
-                                    EPSILON
+                                    
+                                 
                      end
                ->
-                  ->
+                  Function:
                      ->
                         id
                            LINEAR
@@ -427,8 +411,7 @@ START
                               float
                                  A
                            id
-                           ->
-                              EPSILON
+                           
                            ->
                               ->
                                  ,
@@ -436,10 +419,8 @@ START
                                     float
                                        B
                                  id
-                                 ->
-                                    EPSILON
-                              ->
-                                 EPSILON
+                                 
+                              
                         )
                         :
                         ->
@@ -456,11 +437,9 @@ START
                                        LINEAR
                                        new_function
                                  id
-                                 ->
-                                    EPSILON
-                                 ;
-                              ->
-                                 EPSILON
+                                 
+                                 
+                              
                         do
                         ->
                            ->
@@ -469,75 +448,465 @@ START
                                     id
                                        new_function
                                     ->
+                                       .
+                                 ->
+                                    ->
+                                       id
+                                          a
+                                       ->
+                                          
+                                    
+                              ->
+                                 ->
+                                    =
+                                 ->
+                                    ->
+                                       ->
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      id
+                                                         A
+                                                      ->
+                                                         
+                                                   
+                                                
+                              
+                           ->
+                              ->
+                                 ->
+                                    ->
+                                       id
+                                          new_function
+                                       ->
+                                          .
+                                    ->
+                                       ->
+                                          id
+                                             b
+                                          ->
+                                             
+                                       
+                                 ->
+                                    ->
+                                       =
+                                    ->
+                                       ->
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      ->
+                                                         id
+                                                            B
+                                                         ->
+                                                            
+                                                      
+                                                   
+                                 
+                              ->
+                                 ->
+                                    return
+                                    (
+                                    ->
+                                       ->
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      ->
+                                                         id
+                                                            new_function
+                                                         ->
+                                                            
+                                                      
+                                                   
+                                    )
+                                    
+                                 
+                        end
+                  ->
+                     Function:
+                        ->
+                           id
+                              QUADRATIC
+                           (
+                           ->
+                              ->
+                                 float
+                                    A
+                              id
+                              
+                              ->
+                                 ->
+                                    ,
+                                    ->
+                                       float
+                                          B
+                                    id
+                                    
+                                 ->
+                                    ->
+                                       ,
+                                       ->
+                                          float
+                                             C
+                                       id
+                                       
+                                    
+                           )
+                           :
+                           ->
+                              ->
+                                 id
+                                    QUADRATIC
+                        ->
+                           ->
+                              local
+                              ->
+                                 ->
+                                    ->
+                                       id
+                                          QUADRATIC
+                                          new_function
+                                    id
+                                    
+                                    
+                                 
+                           do
+                           ->
+                              ->
+                                 ->
+                                    ->
+                                       id
+                                          new_function
+                                       ->
+                                          .
+                                    ->
                                        ->
                                           id
                                              a
                                           ->
-                                             EPSILON
-                                          .
+                                             
+                                       
+                                 ->
+                                    ->
+                                       =
+                                    ->
+                                       ->
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      ->
+                                                         id
+                                                            A
+                                                         ->
+                                                            
+                                                      
+                                                   
+                                 
+                              ->
+                                 ->
+                                    ->
+                                       ->
+                                          id
+                                             new_function
+                                          ->
+                                             .
                                        ->
                                           ->
                                              id
                                                 b
                                              ->
-                                                EPSILON
-                                             .
+                                                
+                                          
+                                    ->
+                                       ->
+                                          =
+                                       ->
                                           ->
                                              ->
-                                                id
-                                                   a
-                                                ->
-                                                   EPSILON
-                                                .
-                                             ->
-                                                ->
-                                                   id
-                                                      b
-                                                   ->
-                                                      EPSILON
-                                                   .
                                                 ->
                                                    ->
-                                                      id
-                                                         c
-                                                      ->
-                                                         EPSILON
-                                                      .
-                                                   ->
-                                                      ->
-                                                         id
-                                                            build
-                                                         ->
-                                                            EPSILON
-                                                         .
                                                       ->
                                                          ->
                                                             id
-                                                               build
+                                                               B
                                                             ->
-                                                               EPSILON
+                                                               
+                                                         
+                                                      
+                                    
+                                 ->
+                                    ->
+                                       ->
+                                          ->
+                                             id
+                                                new_function
+                                             ->
+                                                .
+                                          ->
+                                             ->
+                                                id
+                                                   c
+                                                ->
+                                                   
+                                             
+                                       ->
+                                          ->
+                                             =
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      ->
+                                                         ->
+                                                            ->
+                                                               id
+                                                                  C
+                                                               ->
+                                                                  
+                                                            
+                                                         
+                                       
+                                    ->
+                                       ->
+                                          return
+                                          (
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      ->
+                                                         ->
+                                                            ->
+                                                               id
+                                                                  new_function
+                                                               ->
+                                                                  
+                                                            
+                                                         
+                                          )
+                                          
+                                       
+                           end
+                     
+      main
+      ->
+         ->
+            local
+            ->
+               ->
+                  ->
+                     id
+                        LINEAR
+                        f1
+                  id
+                  
+                  
+               ->
+                  ->
+                     ->
+                        id
+                           QUADRATIC
+                           f2
+                     id
+                     
+                     
+                  ->
+                     ->
+                        ->
+                           integer
+                              counter
+                        id
+                        
+                        
+                     
+         do
+         ->
+            ->
+               ->
+                  ->
+                     id
+                        f1
+                     ->
+                        
+                  
+               ->
+                  ->
+                     =
+                  ->
+                     ->
+                        ->
+                           ->
+                              ->
+                                 ->
+                                    ->
+                                       id
+                                          f1
+                                       ->
+                                          .
+                                    ->
+                                       ->
+                                          id
+                                             build
+                                          ->
+                                             
+                                       
+                                 
+               
+            ->
+               ->
+                  ->
+                     ->
+                        id
+                           f2
+                        ->
+                           
+                     
+                  ->
+                     ->
+                        =
+                     ->
+                        ->
+                           ->
+                              ->
+                                 ->
+                                    ->
+                                       ->
+                                          id
+                                             f2
+                                          ->
+                                             .
+                                       ->
+                                          ->
+                                             id
+                                                build
+                                             ->
+                                                
+                                          
+                                    
+                  
+               ->
+                  ->
+                     ->
+                        ->
+                           id
+                              counter
+                           ->
+                              
+                        
+                     ->
+                        ->
+                           =
+                        ->
+                           ->
+                              ->
+                                 ->
+                                    
+                                       1
+                     
+                  ->
+                     ->
+                        while
+                        (
+                        ->
+                           ->
+                              ->
+                                 ->
+                                    ->
+                                       ->
+                                          ->
+                                             id
+                                                counter
+                                             ->
+                                                
+                                          
+                                       
+                           RelOp
+                              lt
+                                 <
+                           ->
+                              ->
+                                 ->
+                                    
+                                       10
+                        )
+                        ->
+                           do
+                           ->
+                              ->
+                                 write
+                                 (
+                                 ->
+                                    ->
+                                       ->
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      id
+                                                         counter
+                                                      ->
+                                                         
+                                                   
+                                                
+                                 )
+                                 
+                              ->
+                                 ->
+                                    write
+                                    (
+                                    ->
+                                       ->
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      ->
+                                                         id
+                                                            f1
+                                                         ->
                                                             .
+                                                      ->
+                                                         ->
+                                                            id
+                                                               evaluate
+                                                            ->
+                                                               
+                                                         
+                                                   
+                                    )
+                                    
+                                 ->
+                                    ->
+                                       write
+                                       (
+                                       ->
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      ->
+                                                         ->
+                                                            id
+                                                               f2
+                                                            ->
+                                                               .
                                                          ->
                                                             ->
                                                                id
                                                                   evaluate
                                                                ->
-                                                                  EPSILON
-                                                               .
-                                                            ->
-                                                               ->
-                                                                  id
-                                                                     evaluate
-                                                                  ->
-                                                                     EPSILON
-                                                                  .
-                                                               ->
-                                    ->
-                                 ->
-                                 ->
-                              ;
-                           ->
-                        end
-                  ->
-      main
-      ->
+                                                                  
+                                                            
+                                                      
+                                       )
+                                       
+                                    
+                           end
+                        
+                     
+         end

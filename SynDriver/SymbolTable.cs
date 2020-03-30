@@ -11,10 +11,10 @@ namespace SynDriver
         public string Name { get; set; }
 
         // set when inherited
-        public string InheritedTable { get; } = "";
+        public List<string> InheritedTables { get; set; } = new List<string>();
 
         // set when inherited
-        public bool IsInherited { get; } = false;
+        public bool IsInherited { get; set; } = false;
 
         public List<SymbolValue> TableEntries { get; } = new List<SymbolValue>();
 
@@ -148,8 +148,14 @@ namespace SynDriver
                 }
             });
 
+            var inheritsString = "";
+            InheritedTables.ForEach(c => 
+            {
+                inheritsString += "Inherits: " + c + "\n";
+            });
+
             return "----------------------------------------------------------------------------\n" +
-                "Table: " + Name + "\n" +
+                "Table: " + Name + "\n" + inheritsString +
                 EntriesToString() +
                 "---------------------------------------------------------------------------\n" +
                 subTables;

@@ -1,29 +1,7 @@
-Error: use of undeclared local variable, variable: [
-Error: use of undeclared local variable, variable: )
-Error: use of undeclared local variable, variable: integer
-Error: use of undeclared local variable, variable: integer
-Error: use of undeclared local variable, variable: integer
-Error: use of undeclared local variable, variable: do
-Error: expression types are incompatible, first operand: arr, second operand: temp
-Error: use of undeclared local variable, variable: [
-Error: use of undeclared local variable, variable: )
-Error: use of undeclared local variable, variable: integer
-Error: use of undeclared local variable, variable: do
-Error: use of undeclared local variable, variable: [
-Error: expression types are incompatible, first operand: arr, second operand: 64
-Error: expression types are incompatible, first operand: arr, second operand: 34
-Error: expression types are incompatible, first operand: arr, second operand: 25
-Error: expression types are incompatible, first operand: arr, second operand: 12
-Error: expression types are incompatible, first operand: arr, second operand: 22
-Error: expression types are incompatible, first operand: arr, second operand: 11
-Error: expression types are incompatible, first operand: arr, second operand: 90
-Error: use of undeclared local variable, variable: printarray
+Error: use of undeclared local variable or function, name: printarray
 Error: function call parameters do not match function definition, function: printarray
-Error: function called does not contain definition, function: printarray, with parameters: integer[]
-Error: function call parameters do not match function definition, function: bubbleSort
-Error: function called does not contain definition, function: bubbleSort, with parameters: integer[]
-Error: use of undeclared local variable, variable: printarray
+Error: function called does not contain definition, function: printarray, with parameters: integer[], integer
+Error: use of undeclared local variable or function, name: printarray
 Error: function call parameters do not match function definition, function: printarray
-Error: function called does not contain definition, function: printarray, with parameters: integer[]
-Warning: function definition is not used, function: bubbleSort, with parameters: void: integer[], integer
-Warning: function definition is not used, function: printArray, with parameters: void: integer[], integer
+Error: function called does not contain definition, function: printarray, with parameters: integer[], integer
+Warning: function definition is not used, function: printArray, with return and parameters; void: integer[], integer
