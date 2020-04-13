@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.28307.779
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LexDriver", "LexAnalyzer\LexDriver.csproj", "{6D515C23-FF03-45E8-B36B-8D1F16FACB23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LexDriverTests", "LexDriverTests\LexDriverTests.csproj", "{D7F88199-82CB-4844-9477-9778ED8C1FB0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriverTests", "LexDriverTests\DriverTests.csproj", "{D7F88199-82CB-4844-9477-9778ED8C1FB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynDriver", "SynDriver\SynDriver.csproj", "{56B18E4D-FFA1-42B9-84AA-3CC599BC65BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SynSemDriver", "SynDriver\SynSemDriver.csproj", "{56B18E4D-FFA1-42B9-84AA-3CC599BC65BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

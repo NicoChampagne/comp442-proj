@@ -1,0 +1,16 @@
+main  
+  local
+    integer a;
+	integer b;
+  do
+	a = 0;
+	b = 9;
+
+	read(a);
+    if (a < b)
+		then
+			write(0);
+		else
+			write(1);
+	;
+  end

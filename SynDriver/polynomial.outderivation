@@ -3,8 +3,9 @@ START
       RepClassDecl
          ClassDecl
             class
-               POLYNOMIAL
-            id
+            Id
+               id
+                  POLYNOMIAL
             OptInherits
                EPSILON
             {
@@ -12,35 +13,40 @@ START
                Visibility
                   public
                MemberDecl
-                  FuncDecl
+                  Id
                      id
                         evaluate
-                     (
-                     FParams
-                        Type
-                           float
-                              x
-                        id
-                        EPSILON
-                        EPSILON
-                     )
-                     :
-                     VoidOrType
-                        Type
-                           float
-                     ;
+                  VarOrFunc
+                     FuncDeclEnd
+                        (
+                        FParams
+                           Type
+                              float
+                           Id
+                              id
+                                 x
+                           EPSILON
+                           EPSILON
+                        )
+                        :
+                        VoidOrType
+                           Type
+                              float
+                  ;
                EPSILON
             }
             ;
          RepClassDecl
             ClassDecl
                class
-                  LINEAR
-               id
+               Id
+                  id
+                     LINEAR
                OptInherits
                   inherits
-                     POLYNOMIAL
-                  id
+                  Id
+                     id
+                        POLYNOMIAL
                   EPSILON
                {
                RepMembers
@@ -50,8 +56,9 @@ START
                      VarDecl
                         Type
                            float
+                        Id
+                           id
                               a
-                        id
                         EPSILON
                         ;
                   RepMembers
@@ -61,100 +68,214 @@ START
                         VarDecl
                            Type
                               float
+                           Id
+                              id
                                  b
-                           id
                            EPSILON
                            ;
                      RepMembers
                         Visibility
                            public
                         MemberDecl
-                           FuncDecl
+                           Id
                               id
                                  build
-                              (
-                              FParams
-                                 Type
-                                    float
-                                       A
-                                 id
-                                 EPSILON
-                                 RepFParamsTail
-                                    FParamsTail
-                                       ,
-                                       Type
-                                          float
-                                             B
-                                       id
-                                       EPSILON
-                                    EPSILON
-                              )
-                              :
-                              VoidOrType
-                                 Type
-                                    id
-                                       LINEAR
-                              ;
-                        RepMembers
-                           Visibility
-                              public
-                           MemberDecl
-                              FuncDecl
-                                 id
-                                    evaluate
+                           VarOrFunc
+                              FuncDeclEnd
                                  (
                                  FParams
                                     Type
                                        float
-                                          x
-                                    id
+                                    Id
+                                       id
+                                          A
                                     EPSILON
-                                    EPSILON
+                                    RepFParamsTail
+                                       FParamsTail
+                                          ,
+                                          Type
+                                             float
+                                          Id
+                                             id
+                                                B
+                                          EPSILON
+                                       EPSILON
                                  )
                                  :
                                  VoidOrType
                                     Type
-                                       float
-                                 ;
+                                       Id
+                                          id
+                                             LINEAR
+                           ;
+                        RepMembers
+                           Visibility
+                              public
+                           MemberDecl
+                              Id
+                                 id
+                                    evaluate
+                              VarOrFunc
+                                 FuncDeclEnd
+                                    (
+                                    FParams
+                                       Type
+                                          float
+                                       Id
+                                          id
+                                             x
+                                       EPSILON
+                                       EPSILON
+                                    )
+                                    :
+                                    VoidOrType
+                                       Type
+                                          float
+                              ;
                            EPSILON
                }
                ;
-            EPSILON
+            RepClassDecl
+               ClassDecl
+                  class
+                  Id
+                     id
+                        QUADRATIC
+                  OptInherits
+                     inherits
+                     Id
+                        id
+                           POLYNOMIAL
+                     EPSILON
+                  {
+                  RepMembers
+                     Visibility
+                        private
+                     MemberDecl
+                        VarDecl
+                           Type
+                              float
+                           Id
+                              id
+                                 a
+                           EPSILON
+                           ;
+                     RepMembers
+                        Visibility
+                           private
+                        MemberDecl
+                           VarDecl
+                              Type
+                                 float
+                              Id
+                                 id
+                                    b
+                              EPSILON
+                              ;
+                        RepMembers
+                           Visibility
+                              private
+                           MemberDecl
+                              VarDecl
+                                 Type
+                                    float
+                                 Id
+                                    id
+                                       c
+                                 EPSILON
+                                 ;
+                           RepMembers
+                              Visibility
+                                 public
+                              MemberDecl
+                                 Id
+                                    id
+                                       build
+                                 VarOrFunc
+                                    FuncDeclEnd
+                                       (
+                                       FParams
+                                          Type
+                                             float
+                                          Id
+                                             id
+                                                A
+                                          EPSILON
+                                          RepFParamsTail
+                                             FParamsTail
+                                                ,
+                                                Type
+                                                   float
+                                                Id
+                                                   id
+                                                      B
+                                                EPSILON
+                                             RepFParamsTail
+                                                FParamsTail
+                                                   ,
+                                                   Type
+                                                      float
+                                                   Id
+                                                      id
+                                                         C
+                                                   EPSILON
+                                                EPSILON
+                                       )
+                                       :
+                                       VoidOrType
+                                          Type
+                                             Id
+                                                id
+                                                   QUADRATIC
+                                 ;
+                              RepMembers
+                                 Visibility
+                                    public
+                                 MemberDecl
+                                    Id
+                                       id
+                                          evaluate
+                                    VarOrFunc
+                                       FuncDeclEnd
+                                          (
+                                          FParams
+                                             Type
+                                                float
+                                             Id
+                                                id
+                                                   x
+                                             EPSILON
+                                             EPSILON
+                                          )
+                                          :
+                                          VoidOrType
+                                             Type
+                                                float
+                                    ;
+                                 EPSILON
+                  }
+                  ;
+               EPSILON
       RepFuncDef
          FuncDef
             FuncHead
-               id
-                  b
+               Id
+                  id
+                     POLYNOMIAL
                (
                FParams
                   Type
                      float
-                        A
-                  id
+                  Id
+                     id
+                        x
                   EPSILON
-                  RepFParamsTail
-                     FParamsTail
-                        ,
-                        Type
-                           float
-                              B
-                        id
-                        EPSILON
-                     RepFParamsTail
-                        FParamsTail
-                           ,
-                           Type
-                              float
-                                 C
-                           id
-                           EPSILON
-                        EPSILON
+                  EPSILON
                )
                :
                VoidOrType
                   Type
-                     id
-                        QUADRATIC
+                     float
             FuncBody
                OptLocalVD
                   EPSILON
@@ -176,14 +297,16 @@ START
          RepFuncDef
             FuncDef
                FuncHead
-                  id
-                     LINEAR
+                  Id
+                     id
+                        LINEAR
                   (
                   FParams
                      Type
                         float
+                     Id
+                        id
                            x
-                     id
                      EPSILON
                      EPSILON
                   )
@@ -198,8 +321,9 @@ START
                         VarDecl
                            Type
                               float
+                           Id
+                              id
                                  result
-                           id
                            EPSILON
                            ;
                         EPSILON
@@ -208,8 +332,9 @@ START
                      Statement
                         RepIdnest
                            Idnest
-                              id
-                                 result
+                              Id
+                                 id
+                                    result
                               OptNest
                                  EPSILON
                            EPSILON
@@ -227,8 +352,9 @@ START
                         Statement
                            RepIdnest
                               Idnest
-                                 id
-                                    result
+                                 Id
+                                    id
+                                       result
                                  OptNest
                                     EPSILON
                               EPSILON
@@ -242,8 +368,9 @@ START
                                           Variable
                                              RepIdnest
                                                 Idnest
-                                                   id
-                                                      a
+                                                   Id
+                                                      id
+                                                         a
                                                    OptNest
                                                       EPSILON
                                                 EPSILON
@@ -260,8 +387,9 @@ START
                                           Variable
                                              RepIdnest
                                                 Idnest
-                                                   id
-                                                      result
+                                                   Id
+                                                      id
+                                                         result
                                                    OptNest
                                                       EPSILON
                                                 EPSILON
@@ -273,14 +401,16 @@ START
             RepFuncDef
                FuncDef
                   FuncHead
-                     id
-                        QUADRATIC
+                     Id
+                        id
+                           QUADRATIC
                      (
                      FParams
                         Type
                            float
+                        Id
+                           id
                               x
-                        id
                         EPSILON
                         EPSILON
                      )
@@ -295,8 +425,9 @@ START
                            VarDecl
                               Type
                                  float
+                              Id
+                                 id
                                     result
-                              id
                               EPSILON
                               ;
                            EPSILON
@@ -305,8 +436,9 @@ START
                         Statement
                            RepIdnest
                               Idnest
-                                 id
-                                    result
+                                 Id
+                                    id
+                                       result
                                  OptNest
                                     EPSILON
                               EPSILON
@@ -320,8 +452,9 @@ START
                                           Variable
                                              RepIdnest
                                                 Idnest
-                                                   id
-                                                      a
+                                                   Id
+                                                      id
+                                                         a
                                                    OptNest
                                                       EPSILON
                                                 EPSILON
@@ -331,8 +464,9 @@ START
                            Statement
                               RepIdnest
                                  Idnest
-                                    id
-                                       result
+                                    Id
+                                       id
+                                          result
                                     OptNest
                                        EPSILON
                                  EPSILON
@@ -346,8 +480,9 @@ START
                                              Variable
                                                 RepIdnest
                                                    Idnest
-                                                      id
-                                                         result
+                                                      Id
+                                                         id
+                                                            result
                                                       OptNest
                                                          EPSILON
                                                    EPSILON
@@ -357,8 +492,9 @@ START
                               Statement
                                  RepIdnest
                                     Idnest
-                                       id
-                                          result
+                                       Id
+                                          id
+                                             result
                                        OptNest
                                           EPSILON
                                     EPSILON
@@ -372,8 +508,9 @@ START
                                                 Variable
                                                    RepIdnest
                                                       Idnest
-                                                         id
-                                                            result
+                                                         Id
+                                                            id
+                                                               result
                                                          OptNest
                                                             EPSILON
                                                       EPSILON
@@ -390,8 +527,9 @@ START
                                                 Variable
                                                    RepIdnest
                                                       Idnest
-                                                         id
-                                                            result
+                                                         Id
+                                                            id
+                                                               result
                                                          OptNest
                                                             EPSILON
                                                       EPSILON
@@ -403,40 +541,46 @@ START
                RepFuncDef
                   FuncDef
                      FuncHead
-                        id
-                           LINEAR
+                        Id
+                           id
+                              LINEAR
                         (
                         FParams
                            Type
                               float
+                           Id
+                              id
                                  A
-                           id
                            EPSILON
                            RepFParamsTail
                               FParamsTail
                                  ,
                                  Type
                                     float
+                                 Id
+                                    id
                                        B
-                                 id
                                  EPSILON
                               EPSILON
                         )
                         :
                         VoidOrType
                            Type
-                              id
-                                 LINEAR
+                              Id
+                                 id
+                                    LINEAR
                      FuncBody
                         OptLocalVD
                            local
                            RepVarDecl
                               VarDecl
                                  Type
+                                    Id
+                                       id
+                                          LINEAR
+                                 Id
                                     id
-                                       LINEAR
                                        new_function
-                                 id
                                  EPSILON
                                  ;
                               EPSILON
@@ -445,14 +589,16 @@ START
                            Statement
                               RepIdnest
                                  Idnest
-                                    id
-                                       new_function
+                                    Id
+                                       id
+                                          new_function
                                     OptNest
                                        .
                                  RepIdnest
                                     Idnest
-                                       id
-                                          a
+                                       Id
+                                          id
+                                             a
                                        OptNest
                                           EPSILON
                                     EPSILON
@@ -466,8 +612,9 @@ START
                                              Variable
                                                 RepIdnest
                                                    Idnest
-                                                      id
-                                                         A
+                                                      Id
+                                                         id
+                                                            A
                                                       OptNest
                                                          EPSILON
                                                    EPSILON
@@ -477,14 +624,16 @@ START
                               Statement
                                  RepIdnest
                                     Idnest
-                                       id
-                                          new_function
+                                       Id
+                                          id
+                                             new_function
                                        OptNest
                                           .
                                     RepIdnest
                                        Idnest
-                                          id
-                                             b
+                                          Id
+                                             id
+                                                b
                                           OptNest
                                              EPSILON
                                        EPSILON
@@ -498,8 +647,9 @@ START
                                                 Variable
                                                    RepIdnest
                                                       Idnest
-                                                         id
-                                                            B
+                                                         Id
+                                                            id
+                                                               B
                                                          OptNest
                                                             EPSILON
                                                       EPSILON
@@ -516,8 +666,9 @@ START
                                                 Variable
                                                    RepIdnest
                                                       Idnest
-                                                         id
-                                                            new_function
+                                                         Id
+                                                            id
+                                                               new_function
                                                          OptNest
                                                             EPSILON
                                                       EPSILON
@@ -529,48 +680,55 @@ START
                   RepFuncDef
                      FuncDef
                         FuncHead
-                           id
-                              QUADRATIC
+                           Id
+                              id
+                                 QUADRATIC
                            (
                            FParams
                               Type
                                  float
+                              Id
+                                 id
                                     A
-                              id
                               EPSILON
                               RepFParamsTail
                                  FParamsTail
                                     ,
                                     Type
                                        float
+                                    Id
+                                       id
                                           B
-                                    id
                                     EPSILON
                                  RepFParamsTail
                                     FParamsTail
                                        ,
                                        Type
                                           float
+                                       Id
+                                          id
                                              C
-                                       id
                                        EPSILON
                                     EPSILON
                            )
                            :
                            VoidOrType
                               Type
-                                 id
-                                    QUADRATIC
+                                 Id
+                                    id
+                                       QUADRATIC
                         FuncBody
                            OptLocalVD
                               local
                               RepVarDecl
                                  VarDecl
                                     Type
+                                       Id
+                                          id
+                                             QUADRATIC
+                                    Id
                                        id
-                                          QUADRATIC
                                           new_function
-                                    id
                                     EPSILON
                                     ;
                                  EPSILON
@@ -579,14 +737,16 @@ START
                               Statement
                                  RepIdnest
                                     Idnest
-                                       id
-                                          new_function
+                                       Id
+                                          id
+                                             new_function
                                        OptNest
                                           .
                                     RepIdnest
                                        Idnest
-                                          id
-                                             a
+                                          Id
+                                             id
+                                                a
                                           OptNest
                                              EPSILON
                                        EPSILON
@@ -600,8 +760,9 @@ START
                                                 Variable
                                                    RepIdnest
                                                       Idnest
-                                                         id
-                                                            A
+                                                         Id
+                                                            id
+                                                               A
                                                          OptNest
                                                             EPSILON
                                                       EPSILON
@@ -611,14 +772,16 @@ START
                                  Statement
                                     RepIdnest
                                        Idnest
-                                          id
-                                             new_function
+                                          Id
+                                             id
+                                                new_function
                                           OptNest
                                              .
                                        RepIdnest
                                           Idnest
-                                             id
-                                                b
+                                             Id
+                                                id
+                                                   b
                                              OptNest
                                                 EPSILON
                                           EPSILON
@@ -632,8 +795,9 @@ START
                                                    Variable
                                                       RepIdnest
                                                          Idnest
-                                                            id
-                                                               B
+                                                            Id
+                                                               id
+                                                                  B
                                                             OptNest
                                                                EPSILON
                                                          EPSILON
@@ -643,14 +807,16 @@ START
                                     Statement
                                        RepIdnest
                                           Idnest
-                                             id
-                                                new_function
+                                             Id
+                                                id
+                                                   new_function
                                              OptNest
                                                 .
                                           RepIdnest
                                              Idnest
-                                                id
-                                                   c
+                                                Id
+                                                   id
+                                                      c
                                                 OptNest
                                                    EPSILON
                                              EPSILON
@@ -664,8 +830,9 @@ START
                                                       Variable
                                                          RepIdnest
                                                             Idnest
-                                                               id
-                                                                  C
+                                                               Id
+                                                                  id
+                                                                     C
                                                                OptNest
                                                                   EPSILON
                                                             EPSILON
@@ -682,8 +849,9 @@ START
                                                       Variable
                                                          RepIdnest
                                                             Idnest
-                                                               id
-                                                                  new_function
+                                                               Id
+                                                                  id
+                                                                     new_function
                                                                OptNest
                                                                   EPSILON
                                                             EPSILON
@@ -700,27 +868,32 @@ START
             RepVarDecl
                VarDecl
                   Type
+                     Id
+                        id
+                           LINEAR
+                  Id
                      id
-                        LINEAR
                         f1
-                  id
                   EPSILON
                   ;
                RepVarDecl
                   VarDecl
                      Type
+                        Id
+                           id
+                              QUADRATIC
+                     Id
                         id
-                           QUADRATIC
                            f2
-                     id
                      EPSILON
                      ;
                   RepVarDecl
                      VarDecl
                         Type
                            integer
+                        Id
+                           id
                               counter
-                        id
                         EPSILON
                         ;
                      EPSILON
@@ -729,8 +902,9 @@ START
             Statement
                RepIdnest
                   Idnest
-                     id
-                        f1
+                     Id
+                        id
+                           f1
                      OptNest
                         EPSILON
                   EPSILON
@@ -744,14 +918,16 @@ START
                               Variable
                                  RepIdnest
                                     Idnest
-                                       id
-                                          f1
+                                       Id
+                                          id
+                                             f1
                                        OptNest
                                           .
                                     RepIdnest
                                        Idnest
-                                          id
-                                             build
+                                          Id
+                                             id
+                                                build
                                           OptNest
                                              EPSILON
                                        EPSILON
@@ -761,8 +937,9 @@ START
                Statement
                   RepIdnest
                      Idnest
-                        id
-                           f2
+                        Id
+                           id
+                              f2
                         OptNest
                            EPSILON
                      EPSILON
@@ -776,14 +953,16 @@ START
                                  Variable
                                     RepIdnest
                                        Idnest
-                                          id
-                                             f2
+                                          Id
+                                             id
+                                                f2
                                           OptNest
                                              .
                                        RepIdnest
                                           Idnest
-                                             id
-                                                build
+                                             Id
+                                                id
+                                                   build
                                              OptNest
                                                 EPSILON
                                           EPSILON
@@ -793,8 +972,9 @@ START
                   Statement
                      RepIdnest
                         Idnest
-                           id
-                              counter
+                           Id
+                              id
+                                 counter
                            OptNest
                               EPSILON
                         EPSILON
@@ -819,8 +999,9 @@ START
                                     Variable
                                        RepIdnest
                                           Idnest
-                                             id
-                                                counter
+                                             Id
+                                                id
+                                                   counter
                                              OptNest
                                                 EPSILON
                                           EPSILON
@@ -847,8 +1028,9 @@ START
                                              Variable
                                                 RepIdnest
                                                    Idnest
-                                                      id
-                                                         counter
+                                                      Id
+                                                         id
+                                                            counter
                                                       OptNest
                                                          EPSILON
                                                    EPSILON
@@ -866,14 +1048,16 @@ START
                                                 Variable
                                                    RepIdnest
                                                       Idnest
-                                                         id
-                                                            f1
+                                                         Id
+                                                            id
+                                                               f1
                                                          OptNest
                                                             .
                                                       RepIdnest
                                                          Idnest
-                                                            id
-                                                               evaluate
+                                                            Id
+                                                               id
+                                                                  evaluate
                                                             OptNest
                                                                EPSILON
                                                          EPSILON
@@ -891,14 +1075,16 @@ START
                                                    Variable
                                                       RepIdnest
                                                          Idnest
-                                                            id
-                                                               f2
+                                                            Id
+                                                               id
+                                                                  f2
                                                             OptNest
                                                                .
                                                          RepIdnest
                                                             Idnest
-                                                               id
-                                                                  evaluate
+                                                               Id
+                                                                  id
+                                                                     evaluate
                                                                OptNest
                                                                   EPSILON
                                                             EPSILON

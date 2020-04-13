@@ -1,0 +1,7 @@
+Syntactic error on line (11,3) Skipping token: class with production: RepArraySize
+Syntactic error on line (19,4) Skipping token: . with production: OptMultArith
+Syntactic error on line (19,5) Skipping token: 3 with production: OptMultArith
+Syntactic error on line (20,2) Skipping token: class with production: OptNest
+Syntactic error on line (21,4) Skipping token: class with production: OptNest
+Syntactic error on line (22,2) Skipping token: class with production: OptNest
+Syntactic error on line (23,4) Skipping token: class with production: OptNest

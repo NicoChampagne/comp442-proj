@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using LexDriver;
 
-namespace SynDriver
+namespace SynSemDriver
 {
     public class SyntacticAnalyzer
     {

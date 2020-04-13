@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SynDriver
+namespace SynSemDriver
 {
     public class SemanticAnalyzer
     {
@@ -40,7 +40,26 @@ namespace SynDriver
             // Separate each class node
             foreach (var node in nextNodes)
             {
-                classTables.Add(BuildTableFromClassNode(node, currentTable));
+                if (node.Value.Equals(""))
+                {
+                    return;
+                }
+
+                var nodesInPreOrder = Tree<string>.PreOrderingOfSubNodes(node, new List<string>());
+
+                if (nodesInPreOrder.Where(c => c.Equals("Class:")).Count() > 1)
+                {
+                    var lastIndex = nodesInPreOrder.FindLastIndex(c => c.Equals("Class:"));
+                    var firstList = nodesInPreOrder.GetRange(0, lastIndex);
+                    var sencondList = nodesInPreOrder.GetRange(lastIndex, nodesInPreOrder.Count - firstList.Count);
+
+                    classTables.Add(BuildTableFromClassNode(firstList, currentTable));
+                    classTables.Add(BuildTableFromClassNode(sencondList, currentTable));
+                }
+                else
+                {
+                    classTables.Add(BuildTableFromClassNode(node, currentTable));
+                }
             }
 
             // add inherited values to class that are inherited
@@ -64,31 +83,32 @@ namespace SynDriver
         public static SymbolTable BuildTableFromClassNode(TreeNode<string> currentNode, SymbolTable currentTable)
         {
             var nodesInPreOrder = Tree<string>.PreOrderingOfSubNodes(currentNode, new List<string>());
-            var classTable = new SymbolTable(name: nodesInPreOrder[2]);
+            var classTable = new SymbolTable(name: nodesInPreOrder[3]);
             var count = nodesInPreOrder.Count;
             var index = 3;
+            var isaFunc = false;
 
-            var classSymbol = new SymbolValue(name: nodesInPreOrder[2], kind: "Class", link: classTable);
-            allClassNames.Add(nodesInPreOrder[2]);
+            var classSymbol = new SymbolValue(name: nodesInPreOrder[3], kind: "Class", link: classTable);
+            allClassNames.Add(nodesInPreOrder[3]);
 
-            if (nodesInPreOrder[3].Equals("inherits") || nodesInPreOrder[4].Equals("inherits"))
+            if (nodesInPreOrder[4].Equals("inherits"))
             {
                 classSymbol.Link.IsInherited = true;
-                classSymbol.Link.InheritedTables.Add(nodesInPreOrder[5]);
+                classSymbol.Link.InheritedTables.Add(nodesInPreOrder[6]);
 
-                if (nodesInPreOrder[6].Equals("inherits"))
+                if (nodesInPreOrder[7].Equals("inherits"))
                 {
-                    classSymbol.Link.InheritedTables.Add(nodesInPreOrder[8]);
+                    classSymbol.Link.InheritedTables.Add(nodesInPreOrder[9]);
 
-                    if (nodesInPreOrder[9].Equals("inherits"))
+                    if (nodesInPreOrder[10].Equals("inherits"))
                     {
-                        classSymbol.Link.InheritedTables.Add(nodesInPreOrder[11]);
-                        if (nodesInPreOrder[12].Equals("inherits"))
+                        classSymbol.Link.InheritedTables.Add(nodesInPreOrder[12]);
+                        if (nodesInPreOrder[13].Equals("inherits"))
                         {
-                            classSymbol.Link.InheritedTables.Add(nodesInPreOrder[14]);
-                            if (nodesInPreOrder[15].Equals("inherits"))
+                            classSymbol.Link.InheritedTables.Add(nodesInPreOrder[15]);
+                            if (nodesInPreOrder[16].Equals("inherits"))
                             {
-                                classSymbol.Link.InheritedTables.Add(nodesInPreOrder[17]);
+                                classSymbol.Link.InheritedTables.Add(nodesInPreOrder[18]);
                             }
                         }
                     }
@@ -99,23 +119,243 @@ namespace SynDriver
 
             while (index != count - 1)
             {
-                // Parse functions from class
-
                 // Todo: Parse class variables from classes?
-                if (nodesInPreOrder[index].Equals("integer") || nodesInPreOrder[index].Equals("float"))
+
+                if (isaFunc || (nodesInPreOrder[index].Equals("id") && nodesInPreOrder[index + 2].Equals("(")))
                 {
+                    isaFunc = true;
+                    // Don't operate on nodes until func is clear
+                    if (nodesInPreOrder[index].Equals("}"))
+                    {
+                        isaFunc = false;
+                    }
+                    else if (index + 2 < count && nodesInPreOrder[index + 2].Equals("("))
+                    {
+                        var funcName = nodesInPreOrder[index + 1];
+                        var innerCount = index + 2;
+                        var funcParams = "";
+                        var funcReturnType = "";
+
+                        while (!nodesInPreOrder[innerCount].Equals("}"))
+                        {
+                            // Get function parmeters
+                            if (nodesInPreOrder[innerCount].Equals("("))
+                            {
+                                if (nodesInPreOrder[innerCount + 4].Equals("[") && (nodesInPreOrder[innerCount + 5].Equals("]") || nodesInPreOrder[innerCount + 6].Equals("]")) && (nodesInPreOrder[innerCount + 6].Equals("[") || nodesInPreOrder[innerCount + 7].Equals("[")) && (nodesInPreOrder[innerCount + 7].Equals("]") || nodesInPreOrder[innerCount + 8].Equals("]") || nodesInPreOrder[innerCount + 9].Equals("]")))
+                                {
+                                    funcParams = nodesInPreOrder[innerCount + 1] + "[][]";
+                                }
+                                else if (nodesInPreOrder[innerCount + 4].Equals("[") && (nodesInPreOrder[innerCount + 5].Equals("]") || nodesInPreOrder[innerCount + 6].Equals("]")))
+                                {
+                                    funcParams = nodesInPreOrder[innerCount + 1] + "[]";
+                                }
+                                else
+                                {
+                                    funcParams = nodesInPreOrder[innerCount + 1];
+                                }
+                            }
+                            else if (nodesInPreOrder[innerCount].Equals(","))
+                            {
+                                if (nodesInPreOrder[innerCount + 3].Equals("[") && (nodesInPreOrder[innerCount + 4].Equals("]") || nodesInPreOrder[innerCount + 5].Equals("]")) && (nodesInPreOrder[innerCount + 5].Equals("[") || nodesInPreOrder[innerCount + 6].Equals("[")) && (nodesInPreOrder[innerCount + 6].Equals("]") || nodesInPreOrder[innerCount + 7].Equals("]") || nodesInPreOrder[innerCount + 8].Equals("]")))
+                                {
+                                    funcParams += ", " + nodesInPreOrder[innerCount + 1] + "[][]";
+                                }
+                                else if (nodesInPreOrder[innerCount + 3].Equals("[") && (nodesInPreOrder[innerCount + 4].Equals("]") || nodesInPreOrder[innerCount + 5].Equals("]")))
+                                {
+                                    funcParams += ", " + nodesInPreOrder[innerCount + 1] + "[]";
+                                }
+                                else
+                                {
+                                    funcParams += ", " + nodesInPreOrder[innerCount + 1];
+                                }
+                            }
+
+                            // Get function return type
+                            if (nodesInPreOrder[innerCount].Equals(":"))
+                            {
+                                if (innerCount + 9 < count && nodesInPreOrder[innerCount + 3].Equals("[") && nodesInPreOrder[innerCount + 4].Equals("]") && nodesInPreOrder[innerCount + 5].Equals("[") && nodesInPreOrder[innerCount + 6].Equals("]"))
+                                {
+                                    funcReturnType = nodesInPreOrder[innerCount + 1] + "[][]";
+                                }
+                                else if (innerCount + 4 < count && nodesInPreOrder[innerCount + 3].Equals("[") && nodesInPreOrder[innerCount + 4].Equals("]"))
+                                {
+                                    funcReturnType = nodesInPreOrder[innerCount + 1] + "[]";
+                                }
+                                else
+                                {
+                                    funcReturnType = nodesInPreOrder[innerCount + 1];
+                                }
+                            }
+
+                            if (nodesInPreOrder[innerCount + 1].Equals("}"))
+                            {
+                                classTable.Insert(new SymbolValue(name: funcName, kind: "Function", type: funcReturnType + ": " + funcParams));
+                            }
+
+                            innerCount++;
+                        }
+                    }
+                }
+                else if (nodesInPreOrder[index].Equals("integer") || nodesInPreOrder[index].Equals("float"))
+                {
+                    var offsetValueForVariable = nodesInPreOrder[index].Equals("integer") ? 4 : 8;
+
                     // Parse variable names and types, then insert into class table.
                     if (index + 9 < count && (nodesInPreOrder[index + 3]?.Equals("[") ?? false) && ((nodesInPreOrder[index + 4]?.Equals("]") ?? false) || (nodesInPreOrder[index + 5]?.Equals("]") ?? false)) && ((nodesInPreOrder[index + 6]?.Equals("[") ?? false) || (nodesInPreOrder[index + 7]?.Equals("[") ?? false)) && ((nodesInPreOrder[index + 7]?.Equals("]") ?? false) || (nodesInPreOrder[index + 8]?.Equals("]") ?? false) || (nodesInPreOrder[index + 9]?.Equals("]") ?? false)))
                     {
-                        classTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 1], kind: "Variable", type: nodesInPreOrder[index] + "[][]"));
+                        classTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[][]"));
                     }
                     else if (index + 5 < count && (nodesInPreOrder[index + 3]?.Equals("[") ?? false) && ((nodesInPreOrder[index + 4]?.Equals("]") ?? false) || (nodesInPreOrder[index + 5]?.Equals("]") ?? false)))
                     {
-                        classTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 1], kind: "Variable", type: nodesInPreOrder[index] + "[]"));
+                        classTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[]", offset: (offsetValueForVariable * int.Parse(nodesInPreOrder[index + 4])), scopedOffset: classTable.TableOffset + (offsetValueForVariable * int.Parse(nodesInPreOrder[index + 4]))));
+                        classTable.TableOffset = classTable.TableOffset + (offsetValueForVariable * int.Parse(nodesInPreOrder[index + 4]));
                     }
                     else
                     {
-                        classTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 1], kind: "Variable", type: nodesInPreOrder[index]));
+                        classTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index], offset: offsetValueForVariable, scopedOffset: classTable.TableOffset + offsetValueForVariable));
+                        classTable.TableOffset = classTable.TableOffset + offsetValueForVariable;
+                    }
+                }
+
+                index++;
+            }
+
+            return classTable;
+        }
+
+        public static SymbolTable BuildTableFromClassNode(List<string> nodesInPreOrder, SymbolTable currentTable)
+        {
+            var classTable = new SymbolTable(name: nodesInPreOrder[3]);
+            var count = nodesInPreOrder.Count;
+            var index = 3;
+            var isaFunc = false;
+
+            var classSymbol = new SymbolValue(name: nodesInPreOrder[3], kind: "Class", link: classTable);
+            allClassNames.Add(nodesInPreOrder[3]);
+
+            if (nodesInPreOrder[4].Equals("inherits"))
+            {
+                classSymbol.Link.IsInherited = true;
+                classSymbol.Link.InheritedTables.Add(nodesInPreOrder[6]);
+
+                if (nodesInPreOrder[7].Equals("inherits"))
+                {
+                    classSymbol.Link.InheritedTables.Add(nodesInPreOrder[9]);
+
+                    if (nodesInPreOrder[10].Equals("inherits"))
+                    {
+                        classSymbol.Link.InheritedTables.Add(nodesInPreOrder[12]);
+                        if (nodesInPreOrder[13].Equals("inherits"))
+                        {
+                            classSymbol.Link.InheritedTables.Add(nodesInPreOrder[15]);
+                            if (nodesInPreOrder[16].Equals("inherits"))
+                            {
+                                classSymbol.Link.InheritedTables.Add(nodesInPreOrder[18]);
+                            }
+                        }
+                    }
+                }
+            }
+
+            currentTable.Insert(classSymbol);
+
+            while (index != count - 1)
+            {
+                // Todo: Parse class variables from classes?
+
+                if (isaFunc || (nodesInPreOrder[index].Equals("id") && nodesInPreOrder[index + 2].Equals("(")))
+                {
+                    isaFunc = true;
+                    // Don't operate on nodes until func is clear
+                    if (nodesInPreOrder[index].Equals("}"))
+                    {
+                        isaFunc = false;
+                    }
+                    else if (index + 2 < count && nodesInPreOrder[index + 2].Equals("("))
+                    {
+                        var funcName = nodesInPreOrder[index + 1];
+                        var innerCount = index + 2;
+                        var funcParams = "";
+                        var funcReturnType = "";
+
+                        while (!nodesInPreOrder[innerCount].Equals("}"))
+                        {
+                            // Get function parmeters
+                            if (nodesInPreOrder[innerCount].Equals("("))
+                            {
+                                if (nodesInPreOrder[innerCount + 4].Equals("[") && (nodesInPreOrder[innerCount + 5].Equals("]") || nodesInPreOrder[innerCount + 6].Equals("]")) && (nodesInPreOrder[innerCount + 6].Equals("[") || nodesInPreOrder[innerCount + 7].Equals("[")) && (nodesInPreOrder[innerCount + 7].Equals("]") || nodesInPreOrder[innerCount + 8].Equals("]") || nodesInPreOrder[innerCount + 9].Equals("]")))
+                                {
+                                    funcParams = nodesInPreOrder[innerCount + 1] + "[][]";
+                                }
+                                else if (nodesInPreOrder[innerCount + 4].Equals("[") && (nodesInPreOrder[innerCount + 5].Equals("]") || nodesInPreOrder[innerCount + 6].Equals("]")))
+                                {
+                                    funcParams = nodesInPreOrder[innerCount + 1] + "[]";
+                                }
+                                else
+                                {
+                                    funcParams = nodesInPreOrder[innerCount + 1];
+                                }
+                            }
+                            else if (nodesInPreOrder[innerCount].Equals(","))
+                            {
+                                if (nodesInPreOrder[innerCount + 3].Equals("[") && (nodesInPreOrder[innerCount + 4].Equals("]") || nodesInPreOrder[innerCount + 5].Equals("]")) && (nodesInPreOrder[innerCount + 5].Equals("[") || nodesInPreOrder[innerCount + 6].Equals("[")) && (nodesInPreOrder[innerCount + 6].Equals("]") || nodesInPreOrder[innerCount + 7].Equals("]") || nodesInPreOrder[innerCount + 8].Equals("]")))
+                                {
+                                    funcParams += ", " + nodesInPreOrder[innerCount + 1] + "[][]";
+                                }
+                                else if (nodesInPreOrder[innerCount + 3].Equals("[") && (nodesInPreOrder[innerCount + 4].Equals("]") || nodesInPreOrder[innerCount + 5].Equals("]")))
+                                {
+                                    funcParams += ", " + nodesInPreOrder[innerCount + 1] + "[]";
+                                }
+                                else
+                                {
+                                    funcParams += ", " + nodesInPreOrder[innerCount + 1];
+                                }
+                            }
+
+                            // Get function return type
+                            if (nodesInPreOrder[innerCount].Equals(":"))
+                            {
+                                if (innerCount + 9 < count && nodesInPreOrder[innerCount + 3].Equals("[") && nodesInPreOrder[innerCount + 4].Equals("]") && nodesInPreOrder[innerCount + 5].Equals("[") && nodesInPreOrder[innerCount + 6].Equals("]"))
+                                {
+                                    funcReturnType = nodesInPreOrder[innerCount + 1] + "[][]";
+                                }
+                                else if (innerCount + 4 < count && nodesInPreOrder[innerCount + 3].Equals("[") && nodesInPreOrder[innerCount + 4].Equals("]"))
+                                {
+                                    funcReturnType = nodesInPreOrder[innerCount + 1] + "[]";
+                                }
+                                else
+                                {
+                                    funcReturnType = nodesInPreOrder[innerCount + 1];
+                                }
+                            }
+
+                            if (nodesInPreOrder[innerCount + 1].Equals("}"))
+                            {
+                                classTable.Insert(new SymbolValue(name: funcName, kind: "Function", type: funcReturnType + ": " + funcParams));
+                            }
+
+                            innerCount++;
+                        }
+                    }
+                }
+                else if (nodesInPreOrder[index].Equals("integer") || nodesInPreOrder[index].Equals("float"))
+                {
+                    var offsetValueForVariable = nodesInPreOrder[index].Equals("integer") ? 4 : 8;
+
+                    // Parse variable names and types, then insert into class table.
+                    if (index + 9 < count && (nodesInPreOrder[index + 3]?.Equals("[") ?? false) && ((nodesInPreOrder[index + 4]?.Equals("]") ?? false) || (nodesInPreOrder[index + 5]?.Equals("]") ?? false)) && ((nodesInPreOrder[index + 6]?.Equals("[") ?? false) || (nodesInPreOrder[index + 7]?.Equals("[") ?? false)) && ((nodesInPreOrder[index + 7]?.Equals("]") ?? false) || (nodesInPreOrder[index + 8]?.Equals("]") ?? false) || (nodesInPreOrder[index + 9]?.Equals("]") ?? false)))
+                    {
+                        classTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[][]"));
+                    }
+                    else if (index + 5 < count && (nodesInPreOrder[index + 3]?.Equals("[") ?? false) && ((nodesInPreOrder[index + 4]?.Equals("]") ?? false) || (nodesInPreOrder[index + 5]?.Equals("]") ?? false)))
+                    {
+                        classTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[]", offset: offsetValueForVariable, scopedOffset: classTable.TableOffset + (offsetValueForVariable * int.Parse(nodesInPreOrder[index + 4]))));
+                        classTable.TableOffset = classTable.TableOffset + (offsetValueForVariable * int.Parse(nodesInPreOrder[index + 4]));
+                    }
+                    else
+                    {
+                        classTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index], offset: offsetValueForVariable, scopedOffset: classTable.TableOffset + offsetValueForVariable));
+                        classTable.TableOffset = classTable.TableOffset + offsetValueForVariable;
                     }
                 }
 
@@ -132,14 +372,33 @@ namespace SynDriver
             // Separate each function node
             foreach (var node in nextNodes)
             {
-                BuildTableFromFunctionNode(node, currentTable);
+                if (node.Value.Equals(""))
+                {
+                    return;
+                }
+
+                var nodesInPreOrder = Tree<string>.PreOrderingOfSubNodes(node, new List<string>());
+
+                if (nodesInPreOrder.Where(c => c.Equals("Function:")).Count() > 1)
+                {
+                    var lastIndex = nodesInPreOrder.FindLastIndex(c => c.Equals("Function:"));
+                    var firstList = nodesInPreOrder.GetRange(0, lastIndex);
+                    var secondList = nodesInPreOrder.GetRange(lastIndex, nodesInPreOrder.Count - firstList.Count);
+
+                    BuildTableFromFunctionNode(firstList, currentTable);
+                    BuildTableFromFunctionNode(secondList, currentTable);
+                }
+                else
+                {
+                    BuildTableFromFunctionNode(node, currentTable);
+                }
             }
         }
 
-        public static void BuildTableFromFunctionNode(TreeNode<string> currentNode, SymbolTable currentTable)
+        public static void BuildTableFromFunctionNode(List<string> nodesInPreOrder, SymbolTable currentTable)
         {
-            var nodesInPreOrder = Tree<string>.PreOrderingOfSubNodes(currentNode, new List<string>());
             var funcTable = new SymbolTable(name: nodesInPreOrder[2]);
+            funcTable.IsAFunctionTable = true;
             var count = nodesInPreOrder.Count;
             var indexForFunction = 3;
             var index = 3;
@@ -209,27 +468,31 @@ namespace SynDriver
                 if (nodesInPreOrder[index].Equals("integer") || nodesInPreOrder[index].Equals("float"))
                 {
                     // Parse variable names and types, then insert into function table.
-                    if (nodesInPreOrder[index + 3].Equals("[") && (nodesInPreOrder[index + 4].Equals("]") || nodesInPreOrder[index + 5].Equals("]")) && (nodesInPreOrder[index + 6].Equals("[") || nodesInPreOrder[index + 7].Equals("[")) && (nodesInPreOrder[index + 7].Equals("]") || nodesInPreOrder[index + 8].Equals("]") || nodesInPreOrder[index + 9].Equals("]")))
+                    if (nodesInPreOrder[index - 1].Equals(":"))
                     {
-                        funcTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 1], kind: "Variable", type: nodesInPreOrder[index] + "[][]"));
+                        //this is a returned variable from a function decl
+                    }
+                    else if (nodesInPreOrder[index + 3].Equals("[") && (nodesInPreOrder[index + 4].Equals("]") || nodesInPreOrder[index + 5].Equals("]")) && (nodesInPreOrder[index + 6].Equals("[") || nodesInPreOrder[index + 7].Equals("[")) && (nodesInPreOrder[index + 7].Equals("]") || nodesInPreOrder[index + 8].Equals("]") || nodesInPreOrder[index + 9].Equals("]")))
+                    {
+                        funcTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[][]"));
                     }
                     else if (nodesInPreOrder[index + 3].Equals("[") && (nodesInPreOrder[index + 4].Equals("]") || nodesInPreOrder[index + 5].Equals("]")))
                     {
-                        funcTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 1], kind: "Variable", type: nodesInPreOrder[index] + "[]"));
+                        funcTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[]"));
                     }
                     else
                     {
-                        funcTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 1], kind: "Variable", type: nodesInPreOrder[index]));
+                        funcTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index]));
                     }
                 }
                 else if (allClassNames.Any(c => c.Equals(nodesInPreOrder[index])))
                 {
                     // Parse variable names and types, then insert into function table.
-                    if (nodesInPreOrder[index + 4].Equals("[") && (nodesInPreOrder[index + 5].Equals("]") || nodesInPreOrder[index + 6].Equals("]")) && (nodesInPreOrder[index + 7].Equals("[") || nodesInPreOrder[index + 8].Equals("[")) && (nodesInPreOrder[index + 8].Equals("]") || nodesInPreOrder[index + 9].Equals("]") || nodesInPreOrder[index + 10].Equals("]")))
+                    if (index + 10 < count && nodesInPreOrder[index + 4].Equals("[") && (nodesInPreOrder[index + 5].Equals("]") || nodesInPreOrder[index + 6].Equals("]")) && (nodesInPreOrder[index + 7].Equals("[") || nodesInPreOrder[index + 8].Equals("[")) && (nodesInPreOrder[index + 8].Equals("]") || nodesInPreOrder[index + 9].Equals("]") || nodesInPreOrder[index + 10].Equals("]")))
                     {
                         funcTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[][]"));
                     }
-                    else if (nodesInPreOrder[index + 4].Equals("[") && (nodesInPreOrder[index + 5].Equals("]") || nodesInPreOrder[index + 6].Equals("]")))
+                    else if (index + 6 < count && nodesInPreOrder[index + 4].Equals("[") && (nodesInPreOrder[index + 5].Equals("]") || nodesInPreOrder[index + 6].Equals("]")))
                     {
                         funcTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[]"));
                     }
@@ -241,6 +504,123 @@ namespace SynDriver
 
                 index++;
             }
+        }
+
+        public static void BuildTableFromFunctionNode(TreeNode<string> currentNode, SymbolTable currentTable)
+        {
+            var nodesInPreOrder = Tree<string>.PreOrderingOfSubNodes(currentNode, new List<string>());
+            var funcTable = new SymbolTable(name: nodesInPreOrder[2]);
+            funcTable.IsAFunctionTable = true;
+            var count = nodesInPreOrder.Count;
+            var indexForFunction = 3;
+            var index = 3;
+            var funcParams = "";
+            var funcReturnType = "";
+
+            while (indexForFunction != count - 1)
+            {
+                // Get function parmeters
+                if (nodesInPreOrder[indexForFunction].Equals("("))
+                {
+                    if (nodesInPreOrder[index + 4].Equals("[") && (nodesInPreOrder[index + 5].Equals("]") || nodesInPreOrder[index + 6].Equals("]")) && (nodesInPreOrder[index + 6].Equals("[") || nodesInPreOrder[index + 7].Equals("[")) && (nodesInPreOrder[index + 7].Equals("]") || nodesInPreOrder[index + 8].Equals("]") || nodesInPreOrder[index + 9].Equals("]")))
+                    {
+                        funcParams = nodesInPreOrder[indexForFunction + 1] + "[][]";
+                    }
+                    else if (nodesInPreOrder[index + 4].Equals("[") && (nodesInPreOrder[index + 5].Equals("]") || nodesInPreOrder[index + 6].Equals("]")))
+                    {
+                        funcParams = nodesInPreOrder[indexForFunction + 1] + "[]";
+                    }
+                    else
+                    {
+                        funcParams = nodesInPreOrder[indexForFunction + 1];
+                    }
+                }
+                else if (nodesInPreOrder[indexForFunction].Equals(","))
+                {
+                    if (nodesInPreOrder[index + 3].Equals("[") && (nodesInPreOrder[index + 4].Equals("]") || nodesInPreOrder[index + 5].Equals("]")) && (nodesInPreOrder[index + 5].Equals("[") || nodesInPreOrder[index + 6].Equals("[")) && (nodesInPreOrder[index + 6].Equals("]") || nodesInPreOrder[index + 7].Equals("]") || nodesInPreOrder[index + 8].Equals("]")))
+                    {
+                        funcParams += ", " + nodesInPreOrder[indexForFunction + 1] + "[][]";
+                    }
+                    else if (nodesInPreOrder[index + 3].Equals("[") && (nodesInPreOrder[index + 4].Equals("]") || nodesInPreOrder[index + 5].Equals("]")))
+                    {
+                        funcParams += ", " + nodesInPreOrder[indexForFunction + 1] + "[]";
+                    }
+                    else
+                    {
+                        funcParams += ", " + nodesInPreOrder[indexForFunction + 1];
+                    }
+                }
+
+                // Get function return type
+                if (nodesInPreOrder[indexForFunction].Equals(":"))
+                {
+                    if (nodesInPreOrder[index + 3].Equals("[") && nodesInPreOrder[index + 4].Equals("]") && nodesInPreOrder[index + 5].Equals("[") && nodesInPreOrder[index + 6].Equals("]"))
+                    {
+                        funcReturnType = nodesInPreOrder[indexForFunction + 1] + "[][]";
+                    }
+                    else if (nodesInPreOrder[index + 3].Equals("[") && nodesInPreOrder[index + 4].Equals("]"))
+                    {
+                        funcReturnType = nodesInPreOrder[indexForFunction + 1] + "[]";
+                    }
+                    else
+                    {
+                        funcReturnType = nodesInPreOrder[indexForFunction + 1];
+                    }
+
+                    break;
+                }
+
+                indexForFunction++;
+            }
+
+            currentTable.Insert(new SymbolValue(name: nodesInPreOrder[2], kind: "Function", type: funcReturnType + ": " + funcParams, link: funcTable));
+
+            while (index != count - 1)
+            {
+                if (nodesInPreOrder[index].Equals("integer") || nodesInPreOrder[index].Equals("float"))
+                {
+                    var offsetValueForVariable = nodesInPreOrder[index].Equals("integer") ? 4 : 8;
+
+                    // Parse variable names and types, then insert into function table.
+                    if (nodesInPreOrder[index - 1].Equals(":"))
+                    {
+                        //this is a returned variable from a function decl
+                    }
+                    else if (nodesInPreOrder[index + 3].Equals("[") && (nodesInPreOrder[index + 4].Equals("]") || nodesInPreOrder[index + 5].Equals("]")) && (nodesInPreOrder[index + 6].Equals("[") || nodesInPreOrder[index + 7].Equals("[")) && (nodesInPreOrder[index + 7].Equals("]") || nodesInPreOrder[index + 8].Equals("]") || nodesInPreOrder[index + 9].Equals("]")))
+                    {
+                        funcTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[][]"));
+                    }
+                    else if (nodesInPreOrder[index + 3].Equals("[") && (nodesInPreOrder[index + 4].Equals("]") || nodesInPreOrder[index + 5].Equals("]")))
+                    {
+                        funcTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[]"));
+                    }
+                    else
+                    {
+                        funcTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index], offset: offsetValueForVariable, scopedOffset: funcTable.TableOffset + offsetValueForVariable));
+                        funcTable.TableOffset = funcTable.TableOffset + offsetValueForVariable;
+                    }
+                }
+                else if (allClassNames.Any(c => c.Equals(nodesInPreOrder[index])))
+                {
+                    // Parse variable names and types, then insert into function table.
+                    if (index + 10 < count && nodesInPreOrder[index + 4].Equals("[") && (nodesInPreOrder[index + 5].Equals("]") || nodesInPreOrder[index + 6].Equals("]")) && (nodesInPreOrder[index + 7].Equals("[") || nodesInPreOrder[index + 8].Equals("[")) && (nodesInPreOrder[index + 8].Equals("]") || nodesInPreOrder[index + 9].Equals("]") || nodesInPreOrder[index + 10].Equals("]")))
+                    {
+                        funcTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[][]"));
+                    }
+                    else if (index + 6 < count && nodesInPreOrder[index + 4].Equals("[") && (nodesInPreOrder[index + 5].Equals("]") || nodesInPreOrder[index + 6].Equals("]")))
+                    {
+                        funcTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[]"));
+                    }
+                    else
+                    {
+                        funcTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index]));
+                    }
+                }
+
+                index++;
+            }
+
+            currentTable.TableEntries.Find(c => c.Name.Equals(nodesInPreOrder[2]) && c.Kind.Equals("Function")).Offset = funcTable.TableOffset;
         }
 
         public static void BuildTableFromMainProgramNode(TreeNode<string> currentNode, SymbolTable currentTable)
@@ -256,18 +636,21 @@ namespace SynDriver
             {
                 if (nodesInPreOrder[index].Equals("integer") || nodesInPreOrder[index].Equals("float"))
                 {
+                    var offsetValueForVariable = nodesInPreOrder[index].Equals("integer") ? 4 : 8;
+
                     // Parse variable names and types, then insert into main table.
                     if (nodesInPreOrder[index + 3].Equals("[") && (nodesInPreOrder[index + 4].Equals("]") || nodesInPreOrder[index + 5].Equals("]")) && (nodesInPreOrder[index + 6].Equals("[") || nodesInPreOrder[index + 7].Equals("[")) && (nodesInPreOrder[index + 7].Equals("]") || nodesInPreOrder[index + 8].Equals("]") || nodesInPreOrder[index + 9].Equals("]")))
                     {
-                        mainTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 1], kind: "Variable", type: nodesInPreOrder[index] + "[][]"));
+                        mainTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[][]"));
                     }
                     else if (nodesInPreOrder[index + 3].Equals("[") && nodesInPreOrder[index + 5].Equals("]"))
                     {
-                        mainTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 1], kind: "Variable", type: nodesInPreOrder[index] + "[]"));
+                        mainTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[]"));
                     }
                     else
                     {
-                        mainTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 1], kind: "Variable", type: nodesInPreOrder[index]));
+                        mainTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index], offset: offsetValueForVariable, scopedOffset: mainTable.TableOffset + offsetValueForVariable));
+                        mainTable.TableOffset = mainTable.TableOffset + offsetValueForVariable;
                     }
                 }
                 else if (allClassNames.Any(c => c.Equals(nodesInPreOrder[index])))
@@ -283,12 +666,16 @@ namespace SynDriver
                     }
                     else
                     {
-                        mainTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index]));
+                        var classTable = currentTable.TableEntries.Find(c => c.Name.Equals(nodesInPreOrder[index]) && c.Kind.Equals("Class"))?.Link;
+                        mainTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index], offset: classTable.TableOffset, scopedOffset: mainTable.TableOffset + classTable.TableOffset));
+                        mainTable.TableOffset = mainTable.TableOffset + classTable.TableOffset;
                     }
                 }
 
                 index++;
             }
+
+            currentTable.TableEntries.Find(c => c.Name.Equals("main") && c.Kind.Equals("Function")).Offset = mainTable.TableOffset;
         }
 
         public static List<string> AnalyzeTableElements(SymbolTable symbolTable)
@@ -306,7 +693,7 @@ namespace SynDriver
                     if (allVariableSymbols.Where(c => c.Name.Equals(variableSymbol.Name)).Count() > 1)
                     {
                         //Semantic Error: Multiples of a named variable in the same scope error
-                        errorList.Add("Error: multiple variables with same name in the same scope, var: " + variableSymbol.Name);
+                        errorList.Add("Error(5,8): multiple variables with same name in the same scope, var: " + variableSymbol.Name + " in Scope: " + table.Name);
                     }
                 }
 
@@ -315,7 +702,7 @@ namespace SynDriver
                     if (allClassesSymbols.Where(c => c.Name.Equals(classSymbol.Name)).Count() > 1)
                     {
                         //Semantic Error: Multiples of a named class in the same scope error
-                        errorList.Add("Error: multiple classes with same name, class name: " + classSymbol.Name);
+                        errorList.Add("Error(5,8): multiple classes with same name, class name: " + classSymbol.Name);
                     }
                 }
 
@@ -329,12 +716,12 @@ namespace SynDriver
                             if (sameNamesInList.Where(c => c.Type.Equals(symbol.Type)).Count() > 1)
                             {
                                 // Semantic Error: Functions with same name and same type exist
-                                errorList.Add("Error: function with same name and same type, function: " + functionSymbols.Name);
+                                errorList.Add("Error(5): function with same name and same type, function: " + functionSymbols.Name + " with Type: " + functionSymbols.Type);
                             }
                         }
 
                         //Semantic Warning: Overloading of functions should return warning
-                        errorList.Add("Warning: function overloaded, function: " + functionSymbols.Name);
+                        errorList.Add("Warning(9): function overloaded, function: " + functionSymbols.Name + " in class: " + table.Name);
                     }
                 }
             }
@@ -352,7 +739,7 @@ namespace SynDriver
                             if (table.TableEntries.Where(t => t.Name.Equals(parentSymbols.Name) && t.Kind.Equals(parentSymbols.Kind) && !t.Type.Equals(parentSymbols.Type)).Count() > 0)
                             {
                                 //Warning for shadowed inherited members (classes)
-                                errorList.Add("Warning: shadowed inherited class member: " + parentSymbols.Name);
+                                errorList.Add("Warning(5): shadowed inherited class member: " + parentSymbols.Name);
                             }
                         }
                     }
@@ -369,7 +756,7 @@ namespace SynDriver
                         if (getOtherClassVariables.Any(c => c.Type.Equals(table.Name)))
                         {
                             //Warning for circular class dependency semantic error
-                            errorList.Add("Warning: Circular depencies for classes: " + table.Name + " and " + getClassTable.Name);
+                            errorList.Add("Warning(14): Circular dependencies for classes: " + table.Name + " and " + getClassTable.Name);
                         }
                     }
                 }
@@ -378,7 +765,7 @@ namespace SynDriver
             return errorList;
         }
 
-        public static void SemanticAnalysis(Tree<string> tree, SymbolTable symbolTable, List<string> errorList)
+        public static (List<(List<string>, SymbolTable)> subScopeList, List<string> errorList) SemanticAnalysis(Tree<string> tree, SymbolTable symbolTable, List<string> errorList)
         {
             TreeNode<string> root = tree.Root;
             var listOfSubScopes = new List<(List<string>, SymbolTable)>();
@@ -393,7 +780,7 @@ namespace SynDriver
             foreach (var classNode in nextClassNodes)
             {
                 var subscopeNodes = Tree<string>.PreOrderingOfSubNodes(classNode, new List<string>());
-                var classTable = symbolTable.TableEntries.FirstOrDefault(c => c.Name.Equals(subscopeNodes[1]))?.Link;
+                var classTable = subscopeNodes.Count <=3 ? null : symbolTable.TableEntries.FirstOrDefault(c => c.Name.Equals(subscopeNodes[3]))?.Link;
 
                 if (classTable != null)
                 {
@@ -408,14 +795,17 @@ namespace SynDriver
             // Separate each class node
             foreach (var functionNode in nextFunctionNodes)
             {
-                var subscopeNodes = Tree<string>.PreOrderingOfSubNodes(functionNode, new List<string>());
-                var functionTable = symbolTable.TableEntries.FirstOrDefault(c => c.Name.Equals(subscopeNodes[2]) && c.Kind.Equals("Function"))?.Link;
-                //if time check params too
-
-                if (functionTable != null)
+                if (!functionNode.Value.Equals(""))
                 {
-                    var subScopeEntry = (subscopeNodes, functionTable);
-                    listOfSubScopes.Add(subScopeEntry);
+                    var subscopeNodes = Tree<string>.PreOrderingOfSubNodes(functionNode, new List<string>());
+                    var functionTable = symbolTable.TableEntries.FirstOrDefault(c => c.Name.Equals(subscopeNodes[2]) && c.Kind.Equals("Function"))?.Link;
+                    //if time check params too
+
+                    if (functionTable != null)
+                    {
+                        var subScopeEntry = (subscopeNodes, functionTable);
+                        listOfSubScopes.Add(subScopeEntry);
+                    }
                 }
             }
 
@@ -458,7 +848,7 @@ namespace SynDriver
 
                             if (checkGlobalTable.Count() == 0 && checkLocalTable.Count() == 0)
                             {
-                                errorList.Add("Error: use of undeclared local variable or function, name: " + idName);
+                                errorList.Add("Error(11): use of undeclared local variable or function, name: " + idName + " in class/function: " + subScope.Item2.Name);
                             }
                         }
                     }
@@ -474,7 +864,7 @@ namespace SynDriver
 
                             if (checkGlobalTable.Count() == 0 && checkLocalTable.Count() == 0)
                             {
-                                errorList.Add("Error: use of undeclared local variable, variable: " + idName);
+                                errorList.Add("Error(11): use of undeclared local variable or function, name: " + idName + " in class/function: " + subScope.Item2.Name);
                             }
                         }
                     }
@@ -504,7 +894,7 @@ namespace SynDriver
                                         var arrayVar = list[index - 5];
                                         if (!subScope.Item2.TableEntries.First(c => c.Name.Equals(arrayVar)).Type.Equals("integer"))
                                         {
-                                            errorList.Add("Error: array index not an integer, array: " + firstOperand);
+                                            errorList.Add("Error(13): array index not an integer, array: " + firstOperand);
                                         }
                                     }
                                 }
@@ -524,7 +914,7 @@ namespace SynDriver
                                         var arrayVar = list[index - 2];
                                         if (!subScope.Item2.TableEntries.First(c => c.Name.Equals(arrayVar)).Type.Equals("integer"))
                                         {
-                                            errorList.Add("Error: array index not an integer, array: " + firstOperand);
+                                            errorList.Add("Error(13): array index not an integer, array: " + firstOperand);
                                         }
                                     }
                                     else
@@ -535,7 +925,7 @@ namespace SynDriver
                                         var arrayVar2 = list[index - 6];
                                         if (!subScope.Item2.TableEntries.First(c => c.Name.Equals(arrayVar1)).Type.Equals("integer") || !subScope.Item2.TableEntries.First(c => c.Name.Equals(arrayVar2)).Type.Equals("integer"))
                                         {
-                                            errorList.Add("Error: array index not an integer, array: " + firstOperand);
+                                            errorList.Add("Error(13): array index not an integer, array: " + firstOperand);
                                         }
                                     }
                                 }
@@ -546,12 +936,12 @@ namespace SynDriver
                                     var arrayVar = list[index - 2];
                                     if (!subScope.Item2.TableEntries.First(c => c.Name.Equals(arrayVar)).Type.Equals("integer"))
                                     {
-                                        errorList.Add("Error: array index not an integer, array: " + firstOperand);
+                                        errorList.Add("Error(13): array index not an integer, array: " + firstOperand);
                                     }
                                 }
                             }
 
-                            firstOperandType = subScope.Item2.TableEntries.First(c => c.Name.Equals(firstOperand)).Type;
+                            firstOperandType = subScope.Item2.TableEntries.FirstOrDefault(c => c.Name.Equals(firstOperand))?.Type;
                         }
                         else if (int.TryParse(list[index - 1], out _))
                         {
@@ -576,7 +966,7 @@ namespace SynDriver
                         if (list[index + 3].Equals("["))
                         {
                             secondOperand = list[index + 2];
-                            secondOperandType = subScope.Item2.TableEntries.First(c => c.Name.Equals(firstOperand)).Type;
+                            secondOperandType = subScope.Item2.TableEntries.FirstOrDefault(c => c.Name.Equals(firstOperand))?.Type;
 
                             // array index type checking
                             if (int.TryParse(list[index + 4], out _))
@@ -588,7 +978,7 @@ namespace SynDriver
                                         var arrayVar = list[index + 8];
                                         if (!subScope.Item2.TableEntries.First(c => c.Name.Equals(arrayVar)).Type.Equals("integer"))
                                         {
-                                            errorList.Add("Error: array index not an integer, array: " + secondOperand);
+                                            errorList.Add("Error(13): array index not an integer, array: " + secondOperand);
                                         }
                                     }
                                 }
@@ -603,7 +993,7 @@ namespace SynDriver
                                         var arrayVar2 = list[index + 9];
                                         if (!subScope.Item2.TableEntries.First(c => c.Name.Equals(arrayVar1)).Type.Equals("integer") || !subScope.Item2.TableEntries.First(c => c.Name.Equals(arrayVar2)).Type.Equals("integer"))
                                         {
-                                            errorList.Add("Error: array index not an integer, array: " + secondOperand);
+                                            errorList.Add("Error(13): array index not an integer, array: " + secondOperand);
                                         }
                                     }
                                 }
@@ -625,9 +1015,16 @@ namespace SynDriver
                             secondOperandType = subScope.Item2.TableEntries.FirstOrDefault(c => c.Name.Equals(secondOperand))?.Type;
                         }
 
-                        if (!(firstOperandType?.Contains(secondOperandType ?? string.Empty) ?? true) || (firstOperandType != secondOperandType))
+                        if (firstOperandType == null || secondOperandType == null)
                         {
-                            errorList.Add("Error: expression types are incompatible, first operand: " + firstOperand + ", second operand: " + secondOperand);
+                            if (firstOperandType != secondOperandType)
+                            {
+                                errorList.Add("Error(10): expression types are incompatible, first operand: " + firstOperand + ", second operand: " + secondOperand);
+                            }
+                        }
+                        else if (!firstOperandType.Contains(secondOperandType))
+                        {
+                            errorList.Add("Error(10): expression types are incompatible, first operand: " + firstOperand + ", second operand: " + secondOperand);
                         }
                     }
                     else if (list[index].Equals("geq") || list[index].Equals("gt") || list[index].Equals("leq") || list[index].Equals("lt"))
@@ -654,7 +1051,7 @@ namespace SynDriver
                                         var arrayVar = list[index - 6];
                                         if (!subScope.Item2.TableEntries.First(c => c.Name.Equals(arrayVar)).Type.Equals("integer"))
                                         {
-                                            errorList.Add("Error: array index not an integer, array: " + firstOperand);
+                                            errorList.Add("Error(13): array index not an integer, array: " + firstOperand);
                                         }
                                     }
                                 }
@@ -674,7 +1071,7 @@ namespace SynDriver
                                         var arrayVar = list[index - 3];
                                         if (!subScope.Item2.TableEntries.First(c => c.Name.Equals(arrayVar)).Type.Equals("integer"))
                                         {
-                                            errorList.Add("Error: array index not an integer, array: " + firstOperand);
+                                            errorList.Add("Error(13): array index not an integer, array: " + firstOperand);
                                         }
                                     }
                                     else
@@ -685,7 +1082,7 @@ namespace SynDriver
                                         var arrayVar2 = list[index - 7];
                                         if (!subScope.Item2.TableEntries.First(c => c.Name.Equals(arrayVar1)).Type.Equals("integer") || !subScope.Item2.TableEntries.First(c => c.Name.Equals(arrayVar2)).Type.Equals("integer"))
                                         {
-                                            errorList.Add("Error: array index not an integer, array: " + firstOperand);
+                                            errorList.Add("Error(13): array index not an integer, array: " + firstOperand);
                                         }
                                     }
                                 }
@@ -696,7 +1093,7 @@ namespace SynDriver
                                     var arrayVar = list[index - 3];
                                     if (!subScope.Item2.TableEntries.First(c => c.Name.Equals(arrayVar)).Type.Equals("integer"))
                                     {
-                                        errorList.Add("Error: array index not an integer, array: " + firstOperand);
+                                        errorList.Add("Error(13): array index not an integer, array: " + firstOperand);
                                     }
                                 }
                             }
@@ -738,7 +1135,7 @@ namespace SynDriver
                                         var arrayVar = list[index + 8];
                                         if (!subScope.Item2.TableEntries.First(c => c.Name.Equals(arrayVar)).Type.Equals("integer"))
                                         {
-                                            errorList.Add("Error: array index not an integer, array: " + secondOperand);
+                                            errorList.Add("Error(13): array index not an integer, array: " + secondOperand);
                                         }
                                     }
                                 }
@@ -753,7 +1150,7 @@ namespace SynDriver
                                         var arrayVar2 = list[index + 9];
                                         if (!subScope.Item2.TableEntries.First(c => c.Name.Equals(arrayVar1)).Type.Equals("integer") || !subScope.Item2.TableEntries.First(c => c.Name.Equals(arrayVar2)).Type.Equals("integer"))
                                         {
-                                            errorList.Add("Error: array index not an integer, array: " + secondOperand);
+                                            errorList.Add("Error(13): array index not an integer, array: " + secondOperand);
                                         }
                                     }
                                 }
@@ -772,12 +1169,12 @@ namespace SynDriver
                         else
                         {
                             secondOperand = list[index + 2];
-                            secondOperandType = subScope.Item2.TableEntries.First(c => c.Name.Equals(firstOperand)).Type;
+                            secondOperandType = subScope.Item2.TableEntries.FirstOrDefault(c => c.Name.Equals(firstOperand))?.Type;
                         }
 
-                        if (!firstOperandType.Equals(secondOperandType))
+                        if (!(firstOperandType?.Contains(secondOperandType ?? string.Empty) ?? true) || (firstOperandType != secondOperandType))
                         {
-                            errorList.Add("Error: expression types are incompatible, first operand: " + firstOperand + ", second operand: " + secondOperand);
+                            errorList.Add("Error(10): expression types are incompatible, first operand: " + firstOperand + ", second operand: " + secondOperand);
                         }
                     }
 
@@ -802,7 +1199,7 @@ namespace SynDriver
                                         var arrayVar = list[index + 9];
                                         if (!(subScope.Item2.TableEntries.FirstOrDefault(c => c.Name.Equals(arrayVar))?.Type.Equals("integer") ?? false))
                                         {
-                                            errorList.Add("Error: array index not an integer, array: " + returnVariable);
+                                            errorList.Add("Error(13): array index not an integer, array: " + returnVariable);
                                         }
                                     }
                                 }
@@ -817,7 +1214,7 @@ namespace SynDriver
                                         var arrayVar2 = list[index + 10];
                                         if (!(subScope.Item2.TableEntries.FirstOrDefault(c => c.Name.Equals(arrayVar1))?.Type.Equals("integer") ?? false) || !(subScope.Item2.TableEntries.FirstOrDefault(c => c.Name.Equals(arrayVar2))?.Type.Equals("integer") ?? false))
                                         {
-                                            errorList.Add("Error: array index not an integer, array: " + returnVariable);
+                                            errorList.Add("Error(13): array index not an integer, array: " + returnVariable);
                                         }
                                     }
                                 }
@@ -844,15 +1241,23 @@ namespace SynDriver
 
                         if (tableReturnType == null)
                         {
-                            errorList.Add("Error: returned value type does not match function return type, function: " + functionName);
+                            errorList.Add("Error(10): returned value type does not match function return type, function: " + functionName);
                         }
                     }
 
                     //'.' dot operator used properly
                     if (list[index].Equals("."))
                     {
-                        var classNameContaining = list[index - 1];
+                        var parentVarName = list[index - 1];
                         var functionOrVariableCalled = list[index + 2];
+
+                        var classNameContaining = subScope.Item2.TableEntries.Find(c => c.Name.Equals(parentVarName))?.Type;
+
+                        if (classNameContaining == null)
+                        {
+                            // Error using dot operator
+                            errorList.Add("Error(15): Dot Operator error, class not found, for variable: " + parentVarName);
+                        }
 
                         // find class in global table
                         var classEntry = symbolTable.TableEntries.Where(c => c.Name.Equals(classNameContaining) && c.Kind.Equals("Class"));
@@ -865,14 +1270,14 @@ namespace SynDriver
                             if (countCorrect.Count() == 0)
                             {
                                 // Error using dot operator
-                                errorList.Add("Error: Dot Operator error, variable/function not found in class: " + classNameContaining + " for variable/function: " + functionOrVariableCalled);
+                                errorList.Add("Error(15): Dot Operator error, variable/function not found in class: " + classNameContaining + " for variable/function: " + functionOrVariableCalled);
                             }
 
                         }
                         else
                         {
                             // Error using dot operator
-                            errorList.Add("Error: Dot Operator error, class not found, for class: " + classNameContaining);
+                            errorList.Add("Error(15): Dot Operator error, class not found, for class: " + classNameContaining + " of variable: " + parentVarName);
                         }
 
                     }
@@ -902,7 +1307,7 @@ namespace SynDriver
                                 if (list[index + paramIndex].Equals("id"))
                                 {
                                     var varName = list[index + paramIndex + 1];
-                                    var varType = subScope.Item2.TableEntries.First(c => c.Name.Equals(varName) && c.Kind.Equals("Variable")).Type;
+                                    var varType = subScope.Item2.TableEntries.FirstOrDefault(c => c.Name.Equals(varName) && c.Kind.Equals("Variable"))?.Type;
                                     paramType = varType;
                                     parameters.Add(paramType);
                                 }
@@ -949,7 +1354,7 @@ namespace SynDriver
                         if (!symbolTable.GetFunctions().Any(c => c.Name.Equals(functionName) && c.Type.Contains(concatenatedParams)))
                         {
                             // Error function parameters do not match function definition
-                            errorList.Add("Error: function call parameters do not match function definition, function: " + functionName);
+                            errorList.Add("Error(12): function call parameters do not match function definition, function: " + functionName);
                         }
                     }
 
@@ -958,7 +1363,7 @@ namespace SynDriver
                     {
                         if (!allFunctions.Any(c => c.Name.Equals(functionThatWasCalled.fName) && c.Type.Contains(functionThatWasCalled.fParams)))
                         {
-                            errorList.Add("Error: function called does not contain definition, function: " + functionThatWasCalled.fName + ", with parameters: " + functionThatWasCalled.fParams);
+                            errorList.Add("Error(6): function called does not contain definition, function: " + functionThatWasCalled.fName + ", with parameters: " + functionThatWasCalled.fParams);
                         }
                     }
 
@@ -971,9 +1376,11 @@ namespace SynDriver
             {
                 if (!allCalledFunctions.Any(c => c.fName.Equals(aFunc.Name) && aFunc.Type.Contains(c.fParams)) && !aFunc.Name.Equals("main"))
                 {
-                    errorList.Add("Warning: function definition is not used, function: " + aFunc.Name + ", with return and parameters; " + aFunc.Type);
+                    errorList.Add("Warning(6): function definition is not used, function: " + aFunc.Name + ", with return and parameters; " + aFunc.Type);
                 }
             }
+
+            return (listOfSubScopes, errorList);
         }
     }
 }

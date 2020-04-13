@@ -1,0 +1,10 @@
+----------------------------------------------------------------------------
+Table: Global
+Name = main; Kind = Function; Type = ; Offset = 8; ScopedOffset = 0; Link = main
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: main
+Name = a; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+Name = b; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 8; Link = 
+----------------------------------------------------------------------------
+

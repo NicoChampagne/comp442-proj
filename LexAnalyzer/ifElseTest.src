@@ -1,0 +1,21 @@
+main  
+  local
+    integer a;
+	integer b;
+  do
+	a = 0;
+	b = 9;
+
+    if (a < b)
+		then
+			write(a);
+		else
+			write(b);
+	;
+	if (b < a)
+		then
+			write(a);
+		else
+			write(b);
+	;
+  end

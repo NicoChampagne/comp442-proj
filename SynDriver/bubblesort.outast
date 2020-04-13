@@ -4,14 +4,16 @@ START
       ->
          Function:
             ->
-               id
-                  bubbleSort
+               ->
+                  id
+                     bubbleSort
                (
                ->
                   ->
                      integer
+                  ->
+                     id
                         arr
-                  id
                   ->
                      ->
                         [
@@ -24,8 +26,9 @@ START
                         ,
                         ->
                            integer
+                        ->
+                           id
                               size
-                        id
                         
                      
                )
@@ -39,42 +42,47 @@ START
                      ->
                         ->
                            integer
+                        ->
+                           id
                               n
-                        id
                         
-                        
+                        ;
                      ->
                         ->
                            ->
                               integer
+                           ->
+                              id
                                  i
-                           id
                            
-                           
+                           ;
                         ->
                            ->
                               ->
                                  integer
+                              ->
+                                 id
                                     j
-                              id
                               
-                              
+                              ;
                            ->
                               ->
                                  ->
                                     integer
+                                 ->
+                                    id
                                        temp
-                                 id
                                  
-                                 
+                                 ;
                               
                do
                ->
                   ->
                      ->
                         ->
-                           id
-                              n
+                           ->
+                              id
+                                 n
                            ->
                               
                         
@@ -88,19 +96,21 @@ START
                                     ->
                                        ->
                                           ->
-                                             id
-                                                size
+                                             ->
+                                                id
+                                                   size
                                              ->
                                                 
                                           
                                        
-                     
+                     ;
                   ->
                      ->
                         ->
                            ->
-                              id
-                                 i
+                              ->
+                                 id
+                                    i
                               ->
                                  
                            
@@ -113,13 +123,14 @@ START
                                     ->
                                        
                                           0
-                        
+                        ;
                      ->
                         ->
                            ->
                               ->
-                                 id
-                                    j
+                                 ->
+                                    id
+                                       j
                                  ->
                                     
                               
@@ -132,13 +143,14 @@ START
                                        ->
                                           
                                              0
-                           
+                           ;
                         ->
                            ->
                               ->
                                  ->
-                                    id
-                                       temp
+                                    ->
+                                       id
+                                          temp
                                     ->
                                        
                                  
@@ -151,7 +163,7 @@ START
                                           ->
                                              
                                                 0
-                              
+                              ;
                            ->
                               ->
                                  while
@@ -163,8 +175,9 @@ START
                                              ->
                                                 ->
                                                    ->
-                                                      id
-                                                         i
+                                                      ->
+                                                         id
+                                                            i
                                                       ->
                                                          
                                                    
@@ -178,8 +191,9 @@ START
                                              ->
                                                 ->
                                                    ->
-                                                      id
-                                                         n
+                                                      ->
+                                                         id
+                                                            n
                                                       ->
                                                          
                                                    
@@ -198,8 +212,9 @@ START
                                                       ->
                                                          ->
                                                             ->
-                                                               id
-                                                                  j
+                                                               ->
+                                                                  id
+                                                                     j
                                                                ->
                                                                   
                                                             
@@ -213,8 +228,9 @@ START
                                                       ->
                                                          ->
                                                             ->
-                                                               id
-                                                                  n
+                                                               ->
+                                                                  id
+                                                                     n
                                                                ->
                                                                   
                                                             
@@ -233,8 +249,9 @@ START
                                                                ->
                                                                   ->
                                                                      ->
-                                                                        id
-                                                                           arr
+                                                                        ->
+                                                                           id
+                                                                              arr
                                                                         ->
                                                                            
                                                                      
@@ -247,8 +264,9 @@ START
                                                                                  ->
                                                                                     ->
                                                                                        ->
-                                                                                          id
-                                                                                             j
+                                                                                          ->
+                                                                                             id
+                                                                                                j
                                                                                           ->
                                                                                              
                                                                                        
@@ -264,8 +282,9 @@ START
                                                                ->
                                                                   ->
                                                                      ->
-                                                                        id
-                                                                           arr
+                                                                        ->
+                                                                           id
+                                                                              arr
                                                                         ->
                                                                            
                                                                      
@@ -278,8 +297,9 @@ START
                                                                                  ->
                                                                                     ->
                                                                                        ->
-                                                                                          id
-                                                                                             j
+                                                                                          ->
+                                                                                             id
+                                                                                                j
                                                                                           ->
                                                                                              
                                                                                        
@@ -294,8 +314,9 @@ START
                                                          ->
                                                             ->
                                                                ->
-                                                                  id
-                                                                     temp
+                                                                  ->
+                                                                     id
+                                                                        temp
                                                                   ->
                                                                      
                                                                
@@ -309,8 +330,9 @@ START
                                                                            ->
                                                                               ->
                                                                                  ->
-                                                                                    id
-                                                                                       arr
+                                                                                    ->
+                                                                                       id
+                                                                                          arr
                                                                                     ->
                                                                                        
                                                                                  
@@ -323,21 +345,23 @@ START
                                                                                              ->
                                                                                                 ->
                                                                                                    ->
-                                                                                                      id
-                                                                                                         j
+                                                                                                      ->
+                                                                                                         id
+                                                                                                            j
                                                                                                       ->
                                                                                                          
                                                                                                    
                                                                                                 
                                                                                     ]
                                                                                  
-                                                            
+                                                            ;
                                                          ->
                                                             ->
                                                                ->
                                                                   ->
-                                                                     id
-                                                                        arr
+                                                                     ->
+                                                                        id
+                                                                           arr
                                                                      ->
                                                                         
                                                                   
@@ -351,8 +375,9 @@ START
                                                                                  ->
                                                                                     ->
                                                                                        ->
-                                                                                          id
-                                                                                             j
+                                                                                          ->
+                                                                                             id
+                                                                                                j
                                                                                           ->
                                                                                              
                                                                                        
@@ -368,8 +393,9 @@ START
                                                                               ->
                                                                                  ->
                                                                                     ->
-                                                                                       id
-                                                                                          arr
+                                                                                       ->
+                                                                                          id
+                                                                                             arr
                                                                                        ->
                                                                                           
                                                                                     
@@ -382,21 +408,23 @@ START
                                                                                                 ->
                                                                                                    ->
                                                                                                       ->
-                                                                                                         id
-                                                                                                            j
+                                                                                                         ->
+                                                                                                            id
+                                                                                                               j
                                                                                                          ->
                                                                                                             
                                                                                                       
                                                                                                    
                                                                                        ]
                                                                                     
-                                                               
+                                                               ;
                                                             ->
                                                                ->
                                                                   ->
                                                                      ->
-                                                                        id
-                                                                           arr
+                                                                        ->
+                                                                           id
+                                                                              arr
                                                                         ->
                                                                            
                                                                      
@@ -410,8 +438,9 @@ START
                                                                                     ->
                                                                                        ->
                                                                                           ->
-                                                                                             id
-                                                                                                j
+                                                                                             ->
+                                                                                                id
+                                                                                                   j
                                                                                              ->
                                                                                                 
                                                                                           
@@ -427,25 +456,27 @@ START
                                                                                  ->
                                                                                     ->
                                                                                        ->
-                                                                                          id
-                                                                                             temp
+                                                                                          ->
+                                                                                             id
+                                                                                                temp
                                                                                           ->
                                                                                              
                                                                                        
                                                                                     
-                                                                  
+                                                                  ;
                                                                
                                                       end
                                                    else
                                                    ->
                                                       
-                                                   
+                                                   ;
                                                 ->
                                                    ->
                                                       ->
                                                          ->
-                                                            id
-                                                               j
+                                                            ->
+                                                               id
+                                                                  j
                                                             ->
                                                                
                                                          
@@ -459,22 +490,24 @@ START
                                                                      ->
                                                                         ->
                                                                            ->
-                                                                              id
-                                                                                 j
+                                                                              ->
+                                                                                 id
+                                                                                    j
                                                                               ->
                                                                                  
                                                                            
                                                                         
-                                                      
+                                                      ;
                                                    
                                              end
-                                          
+                                          ;
                                        ->
                                           ->
                                              ->
                                                 ->
-                                                   id
-                                                      i
+                                                   ->
+                                                      id
+                                                         i
                                                    ->
                                                       
                                                 
@@ -488,29 +521,32 @@ START
                                                             ->
                                                                ->
                                                                   ->
-                                                                     id
-                                                                        i
+                                                                     ->
+                                                                        id
+                                                                           i
                                                                      ->
                                                                         
                                                                   
                                                                
-                                             
+                                             ;
                                           
                                     end
-                                 
+                                 ;
                               
                end
          ->
             Function:
                ->
-                  id
-                     printArray
+                  ->
+                     id
+                        printarray
                   (
                   ->
                      ->
                         integer
+                     ->
+                        id
                            arr
-                     id
                      ->
                         ->
                            [
@@ -523,8 +559,9 @@ START
                            ,
                            ->
                               integer
+                           ->
+                              id
                                  size
-                           id
                            
                         
                   )
@@ -538,26 +575,29 @@ START
                         ->
                            ->
                               integer
+                           ->
+                              id
                                  n
-                           id
                            
-                           
+                           ;
                         ->
                            ->
                               ->
                                  integer
+                              ->
+                                 id
                                     i
-                              id
                               
-                              
+                              ;
                            
                   do
                   ->
                      ->
                         ->
                            ->
-                              id
-                                 n
+                              ->
+                                 id
+                                    n
                               ->
                                  
                            
@@ -571,19 +611,21 @@ START
                                        ->
                                           ->
                                              ->
-                                                id
-                                                   size
+                                                ->
+                                                   id
+                                                      size
                                                 ->
                                                    
                                              
                                           
-                        
+                        ;
                      ->
                         ->
                            ->
                               ->
-                                 id
-                                    i
+                                 ->
+                                    id
+                                       i
                                  ->
                                     
                               
@@ -596,7 +638,7 @@ START
                                        ->
                                           
                                              0
-                           
+                           ;
                         ->
                            ->
                               while
@@ -608,8 +650,9 @@ START
                                           ->
                                              ->
                                                 ->
-                                                   id
-                                                      i
+                                                   ->
+                                                      id
+                                                         i
                                                    ->
                                                       
                                                 
@@ -623,8 +666,9 @@ START
                                           ->
                                              ->
                                                 ->
-                                                   id
-                                                      n
+                                                   ->
+                                                      id
+                                                         n
                                                    ->
                                                       
                                                 
@@ -643,8 +687,9 @@ START
                                                    ->
                                                       ->
                                                          ->
-                                                            id
-                                                               arr
+                                                            ->
+                                                               id
+                                                                  arr
                                                             ->
                                                                
                                                          
@@ -657,8 +702,9 @@ START
                                                                      ->
                                                                         ->
                                                                            ->
-                                                                              id
-                                                                                 i
+                                                                              ->
+                                                                                 id
+                                                                                    i
                                                                               ->
                                                                                  
                                                                            
@@ -666,13 +712,14 @@ START
                                                             ]
                                                          
                                        )
-                                       
+                                       ;
                                     ->
                                        ->
                                           ->
                                              ->
-                                                id
-                                                   i
+                                                ->
+                                                   id
+                                                      i
                                                 ->
                                                    
                                              
@@ -686,16 +733,17 @@ START
                                                          ->
                                                             ->
                                                                ->
-                                                                  id
-                                                                     i
+                                                                  ->
+                                                                     id
+                                                                        i
                                                                   ->
                                                                      
                                                                
                                                             
-                                          
+                                          ;
                                        
                                  end
-                              
+                              ;
                            
                   end
             
@@ -707,8 +755,9 @@ START
                ->
                   ->
                      integer
+                  ->
+                     id
                         arr
-                  id
                   ->
                      ->
                         [
@@ -717,15 +766,16 @@ START
                               7
                         ]
                      
-                  
+                  ;
                
          do
          ->
             ->
                ->
                   ->
-                     id
-                        arr
+                     ->
+                        id
+                           arr
                      ->
                         
                   
@@ -748,13 +798,14 @@ START
                            ->
                               
                                  64
-               
+               ;
             ->
                ->
                   ->
                      ->
-                        id
-                           arr
+                        ->
+                           id
+                              arr
                         ->
                            
                      
@@ -777,13 +828,14 @@ START
                               ->
                                  
                                     34
-                  
+                  ;
                ->
                   ->
                      ->
                         ->
-                           id
-                              arr
+                           ->
+                              id
+                                 arr
                            ->
                               
                         
@@ -806,13 +858,14 @@ START
                                  ->
                                     
                                        25
-                     
+                     ;
                   ->
                      ->
                         ->
                            ->
-                              id
-                                 arr
+                              ->
+                                 id
+                                    arr
                               ->
                                  
                            
@@ -835,13 +888,14 @@ START
                                     ->
                                        
                                           12
-                        
+                        ;
                      ->
                         ->
                            ->
                               ->
-                                 id
-                                    arr
+                                 ->
+                                    id
+                                       arr
                                  ->
                                     
                               
@@ -864,13 +918,14 @@ START
                                        ->
                                           
                                              22
-                           
+                           ;
                         ->
                            ->
                               ->
                                  ->
-                                    id
-                                       arr
+                                    ->
+                                       id
+                                          arr
                                     ->
                                        
                                  
@@ -893,13 +948,14 @@ START
                                           ->
                                              
                                                 11
-                              
+                              ;
                            ->
                               ->
                                  ->
                                     ->
-                                       id
-                                          arr
+                                       ->
+                                          id
+                                             arr
                                        ->
                                           
                                     
@@ -922,13 +978,14 @@ START
                                              ->
                                                 
                                                    90
-                                 
+                                 ;
                               ->
                                  ->
                                     ->
                                        ->
-                                          id
-                                             printarray
+                                          ->
+                                             id
+                                                printarray
                                           ->
                                              
                                        
@@ -942,8 +999,9 @@ START
                                                       ->
                                                          ->
                                                             ->
-                                                               id
-                                                                  arr
+                                                               ->
+                                                                  id
+                                                                     arr
                                                                ->
                                                                   
                                                             
@@ -959,13 +1017,14 @@ START
                                                                7
                                              
                                        )
-                                    
+                                    ;
                                  ->
                                     ->
                                        ->
                                           ->
-                                             id
-                                                bubbleSort
+                                             ->
+                                                id
+                                                   bubbleSort
                                              ->
                                                 
                                           
@@ -979,8 +1038,9 @@ START
                                                          ->
                                                             ->
                                                                ->
-                                                                  id
-                                                                     arr
+                                                                  ->
+                                                                     id
+                                                                        arr
                                                                   ->
                                                                      
                                                                
@@ -996,13 +1056,14 @@ START
                                                                   7
                                                 
                                           )
-                                       
+                                       ;
                                     ->
                                        ->
                                           ->
                                              ->
-                                                id
-                                                   printarray
+                                                ->
+                                                   id
+                                                      printarray
                                                 ->
                                                    
                                              
@@ -1016,8 +1077,9 @@ START
                                                             ->
                                                                ->
                                                                   ->
-                                                                     id
-                                                                        arr
+                                                                     ->
+                                                                        id
+                                                                           arr
                                                                      ->
                                                                         
                                                                   
@@ -1033,6 +1095,6 @@ START
                                                                      7
                                                    
                                              )
-                                          
+                                          ;
                                        
          end

@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{56B18E4D-FFA1-42B9-84AA-3CC599BC65BB}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>SynDriver</RootNamespace>
-    <AssemblyName>SynDriver</AssemblyName>
+    <RootNamespace>SynSemDriver</RootNamespace>
+    <AssemblyName>SynSemDriver</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeGenerator.cs" />
     <Compile Include="ParseTable.cs" />
     <Compile Include="SemanticAnalyzer.cs" />
     <Compile Include="SymbolTable.cs" />

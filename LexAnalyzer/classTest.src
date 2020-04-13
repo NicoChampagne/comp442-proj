@@ -1,0 +1,23 @@
+class Linear {
+	private integer a;
+	private integer b;
+};
+
+main  
+  local
+    integer a;
+    integer b;
+	Linear  c;
+    integer d;
+  do
+	a = 2;
+	write(a);
+	b = 3;
+	write(b);
+	c.a = 4;
+	write(c.a);
+	c.b = 5;
+	write(c.b);
+	d = c.a + c.b;
+	write(d);
+  end

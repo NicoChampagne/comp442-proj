@@ -1,0 +1,27 @@
+print(integer a) : void
+  do
+    write(a);
+  end 
+
+addition(integer a, integer b) : integer
+  local 
+	integer c;
+  do
+	c = a + b;
+	write(c);
+    return (c);
+  end 
+
+main  
+  local
+    integer a;
+    integer b;
+    integer c;
+  do
+	a = 2;
+	print(a);
+	b = 3;
+	print(b);
+	c = addition(a,b);
+	write(c);
+  end

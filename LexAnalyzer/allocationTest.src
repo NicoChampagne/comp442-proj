@@ -1,0 +1,25 @@
+class AClass {
+	private integer a;
+	private integer arr[4];
+};
+
+main  
+  local
+    integer arr[3]; 
+	integer int;
+	float ft;
+	AClass aclass;
+  do
+    arr[0] = 1;
+	write(arr[0]);
+    arr[1] = 2;
+	write(arr[1]);
+    int = 3;
+	write(int);
+    ft = 12.3;
+    aclass.a = 4;
+	write(aclass.a);
+    aclass.arr[0] = 4;
+	write(aclass.arr[0]);
+
+  end

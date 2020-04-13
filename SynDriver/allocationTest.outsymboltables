@@ -1,0 +1,18 @@
+----------------------------------------------------------------------------
+Table: Global
+Name = AClass; Kind = Class; Type = ; Offset = 0; ScopedOffset = 0; Link = AClass
+Name = main; Kind = Function; Type = ; Offset = 32; ScopedOffset = 0; Link = main
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: AClass
+Name = a; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+Name = arr; Kind = Variable; Type = integer[]; Offset = 16; ScopedOffset = 20; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: main
+Name = arr; Kind = Variable; Type = integer[]; Offset = 0; ScopedOffset = 0; Link = 
+Name = int; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+Name = ft; Kind = Variable; Type = float; Offset = 8; ScopedOffset = 12; Link = 
+Name = a; Kind = Variable; Type = AClass; Offset = 20; ScopedOffset = 32; Link = 
+----------------------------------------------------------------------------
+

@@ -1,0 +1,23 @@
+----------------------------------------------------------------------------
+Table: Global
+Name = print; Kind = Function; Type = void: integer; Offset = 4; ScopedOffset = 0; Link = print
+Name = addition; Kind = Function; Type = integer: integer, integer; Offset = 12; ScopedOffset = 0; Link = addition
+Name = main; Kind = Function; Type = ; Offset = 12; ScopedOffset = 0; Link = main
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: print
+Name = a; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: addition
+Name = a; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+Name = b; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 8; Link = 
+Name = c; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 12; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: main
+Name = a; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+Name = b; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 8; Link = 
+Name = c; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 12; Link = 
+----------------------------------------------------------------------------
+

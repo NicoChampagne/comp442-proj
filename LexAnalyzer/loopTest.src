@@ -1,0 +1,15 @@
+main  
+  local
+    integer a;
+	integer b;
+  do
+	a = 0;
+	b = 9;
+
+    while (a < b)
+		do
+			write(a);
+			a = a + 1;
+		end
+	;
+  end

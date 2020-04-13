@@ -29,7 +29,7 @@
 [end,end,30,1] [semi,;,30,2] 
 [end,end,31,1] 
 [inlinecmt,/* Print the array */,33,4] 
-[id,printArray,34,0] [openpar,(,34,1] [integer,integer,34,2] [id,arr,34,3] [opensqbr,[,34,4] [closesqbr,],34,5] [comma,,,34,6] [integer,integer,34,7] [id,size,34,8] [closepar,),34,9] [colon,:,34,10] [void,void,34,11] 
+[id,printarray,34,0] [openpar,(,34,1] [integer,integer,34,2] [id,arr,34,3] [opensqbr,[,34,4] [closesqbr,],34,5] [comma,,,34,6] [integer,integer,34,7] [id,size,34,8] [closepar,),34,9] [colon,:,34,10] [void,void,34,11] 
 [local,local,35,1] 
 [integer,integer,36,1] [id,n,36,2] [semi,;,36,3] 
 [integer,integer,37,1] [id,i,37,2] [semi,;,37,3] 

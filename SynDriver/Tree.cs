@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace SynDriver
+namespace SynSemDriver
 {
     /// <summary>Represents a tree data structure</summary>
     /// <typeparam name="T">the type of the values in the
@@ -158,7 +158,7 @@ namespace SynDriver
                 {
                     child.Value = "->";
                 }
-                else if (child.Value.Equals("EPSILON") || child.Value.Equals(";") || child.Value.Equals("intnum"))
+                else if (child.Value.Equals("EPSILON") || child.Value.Equals("intnum") || child.Value.Equals("floatnum") || child.Value.Equals("lt") || child.Value.Equals("gt") || child.Value.Equals("geq") || child.Value.Equals("leq"))
                 {
                     child.Value = "";
                 }

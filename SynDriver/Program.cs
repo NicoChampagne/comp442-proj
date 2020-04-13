@@ -4,7 +4,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using LexDriver;
 
-namespace SynDriver
+namespace SynSemDriver
 {
     class Program
     {
@@ -101,7 +101,7 @@ namespace SynDriver
                 swTable.WriteLine(symbolTableResult.symbolTable);
 
                 // Traverse Ast and ensure semantics are good.
-                SemanticAnalyzer.SemanticAnalysis(absTree, symbolTableResult.symbolTable, symbolTableResult.errorList);
+                var semResult = SemanticAnalyzer.SemanticAnalysis(absTree, symbolTableResult.symbolTable, symbolTableResult.errorList);
 
                 foreach(var error in symbolTableResult.errorList)
                 {
@@ -110,6 +110,17 @@ namespace SynDriver
 
                 swTable.Close();
                 swSemErrors.Close();
+
+                var moon = new StreamWriter(Path.GetDirectoryName(args[0]) + "\\" + fileName + ".moon");
+
+                var moonCode = CodeGenerator.GenerateMoonCode(semResult.subScopeList, symbolTableResult.symbolTable);
+
+                foreach (var moonLine in moonCode)
+                {
+                    moon.WriteLine(moonLine);
+                }
+
+                moon.Close();
 
                 Console.WriteLine("Done reading and writing semantic files");
                 System.Environment.Exit(9000);

@@ -1,0 +1,2 @@
+Error(10): returned value type does not match function return type, function: addition
+Error(10): expression types are incompatible, first operand: c, second operand: addition
