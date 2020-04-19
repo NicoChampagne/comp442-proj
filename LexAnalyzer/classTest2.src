@@ -12,7 +12,7 @@
 // 2.4: |     |
 // 3.1: |  X  |
 // 3.2: |     |
-// 3.3: |  X  |
+// 3.3: |     |
 // 3.4: |  X  |
 // 4.1: |  X  |
 // 4.2: |     |
@@ -23,18 +23,28 @@
 // 5.3: |  X  |
 //      ------
 
+class Line {
+	private integer x;
+	private integer y;
+};
+
+class Linear {
+	private Line line;
+};
+
 main  
   local
-    integer a;
-	integer b;
+	Linear  linear;
+	integer sum;
+	Line lines[2];
+	integer sum2;
   do
-	a = 0;
-	b = 9;
+	linear.line.x = 2;
+	linear.line.y = 3;
+	sum = linear.line.x + linear.line.y;
+	write(sum);
+	lines[0].x = 3;
+	sum2 = lines[0].x + 3;
+	write(sum2);
 
-    while (a < b)
-		do
-			write(a);
-			a = a + 1;
-		end
-	;
   end

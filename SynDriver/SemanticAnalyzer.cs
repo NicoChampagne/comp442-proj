@@ -216,6 +216,24 @@ namespace SynSemDriver
                         classTable.TableOffset = classTable.TableOffset + offsetValueForVariable;
                     }
                 }
+                else if (allClassNames.Any(c => c.Equals(nodesInPreOrder[index]) && !nodesInPreOrder[3].Equals(nodesInPreOrder[index])))
+                {
+                    // Parse variable names and types, then insert into function table.
+                    if (nodesInPreOrder[index + 4].Equals("[") && (nodesInPreOrder[index + 5].Equals("]") || nodesInPreOrder[index + 6].Equals("]")) && (nodesInPreOrder[index + 7].Equals("[") || nodesInPreOrder[index + 8].Equals("[")) && (nodesInPreOrder[index + 8].Equals("]") || nodesInPreOrder[index + 9].Equals("]") || nodesInPreOrder[index + 10].Equals("]")))
+                    {
+                        classTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[][]"));
+                    }
+                    else if (nodesInPreOrder[index + 4].Equals("[") && (nodesInPreOrder[index + 5].Equals("]") || nodesInPreOrder[index + 6].Equals("]")))
+                    {
+                        classTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[]"));
+                    }
+                    else
+                    {
+                        var classVarTable = currentTable.TableEntries.Find(c => c.Name.Equals(nodesInPreOrder[index]) && c.Kind.Equals("Class"))?.Link;
+                        classTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index], offset: classVarTable.TableOffset, scopedOffset: classTable.TableOffset + classVarTable.TableOffset));
+                        classTable.TableOffset = classTable.TableOffset + classVarTable.TableOffset;
+                    }
+                }
 
                 index++;
             }
@@ -356,6 +374,24 @@ namespace SynSemDriver
                     {
                         classTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index], offset: offsetValueForVariable, scopedOffset: classTable.TableOffset + offsetValueForVariable));
                         classTable.TableOffset = classTable.TableOffset + offsetValueForVariable;
+                    }
+                }
+                else if (allClassNames.Any(c => c.Equals(nodesInPreOrder[index]) && !nodesInPreOrder[3].Equals(nodesInPreOrder[index])))
+                {
+                    // Parse variable names and types, then insert into function table.
+                    if (nodesInPreOrder[index + 4].Equals("[") && (nodesInPreOrder[index + 5].Equals("]") || nodesInPreOrder[index + 6].Equals("]")) && (nodesInPreOrder[index + 7].Equals("[") || nodesInPreOrder[index + 8].Equals("[")) && (nodesInPreOrder[index + 8].Equals("]") || nodesInPreOrder[index + 9].Equals("]") || nodesInPreOrder[index + 10].Equals("]")))
+                    {
+                        classTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[][]"));
+                    }
+                    else if (nodesInPreOrder[index + 4].Equals("[") && (nodesInPreOrder[index + 5].Equals("]") || nodesInPreOrder[index + 6].Equals("]")))
+                    {
+                        classTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[]"));
+                    }
+                    else
+                    {
+                        var classVarTable = currentTable.TableEntries.Find(c => c.Name.Equals(nodesInPreOrder[index]) && c.Kind.Equals("Class"))?.Link;
+                        classTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index], offset: classVarTable.TableOffset, scopedOffset: classTable.TableOffset + classVarTable.TableOffset));
+                        classTable.TableOffset = classTable.TableOffset + classVarTable.TableOffset;
                     }
                 }
 
@@ -656,13 +692,16 @@ namespace SynSemDriver
                 else if (allClassNames.Any(c => c.Equals(nodesInPreOrder[index])))
                 {
                     // Parse variable names and types, then insert into function table.
-                    if (nodesInPreOrder[index + 4].Equals("[") && (nodesInPreOrder[index + 5].Equals("]") || nodesInPreOrder[index + 6].Equals("]")) && (nodesInPreOrder[index + 7].Equals("[") || nodesInPreOrder[index + 8].Equals("[")) && (nodesInPreOrder[index + 8].Equals("]") || nodesInPreOrder[index + 9].Equals("]") || nodesInPreOrder[index + 10].Equals("]")))
+                    if (nodesInPreOrder[index + 3].Equals("[") && (nodesInPreOrder[index + 4].Equals("]") || nodesInPreOrder[index + 5].Equals("]")) && (nodesInPreOrder[index + 6].Equals("[") || nodesInPreOrder[index + 7].Equals("[")) && (nodesInPreOrder[index + 7].Equals("]") || nodesInPreOrder[index + 8].Equals("]") || nodesInPreOrder[index + 9].Equals("]")))
                     {
                         mainTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[][]"));
                     }
-                    else if (nodesInPreOrder[index + 4].Equals("[") && (nodesInPreOrder[index + 5].Equals("]") || nodesInPreOrder[index + 6].Equals("]")))
+                    else if (nodesInPreOrder[index + 3].Equals("[") && (nodesInPreOrder[index + 4].Equals("]") || nodesInPreOrder[index + 5].Equals("]")))
                     {
-                        mainTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[]"));
+                        var classTable = currentTable.TableEntries.Find(c => c.Name.Equals(nodesInPreOrder[index]) && c.Kind.Equals("Class"))?.Link;
+                        
+                        mainTable.Insert(new SymbolValue(name: nodesInPreOrder[index + 2], kind: "Variable", type: nodesInPreOrder[index] + "[]", offset: classTable.TableOffset * int.Parse(nodesInPreOrder[index + 4]), scopedOffset: mainTable.TableOffset + (classTable.TableOffset * int.Parse(nodesInPreOrder[index + 4]))));
+                        mainTable.TableOffset = mainTable.TableOffset + (classTable.TableOffset * int.Parse(nodesInPreOrder[index + 4]));
                     }
                     else
                     {

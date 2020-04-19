@@ -43,7 +43,38 @@ START
                   
             }
             ;
-         
+         ->
+            Class:
+               class
+               ->
+                  id
+                     BClass
+               ->
+                  
+               {
+               ->
+                  ->
+                     private
+                  ->
+                     ->
+                        ->
+                           integer
+                        ->
+                           id
+                              array
+                        ->
+                           ->
+                              [
+                              ->
+                                 
+                                    4
+                              ]
+                           
+                        ;
+                  
+               }
+               ;
+            
       
       main
       ->
@@ -94,7 +125,25 @@ START
                                  a
                            
                            ;
-                        
+                        ->
+                           ->
+                              ->
+                                 ->
+                                    id
+                                       BClass
+                              ->
+                                 id
+                                    bClasses
+                              ->
+                                 ->
+                                    [
+                                    ->
+                                       
+                                          2
+                                    ]
+                                 
+                              ;
+                           
          do
          ->
             ->

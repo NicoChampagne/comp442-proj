@@ -406,8 +406,13 @@ namespace SynSemDriver
 
                                 var paramName = functionCallName + "_param" + ++funcParamCounter;
 
+                                if (!calledFunctionsParams.Contains(paramName))
+                                {
+                                    moonDataCode.Add(paramName + " res 4");
+                                    calledFunctionsParams.Add(paramName);
+                                }
+
                                 var register = registerPool.Pop();
-                                moonDataCode.Add(paramName + " res 4");
                                 moonExecCode.Add("\n\t%- Assigning function parameter " + paramName + " -%");
                                 moonExecCode.Add("\taddi " + register + ",R0," + lineOfCodeToInterpret[parenthesisIndex + 1]);
                                 moonExecCode.Add("\tsw " + paramName + "(R0)," + register);
@@ -658,10 +663,22 @@ namespace SynSemDriver
                                     var litValue = leftSide[arrayIndex + 1];
                                     var dotIndex = leftSide.IndexOf(".");
                                     var innerVariable = leftSide[dotIndex + 2];
-                                    varNameToAssign = varNameToAssign + "_" + innerVariable;
-                                    offsetRegister = registerPool.Pop();
-                                    moonExecCode.Add("\n\t%- Assigning array variable " + varNameToAssign + "[" + litValue + "] -%");
-                                    moonExecCode.Add("\taddi " + offsetRegister + ",R0," + int.Parse(litValue) * 4);
+
+                                    if (dotIndex < arrayIndex)
+                                    {
+                                        varNameToAssign = varNameToAssign + "_" + innerVariable;
+                                        offsetRegister = registerPool.Pop();
+                                        moonExecCode.Add("\n\t%- Assigning array variable " + varNameToAssign + "[" + litValue + "] -%");
+                                        moonExecCode.Add("\taddi " + offsetRegister + ",R0," + int.Parse(litValue) * 4);
+                                    }
+                                    else
+                                    {
+                                        varNameToAssign = varNameToAssign + litValue + "_" + innerVariable;
+                                        offsetRegister = registerPool.Pop();
+                                        moonExecCode.Add("\n\t%- Assigning inner variable " + varNameToAssign + " -%");
+                                        offsetRegister = "R0";
+                                    }
+
                                 }
                                 else
                                 {
@@ -700,12 +717,23 @@ namespace SynSemDriver
                                 {
                                     var dotIndex = leftSide.IndexOf(".");
                                     var innerVariable = leftSide[dotIndex + 2];
+
+                                    if (dotIndex + 3 < leftSide.Count() && leftSide[dotIndex + 3].Equals("."))
+                                    {
+                                        var innerInnerVariable = leftSide[dotIndex + 5];
+                                        varNameToAssign = varNameToAssign + "_" + innerVariable + "_" + innerInnerVariable;
+                                    }
+                                    else
+                                    {
+                                        varNameToAssign = varNameToAssign + "_" + innerVariable;
+                                    }
                                     //lineOfCodeToInterpret[index].Equals("id") && symbolTable.TableEntries.Any(c => c.Name.Equals(lineOfCodeToInterpret[index + 1]) && c.Kind.Equals("Class"))
                                     var register = registerPool.Pop();
-                                    moonExecCode.Add("\n\t%- Assigning variable " + varNameToAssign + "_" + innerVariable + " -%");
+                                    moonExecCode.Add("\n\t%- Assigning variable " + varNameToAssign + " -%");
                                     moonExecCode.Add("\tlw " + register + "," + varName + "(R0)");
-                                    moonExecCode.Add("\tsw " + varNameToAssign + "_" + innerVariable + "(R0)," + register);
+                                    moonExecCode.Add("\tsw " + varNameToAssign + "(R0)," + register);
                                     registerPool.Push(register);
+
                                 }
                                 else
                                 {
@@ -1382,7 +1410,14 @@ namespace SynSemDriver
                                     }
                                     else
                                     {
-                                        moonDataCode.Add(functionInfo.Item2.Name + "_" + lineOfCodeToInterpret[index + 2] + "\tres " + 4 * int.Parse(lineOfCodeToInterpret[index + 4]));
+                                        if (int.TryParse(lineOfCodeToInterpret[index + 4], out _))
+                                        {
+                                            moonDataCode.Add(functionInfo.Item2.Name + "_" + lineOfCodeToInterpret[index + 2] + "\tres " + 4 * int.Parse(lineOfCodeToInterpret[index + 4]));
+                                        }
+                                        else
+                                        {
+                                            moonDataCode.Add(functionInfo.Item2.Name + "_" + lineOfCodeToInterpret[index + 2] + "\tres " + 4);
+                                        }
                                     }
                                 }
                                 else
@@ -1499,11 +1534,18 @@ namespace SynSemDriver
                     //classes in classes
                     if (classVar.Type.Contains("["))
                     {
+                        var theClass = symbolTable.TableEntries.Find(c => c.Name.Equals(classVar.Type))?.Link;
+                        var classOffset = theClass.TableOffset;
 
+                        moonDataCode.Add(classVarName + "_" + classVar.Name + "\tres " + classVar.Offset);
                     }
                     else
                     {
+                        var theClass = symbolTable.TableEntries.Find(c => c.Name.Equals(classVar.Type))?.Link;
+                        var classOffset = theClass.TableOffset;
+                        moonDataCode.Add(classVarName + "_" + classVar.Name + "\tres " + classOffset);
 
+                        ReserveClassVariables(theClass.Name, classVarName + "_" + classVar.Name, symbolTable);
                     }
                 }
             }
@@ -1514,7 +1556,7 @@ namespace SynSemDriver
             return items.Contains("+") || items.Contains("-") || items.Contains("*") || items.Contains("/");
         }
 
-        public static string executeAdditionCode(string firstOperand, string firstOperandType, string lastOperand, string lastOperandType, bool isaFunc = false, string funcName = "")
+        public static string ExecuteCalculationCode(string operation, string firstOperand, string firstOperandType, string lastOperand, string lastOperandType, bool isaFunc = false, string funcName = "")
         {
             var listToOutput = isaFunc ? moonFunctionCode : moonExecCode;
             var varName = "temp_" + ++tempCount;
@@ -1524,9 +1566,9 @@ namespace SynSemDriver
             {
                 var register1 = registerPool.Pop();
                 var register2 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Adding literals " + firstOperand + " and " + lastOperand + " -%");
+                listToOutput.Add("\n\t%- Computation " + firstOperand + " " + operation + " " + lastOperand + " -%");
                 listToOutput.Add("\taddi " + register1 + ",R0," + firstOperand);
-                listToOutput.Add("\taddi " + register2 + "," + register1 + "," + lastOperand);
+                listToOutput.Add("\t" + operation + "i " + register2 + "," + register1 + "," + lastOperand);
                 listToOutput.Add("\tsw " + varName + "(R0)," + register2);
                 registerPool.Push(register1);
                 registerPool.Push(register2);
@@ -1535,9 +1577,9 @@ namespace SynSemDriver
             {
                 var register1 = registerPool.Pop();
                 var register2 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Adding " + firstOperand + " and " + lastOperand + " -%");
+                listToOutput.Add("\n\t%- Computation " + firstOperand + " " + operation + " " + lastOperand + " -%");
                 listToOutput.Add("\tlw " + register1 + "," + firstOperand + "(R0)");
-                listToOutput.Add("\taddi " + register2 + "," + register1 + "," + lastOperand);
+                listToOutput.Add("\t" + operation + "i " + register2 + "," + register1 + "," + lastOperand);
                 listToOutput.Add("\tsw " + varName + "(R0)," + register2);
                 registerPool.Push(register1);
                 registerPool.Push(register2);
@@ -1546,294 +1588,9 @@ namespace SynSemDriver
             {
                 var register1 = registerPool.Pop();
                 var register2 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Adding " + firstOperand + " and " + lastOperand + " -%");
-                listToOutput.Add("\tlw " + register1 + "," + lastOperand + "(R0)");
-                listToOutput.Add("\taddi " + register2 + "," + register1 + "," + firstOperand);
-                listToOutput.Add("\tsw " + varName + "(R0)," + register2);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-            }
-            else if (firstOperandType.Equals("variable") && lastOperandType.Equals("variable"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                var register3 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Adding variables " + firstOperand + " and " + lastOperand + " -%");
-                listToOutput.Add("\tlw " + register1 + "," + firstOperand + "(R0)");
-                listToOutput.Add("\tlw " + register2 + "," + lastOperand + "(R0)");
-                listToOutput.Add("\tadd " + register3 + "," + register1 + "," + register2);
-                listToOutput.Add("\tsw " + varName + "(R0)," + register3);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-                registerPool.Push(register3);
-            }
-
-            return varName;
-        }
-
-        public static string executeSubtractionCode(string firstOperand, string firstOperandType, string lastOperand, string lastOperandType, bool isaFunc = false, string funcName = "")
-        {
-            var listToOutput = isaFunc ? moonFunctionCode : moonExecCode;
-            var varName = "temp_" + ++tempCount;
-            moonDataCode.Add(varName + " res 4");
-
-            if (firstOperandType.Equals("literal") && lastOperandType.Equals("literal"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Subtracting literals " + firstOperand + " and " + lastOperand + " -%");
-                listToOutput.Add("\taddi " + register1 + ",R0," + firstOperand);
-                listToOutput.Add("\tsubi " + register2 + "," + register1 + "," + lastOperand);
-                listToOutput.Add("\tsw " + varName + "(R0)," + register2);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-            }
-            else if (firstOperandType.Equals("variable") && lastOperandType.Equals("literal"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Subtracting " + firstOperand + " and " + lastOperand + " -%");
-                listToOutput.Add("\tlw " + register1 + "," + firstOperand + "(R0)");
-                listToOutput.Add("\tsubi " + register2 + "," + register1 + "," + lastOperand);
-                listToOutput.Add("\tsw " + varName + "(R0)," + register2);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-            }
-            else if (firstOperandType.Equals("literal") && lastOperandType.Equals("variable"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Subtracting " + firstOperand + " and " + lastOperand + " -%");
-                listToOutput.Add("\tlw " + register1 + "," + lastOperand + "(R0)");
-                listToOutput.Add("\tsubi " + register2 + "," + register1 + "," + firstOperand);
-                listToOutput.Add("\tsw " + varName + "(R0)," + register2);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-            }
-            else if (firstOperandType.Equals("variable") && lastOperandType.Equals("variable"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                var register3 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Subtracting variables " + firstOperand + " and " + lastOperand + " -%");
-                listToOutput.Add("\tlw " + register1 + "," + firstOperand + "(R0)");
-                listToOutput.Add("\tlw " + register2 + "," + lastOperand + "(R0)");
-                listToOutput.Add("\tsub " + register3 + "," + register1 + "," + register2);
-                listToOutput.Add("\tsw " + varName + "(R0)," + register3);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-                registerPool.Push(register3);
-            }
-
-            return varName;
-        }
-
-        public static string executeMultiplicationCode(string firstOperand, string firstOperandType, string lastOperand, string lastOperandType, bool isaFunc = false, string funcName = "")
-        {
-            var listToOutput = isaFunc ? moonFunctionCode : moonExecCode;
-            var varName = "temp_" + ++tempCount;
-            moonDataCode.Add(varName + " res 4");
-
-            if (firstOperandType.Equals("literal") && lastOperandType.Equals("literal"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Subtracting literals " + firstOperand + " and " + lastOperand + " -%");
-                listToOutput.Add("\taddi " + register1 + ",R0," + firstOperand);
-                listToOutput.Add("\tmuli " + register2 + "," + register1 + "," + lastOperand);
-                listToOutput.Add("\tsw " + varName + "(R0)," + register2);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-            }
-            else if (firstOperandType.Equals("variable") && lastOperandType.Equals("literal"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Subtracting " + firstOperand + " and " + lastOperand + " -%");
-                listToOutput.Add("\tlw " + register1 + "," + firstOperand + "(R0)");
-                listToOutput.Add("\tmuli " + register2 + "," + register1 + "," + lastOperand);
-                listToOutput.Add("\tsw " + varName + "(R0)," + register2);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-            }
-            else if (firstOperandType.Equals("literal") && lastOperandType.Equals("variable"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Subtracting " + firstOperand + " and " + lastOperand + " -%");
-                listToOutput.Add("\tlw " + register1 + "," + lastOperand + "(R0)");
-                listToOutput.Add("\tmuli " + register2 + "," + register1 + "," + firstOperand);
-                listToOutput.Add("\tsw " + varName + "(R0)," + register2);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-            }
-            else if (firstOperandType.Equals("variable") && lastOperandType.Equals("variable"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                var register3 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Subtracting variables " + firstOperand + " and " + lastOperand + " -%");
-                listToOutput.Add("\tlw " + register1 + "," + firstOperand + "(R0)");
-                listToOutput.Add("\tlw " + register2 + "," + lastOperand + "(R0)");
-                listToOutput.Add("\tmul " + register3 + "," + register1 + "," + register2);
-                listToOutput.Add("\tsw " + varName + "(R0)," + register3);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-                registerPool.Push(register3);
-            }
-
-            return varName;
-        }
-
-        public static string executeDivisionCode(string firstOperand, string firstOperandType, string lastOperand, string lastOperandType, bool isaFunc = false, string funcName = "")
-        {
-            var listToOutput = isaFunc ? moonFunctionCode : moonExecCode;
-            var varName = "temp_" + ++tempCount;
-            moonDataCode.Add(varName + " res 4");
-
-            if (firstOperandType.Equals("literal") && lastOperandType.Equals("literal"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Subtracting literals " + firstOperand + " and " + lastOperand + " -%");
-                listToOutput.Add("\taddi " + register1 + ",R0," + firstOperand);
-                listToOutput.Add("\tdivi " + register2 + "," + register1 + "," + lastOperand);
-                listToOutput.Add("\tsw " + varName + "(R0)," + register2);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-            }
-            else if (firstOperandType.Equals("variable") && lastOperandType.Equals("literal"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Subtracting " + firstOperand + " and " + lastOperand + " -%");
-                listToOutput.Add("\tlw " + register1 + "," + firstOperand + "(R0)");
-                listToOutput.Add("\tdivi " + register2 + "," + register1 + "," + lastOperand);
-                listToOutput.Add("\tsw " + varName + "(R0)," + register2);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-            }
-            else if (firstOperandType.Equals("literal") && lastOperandType.Equals("variable"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Subtracting " + firstOperand + " and " + lastOperand + " -%");
-                listToOutput.Add("\tlw " + register1 + "," + lastOperand + "(R0)");
-                listToOutput.Add("\tdivi " + register2 + "," + register1 + "," + firstOperand);
-                listToOutput.Add("\tsw " + varName + "(R0)," + register2);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-            }
-            else if (firstOperandType.Equals("variable") && lastOperandType.Equals("variable"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                var register3 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Subtracting variables " + firstOperand + " and " + lastOperand + " -%");
-                listToOutput.Add("\tlw " + register1 + "," + firstOperand + "(R0)");
-                listToOutput.Add("\tlw " + register2 + "," + lastOperand + "(R0)");
-                listToOutput.Add("\tdiv " + register3 + "," + register1 + "," + register2);
-                listToOutput.Add("\tsw " + varName + "(R0)," + register3);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-                registerPool.Push(register3);
-            }
-
-            return varName;
-        }
-
-        public static string executeGreaterThanCode(string firstOperand, string firstOperandType, string lastOperand, string lastOperandType, bool isaFunc = false, string funcName = "")
-        {
-            var listToOutput = isaFunc ? moonFunctionCode : moonExecCode;
-            var varName = "temp_" + ++tempCount;
-            moonDataCode.Add(varName + " res 4");
-
-            if (firstOperandType.Equals("literal") && lastOperandType.Equals("literal"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Comparing literals " + firstOperand + " greater than " + lastOperand + " -%");
-                listToOutput.Add("\taddi " + register1 + ",R0," + firstOperand);
-                listToOutput.Add("\tcgti " + register2 + "," + register1 + "," + lastOperand);
-                listToOutput.Add("\tsw " + varName + "(R0)," + register2);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-            }
-            else if (firstOperandType.Equals("variable") && lastOperandType.Equals("literal"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                moonExecCode.Add("\n\t%- Comparing " + firstOperand + " greater than " + lastOperand + " -%");
-                moonExecCode.Add("\tlw " + register1 + "," + firstOperand + "(R0)");
-                moonExecCode.Add("\tcgti " + register2 + "," + register1 + "," + lastOperand);
-                moonExecCode.Add("\tsw " + varName + "(R0)," + register2);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-            }
-            else if (firstOperandType.Equals("literal") && lastOperandType.Equals("variable"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Comparing " + firstOperand + " greater than " + lastOperand + " -%");
-                listToOutput.Add("\tlw " + register1 + "," + lastOperand + "(R0)");
-                listToOutput.Add("\tcgti " + register2 + "," + register1 + "," + firstOperand);
-                listToOutput.Add("\tsw " + varName + "(R0)," + register2);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-            }
-            else if (firstOperandType.Equals("variable") && lastOperandType.Equals("variable"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                var register3 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Comparing variables " + firstOperand + " greater than " + lastOperand + " -%");
-                listToOutput.Add("\tlw " + register1 + "," + firstOperand + "(R0)");
-                listToOutput.Add("\tlw " + register2 + "," + lastOperand + "(R0)");
-                listToOutput.Add("\tcgt " + register3 + "," + register1 + "," + register2);
-                listToOutput.Add("\tsw " + varName + "(R0)," + register3);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-                registerPool.Push(register3);
-            }
-
-            return varName;
-        }
-
-        public static string executeLessThanCode(string firstOperand, string firstOperandType, string lastOperand, string lastOperandType, bool isaFunc = false, string funcName = "")
-        {
-            var listToOutput = isaFunc ? moonFunctionCode : moonExecCode;
-            var varName = "temp_" + ++tempCount;
-            moonDataCode.Add(varName + " res 4");
-
-            if (firstOperandType.Equals("literal") && lastOperandType.Equals("literal"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Comparing literals " + firstOperand + " less than " + lastOperand + " -%");
-                listToOutput.Add("\taddi " + register1 + ",R0," + firstOperand);
-                listToOutput.Add("\tclti " + register2 + "," + register1 + "," + lastOperand);
-                listToOutput.Add("\tsw " + varName + "(R0)," + register2);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-            }
-            else if (firstOperandType.Equals("variable") && lastOperandType.Equals("literal"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Comparing " + firstOperand + " less than " + lastOperand + " -%");
-                listToOutput.Add("\tlw " + register1 + "," + firstOperand + "(R0)");
-                listToOutput.Add("\tclti " + register2 + "," + register1 + "," + lastOperand);
-                listToOutput.Add("\tsw " + varName + "(R0)," + register2);
-                registerPool.Push(register1);
-                registerPool.Push(register2);
-            }
-            else if (firstOperandType.Equals("literal") && lastOperandType.Equals("variable"))
-            {
-                var register1 = registerPool.Pop();
-                var register2 = registerPool.Pop();
-                moonExecCode.Add("\n\t%- Comparing " + firstOperand + " less than " + lastOperand + " -%");
+                moonExecCode.Add("\n\t%- Computation " + firstOperand + " " + operation + " " + lastOperand + " -%");
                 moonExecCode.Add("\tlw " + register1 + "," + lastOperand + "(R0)");
-                moonExecCode.Add("\tclti " + register2 + "," + register1 + "," + firstOperand);
+                moonExecCode.Add("\t" + operation + "i " + register2 + "," + register1 + "," + firstOperand);
                 moonExecCode.Add("\tsw " + varName + "(R0)," + register2);
                 registerPool.Push(register1);
                 registerPool.Push(register2);
@@ -1843,10 +1600,10 @@ namespace SynSemDriver
                 var register1 = registerPool.Pop();
                 var register2 = registerPool.Pop();
                 var register3 = registerPool.Pop();
-                listToOutput.Add("\n\t%- Comparing variables " + firstOperand + " less than " + lastOperand + " -%");
+                listToOutput.Add("\n\t%- Computation " + firstOperand + " " + operation + " " + lastOperand + " -%");
                 listToOutput.Add("\tlw " + register1 + "," + firstOperand + "(R0)");
                 listToOutput.Add("\tlw " + register2 + "," + lastOperand + "(R0)");
-                listToOutput.Add("\tclt " + register3 + "," + register1 + "," + register2);
+                listToOutput.Add("\t" + operation + " " + register3 + "," + register1 + "," + register2);
                 listToOutput.Add("\tsw " + varName + "(R0)," + register3);
                 registerPool.Push(register1);
                 registerPool.Push(register2);
@@ -2028,6 +1785,11 @@ namespace SynSemDriver
                 {
                     var classVar = items[count - 4];
 
+                    if (items[count - 6].Equals("."))
+                    {
+                        classVar = items[count - 7] + "_" + items[count - 4];
+                    }
+
                     lastOperand = isaFunc ? funcName + "_" + classVar + "_" + items[count - 1] : classVar + "_" + items[count - 1];
                     lastOperandType = "variable";
                     items.RemoveAt(count - 1);
@@ -2035,6 +1797,13 @@ namespace SynSemDriver
                     items.RemoveAt(count - 3);
                     items.RemoveAt(count - 4);
                     items.RemoveAt(count - 5);
+
+                    if (items[count - 6].Equals("."))
+                    {
+                        items.RemoveAt(count - 6);
+                        items.RemoveAt(count - 7);
+                        items.RemoveAt(count - 8);
+                    }
                 }
                 else
                 {
@@ -2046,6 +1815,10 @@ namespace SynSemDriver
             }
 
             count = items.Count();
+            if (items.Count() == 0)
+            {
+                return lastOperand;
+            }
             var operand = items[count - 1];
             items.RemoveAt(count - 1);
             count = items.Count();
@@ -2205,9 +1978,14 @@ namespace SynSemDriver
             }
             else if (items[count - 2].Equals("id"))
             {
-                if (items[count - 3].Equals("."))
+                if (count - 3 > items.Count() && items[count - 3].Equals("."))
                 {
                     var classVar = items[count - 4];
+
+                    if (items[count - 6].Equals("."))
+                    {
+                        classVar = items[count - 7] + "_" + items[count - 4];
+                    }
 
                     firstOperand = isaFunc ? funcName + "_" + classVar + "_" + items[count - 1] : classVar + "_" + items[count - 1];
                     firstOperandType = "variable";
@@ -2216,6 +1994,13 @@ namespace SynSemDriver
                     items.RemoveAt(count - 3);
                     items.RemoveAt(count - 4);
                     items.RemoveAt(count - 5);
+
+                    if (items[count - 6].Equals("."))
+                    {
+                        items.RemoveAt(count - 6);
+                        items.RemoveAt(count - 7);
+                        items.RemoveAt(count - 8);
+                    }
                 }
                 else
                 {
@@ -2227,40 +2012,68 @@ namespace SynSemDriver
             }
 
             var returnLiteral = "";
+            var operation = "";
 
             if (operand.Equals("+"))
             {
-                returnLiteral = executeAdditionCode(firstOperand, firstOperandType, lastOperand, lastOperandType, isaFunc, funcName);
-                items.Add("id");
-                items.Add(returnLiteral);
+                operation = "add";
             }
             else if (operand.Equals("-"))
             {
-                returnLiteral = executeSubtractionCode(firstOperand, firstOperandType, lastOperand, lastOperandType, isaFunc, funcName);
-                items.Add("id");
-                items.Add(returnLiteral);
+                operation = "sub";
             }
             else if (operand.Equals("*"))
             {
-                returnLiteral = executeMultiplicationCode(firstOperand, firstOperandType, lastOperand, lastOperandType, isaFunc, funcName);
-                items.Add("id");
-                items.Add(returnLiteral);
+                operation = "mul";
             }
             else if (operand.Equals("/"))
             {
-                returnLiteral = executeDivisionCode(firstOperand, firstOperandType, lastOperand, lastOperandType, isaFunc, funcName);
-                items.Add("id");
-                items.Add(returnLiteral);
+                operation = "div";
+            }
+            else if (operand.Equals("%"))
+            {
+                operation = "mod";
             }
             else if (operand.Equals(">"))
             {
-                returnLiteral = executeGreaterThanCode(firstOperand, firstOperandType, lastOperand, lastOperandType, isaFunc, funcName);
-                items.Add("id");
-                items.Add(returnLiteral);
+                operation = "glt";
             }
             else if (operand.Equals("<"))
             {
-                returnLiteral = executeLessThanCode(firstOperand, firstOperandType, lastOperand, lastOperandType, isaFunc, funcName);
+                operation = "clt";
+            }
+            else if (operand.Equals(">="))
+            {
+                operation = "gle";
+            }
+            else if (operand.Equals("<="))
+            {
+                operation = "cle";
+            }
+            else if (operand.Equals("and"))
+            {
+                operation = "and";
+            }
+            else if (operand.Equals("or"))
+            {
+                operation = "or";
+            }
+            else if (operand.Equals("not"))
+            {
+                operation = "not";
+            }
+            else if (operand.Equals("=="))
+            {
+                operation = "ceq";
+            }
+            else if (operand.Equals("!="))
+            {
+                operation = "cne";
+            }
+
+            if (!operation.Equals(""))
+            {
+                returnLiteral = ExecuteCalculationCode(operation, firstOperand, firstOperandType, lastOperand, lastOperandType, isaFunc, funcName);
                 items.Add("id");
                 items.Add(returnLiteral);
             }

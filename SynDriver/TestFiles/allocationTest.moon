@@ -88,6 +88,7 @@ ft res 8
 a res 20
 a_a	res 4
 a_arr	res 16
+bClasses res 32
 lit_0 res 4
 lit_1 res 4
 lit_2 res 4

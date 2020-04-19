@@ -1,0 +1,22 @@
+Error(11): use of undeclared local variable or function, name: line in class/function: main
+Error(15): Dot Operator error, class not found, for variable: line
+Error(15): Dot Operator error, class not found, for class:  of variable: line
+Error(11): use of undeclared local variable or function, name: x in class/function: main
+Error(10): expression types are incompatible, first operand: x, second operand: 2
+Error(11): use of undeclared local variable or function, name: line in class/function: main
+Error(15): Dot Operator error, class not found, for variable: line
+Error(15): Dot Operator error, class not found, for class:  of variable: line
+Error(11): use of undeclared local variable or function, name: y in class/function: main
+Error(10): expression types are incompatible, first operand: y, second operand: 3
+Error(10): expression types are incompatible, first operand: sum, second operand: linear
+Error(11): use of undeclared local variable or function, name: line in class/function: main
+Error(15): Dot Operator error, class not found, for variable: line
+Error(15): Dot Operator error, class not found, for class:  of variable: line
+Error(11): use of undeclared local variable or function, name: x in class/function: main
+Error(10): expression types are incompatible, first operand: x, second operand: linear
+Error(11): use of undeclared local variable or function, name: line in class/function: main
+Error(15): Dot Operator error, class not found, for variable: line
+Error(15): Dot Operator error, class not found, for class:  of variable: line
+Error(11): use of undeclared local variable or function, name: y in class/function: main
+Error(10): expression types are incompatible, first operand: lines, second operand: 3
+Error(10): expression types are incompatible, first operand: lines, second operand: 3

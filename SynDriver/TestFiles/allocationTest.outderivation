@@ -43,7 +43,38 @@ START
                   EPSILON
             }
             ;
-         EPSILON
+         RepClassDecl
+            ClassDecl
+               class
+               Id
+                  id
+                     BClass
+               OptInherits
+                  EPSILON
+               {
+               RepMembers
+                  Visibility
+                     private
+                  MemberDecl
+                     VarDecl
+                        Type
+                           integer
+                        Id
+                           id
+                              array
+                        RepArraySize
+                           ArraySize
+                              [
+                              OptIntNum
+                                 intnum
+                                    4
+                              ]
+                           EPSILON
+                        ;
+                  EPSILON
+               }
+               ;
+            EPSILON
       EPSILON
       main
       FuncBody
@@ -94,7 +125,25 @@ START
                                  a
                            EPSILON
                            ;
-                        EPSILON
+                        RepVarDecl
+                           VarDecl
+                              Type
+                                 Id
+                                    id
+                                       BClass
+                              Id
+                                 id
+                                    bClasses
+                              RepArraySize
+                                 ArraySize
+                                    [
+                                    OptIntNum
+                                       intnum
+                                          2
+                                    ]
+                                 EPSILON
+                              ;
+                           EPSILON
          do
          RepStatement
             Statement

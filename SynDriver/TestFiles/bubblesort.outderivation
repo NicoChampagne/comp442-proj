@@ -89,20 +89,19 @@ START
                      AssignOrFuncCall
                         AssignOp
                            =
-                        Expr
-                           ArithExpr
-                              Term
-                                 Factor
-                                    Variable
-                                       RepIdnest
-                                          Idnest
-                                             Id
-                                                id
-                                                   size
-                                             OptNest
-                                                EPSILON
-                                          EPSILON
+                        StartFuncOrExpr
+                           Variable
+                              RepIdnest
+                                 Idnest
+                                    Id
+                                       id
+                                          size
+                                    OptNest
                                        EPSILON
+                                 EPSILON
+                              EPSILON
+                           ExprOrFunc
+                              EPSILON
                      ;
                   RepStatement
                      Statement
@@ -117,12 +116,15 @@ START
                         AssignOrFuncCall
                            AssignOp
                               =
-                           Expr
-                              ArithExpr
-                                 Term
-                                    Factor
-                                       intnum
-                                          0
+                           StartFuncOrExpr
+                              Expr
+                                 ArithExpr
+                                    Term
+                                       Factor
+                                          intnum
+                                             0
+                                    OptMultArith
+                                       EPSILON
                         ;
                      RepStatement
                         Statement
@@ -137,12 +139,15 @@ START
                            AssignOrFuncCall
                               AssignOp
                                  =
-                              Expr
-                                 ArithExpr
-                                    Term
-                                       Factor
-                                          intnum
-                                             0
+                              StartFuncOrExpr
+                                 Expr
+                                    ArithExpr
+                                       Term
+                                          Factor
+                                             intnum
+                                                0
+                                       OptMultArith
+                                          EPSILON
                            ;
                         RepStatement
                            Statement
@@ -157,12 +162,15 @@ START
                               AssignOrFuncCall
                                  AssignOp
                                     =
-                                 Expr
-                                    ArithExpr
-                                       Term
-                                          Factor
-                                             intnum
-                                                0
+                                 StartFuncOrExpr
+                                    Expr
+                                       ArithExpr
+                                          Term
+                                             Factor
+                                                intnum
+                                                   0
+                                          OptMultArith
+                                             EPSILON
                               ;
                            RepStatement
                               Statement
@@ -182,6 +190,8 @@ START
                                                          EPSILON
                                                    EPSILON
                                                 EPSILON
+                                       OptMultArith
+                                          EPSILON
                                     RelOp
                                        lt
                                           <
@@ -197,6 +207,17 @@ START
                                                       OptNest
                                                          EPSILON
                                                    EPSILON
+                                                EPSILON
+                                       OptMultArith
+                                          AddOrMultOp
+                                             AddOp
+                                                -
+                                          ArithExpr
+                                             Term
+                                                Factor
+                                                   intnum
+                                                      1
+                                             OptMultArith
                                                 EPSILON
                                  )
                                  StatBlock
@@ -219,6 +240,8 @@ START
                                                                   EPSILON
                                                             EPSILON
                                                          EPSILON
+                                                OptMultArith
+                                                   EPSILON
                                              RelOp
                                                 lt
                                                    <
@@ -235,6 +258,34 @@ START
                                                                   EPSILON
                                                             EPSILON
                                                          EPSILON
+                                                OptMultArith
+                                                   AddOrMultOp
+                                                      AddOp
+                                                         -
+                                                   ArithExpr
+                                                      Term
+                                                         Factor
+                                                            Variable
+                                                               RepIdnest
+                                                                  Idnest
+                                                                     Id
+                                                                        id
+                                                                           i
+                                                                     OptNest
+                                                                        EPSILON
+                                                                  EPSILON
+                                                               EPSILON
+                                                      OptMultArith
+                                                         AddOrMultOp
+                                                            AddOp
+                                                               -
+                                                         ArithExpr
+                                                            Term
+                                                               Factor
+                                                                  intnum
+                                                                     1
+                                                            OptMultArith
+                                                               EPSILON
                                           )
                                           StatBlock
                                              do
@@ -271,8 +322,12 @@ START
                                                                                              EPSILON
                                                                                        EPSILON
                                                                                     EPSILON
+                                                                           OptMultArith
+                                                                              EPSILON
                                                                         ]
                                                                      EPSILON
+                                                         OptMultArith
+                                                            EPSILON
                                                       RelOp
                                                          gt
                                                             >
@@ -304,8 +359,21 @@ START
                                                                                              EPSILON
                                                                                        EPSILON
                                                                                     EPSILON
+                                                                           OptMultArith
+                                                                              AddOrMultOp
+                                                                                 AddOp
+                                                                                    +
+                                                                              ArithExpr
+                                                                                 Term
+                                                                                    Factor
+                                                                                       intnum
+                                                                                          1
+                                                                                 OptMultArith
+                                                                                    EPSILON
                                                                         ]
                                                                      EPSILON
+                                                         OptMultArith
+                                                            EPSILON
                                                    )
                                                    then
                                                    StatBlock
@@ -323,37 +391,38 @@ START
                                                             AssignOrFuncCall
                                                                AssignOp
                                                                   =
-                                                               Expr
-                                                                  ArithExpr
-                                                                     Term
-                                                                        Factor
-                                                                           Variable
-                                                                              RepIdnest
-                                                                                 Idnest
-                                                                                    Id
-                                                                                       id
-                                                                                          arr
-                                                                                    OptNest
-                                                                                       EPSILON
-                                                                                 EPSILON
-                                                                              RepIndice
-                                                                                 Indice
-                                                                                    [
-                                                                                    ArithExpr
-                                                                                       Term
-                                                                                          Factor
-                                                                                             Variable
-                                                                                                RepIdnest
-                                                                                                   Idnest
-                                                                                                      Id
-                                                                                                         id
-                                                                                                            j
-                                                                                                      OptNest
-                                                                                                         EPSILON
-                                                                                                   EPSILON
+                                                               StartFuncOrExpr
+                                                                  Variable
+                                                                     RepIdnest
+                                                                        Idnest
+                                                                           Id
+                                                                              id
+                                                                                 arr
+                                                                           OptNest
+                                                                              EPSILON
+                                                                        EPSILON
+                                                                     RepIndice
+                                                                        Indice
+                                                                           [
+                                                                           ArithExpr
+                                                                              Term
+                                                                                 Factor
+                                                                                    Variable
+                                                                                       RepIdnest
+                                                                                          Idnest
+                                                                                             Id
+                                                                                                id
+                                                                                                   j
+                                                                                             OptNest
                                                                                                 EPSILON
-                                                                                    ]
+                                                                                          EPSILON
+                                                                                       EPSILON
+                                                                              OptMultArith
                                                                                  EPSILON
+                                                                           ]
+                                                                        EPSILON
+                                                                  ExprOrFunc
+                                                                     EPSILON
                                                             ;
                                                          RepStatement
                                                             Statement
@@ -382,41 +451,53 @@ START
                                                                                              EPSILON
                                                                                        EPSILON
                                                                                     EPSILON
+                                                                           OptMultArith
+                                                                              EPSILON
                                                                         ]
                                                                      EPSILON
                                                                   AssignOp
                                                                      =
-                                                                  Expr
-                                                                     ArithExpr
-                                                                        Term
-                                                                           Factor
-                                                                              Variable
-                                                                                 RepIdnest
-                                                                                    Idnest
-                                                                                       Id
-                                                                                          id
-                                                                                             arr
-                                                                                       OptNest
-                                                                                          EPSILON
-                                                                                    EPSILON
-                                                                                 RepIndice
-                                                                                    Indice
-                                                                                       [
-                                                                                       ArithExpr
-                                                                                          Term
-                                                                                             Factor
-                                                                                                Variable
-                                                                                                   RepIdnest
-                                                                                                      Idnest
-                                                                                                         Id
-                                                                                                            id
-                                                                                                               j
-                                                                                                         OptNest
-                                                                                                            EPSILON
-                                                                                                      EPSILON
+                                                                  StartFuncOrExpr
+                                                                     Variable
+                                                                        RepIdnest
+                                                                           Idnest
+                                                                              Id
+                                                                                 id
+                                                                                    arr
+                                                                              OptNest
+                                                                                 EPSILON
+                                                                           EPSILON
+                                                                        RepIndice
+                                                                           Indice
+                                                                              [
+                                                                              ArithExpr
+                                                                                 Term
+                                                                                    Factor
+                                                                                       Variable
+                                                                                          RepIdnest
+                                                                                             Idnest
+                                                                                                Id
+                                                                                                   id
+                                                                                                      j
+                                                                                                OptNest
                                                                                                    EPSILON
-                                                                                       ]
-                                                                                    EPSILON
+                                                                                             EPSILON
+                                                                                          EPSILON
+                                                                                 OptMultArith
+                                                                                    AddOrMultOp
+                                                                                       AddOp
+                                                                                          +
+                                                                                    ArithExpr
+                                                                                       Term
+                                                                                          Factor
+                                                                                             intnum
+                                                                                                1
+                                                                                       OptMultArith
+                                                                                          EPSILON
+                                                                              ]
+                                                                           EPSILON
+                                                                     ExprOrFunc
+                                                                        EPSILON
                                                                ;
                                                             RepStatement
                                                                Statement
@@ -445,24 +526,34 @@ START
                                                                                                 EPSILON
                                                                                           EPSILON
                                                                                        EPSILON
+                                                                              OptMultArith
+                                                                                 AddOrMultOp
+                                                                                    AddOp
+                                                                                       +
+                                                                                 ArithExpr
+                                                                                    Term
+                                                                                       Factor
+                                                                                          intnum
+                                                                                             1
+                                                                                    OptMultArith
+                                                                                       EPSILON
                                                                            ]
                                                                         EPSILON
                                                                      AssignOp
                                                                         =
-                                                                     Expr
-                                                                        ArithExpr
-                                                                           Term
-                                                                              Factor
-                                                                                 Variable
-                                                                                    RepIdnest
-                                                                                       Idnest
-                                                                                          Id
-                                                                                             id
-                                                                                                temp
-                                                                                          OptNest
-                                                                                             EPSILON
-                                                                                       EPSILON
+                                                                     StartFuncOrExpr
+                                                                        Variable
+                                                                           RepIdnest
+                                                                              Idnest
+                                                                                 Id
+                                                                                    id
+                                                                                       temp
+                                                                                 OptNest
                                                                                     EPSILON
+                                                                              EPSILON
+                                                                           EPSILON
+                                                                        ExprOrFunc
+                                                                           EPSILON
                                                                   ;
                                                                EPSILON
                                                       end
@@ -483,20 +574,25 @@ START
                                                       AssignOrFuncCall
                                                          AssignOp
                                                             =
-                                                         Expr
-                                                            ArithExpr
+                                                         StartFuncOrExpr
+                                                            Variable
+                                                               RepIdnest
+                                                                  Idnest
+                                                                     Id
+                                                                        id
+                                                                           j
+                                                                     OptNest
+                                                                        EPSILON
+                                                                  EPSILON
+                                                               EPSILON
+                                                            ExprOrFunc
+                                                               AddOrMultOp
+                                                                  AddOp
+                                                                     +
                                                                Term
                                                                   Factor
-                                                                     Variable
-                                                                        RepIdnest
-                                                                           Idnest
-                                                                              Id
-                                                                                 id
-                                                                                    j
-                                                                              OptNest
-                                                                                 EPSILON
-                                                                           EPSILON
-                                                                        EPSILON
+                                                                     intnum
+                                                                        1
                                                       ;
                                                    EPSILON
                                              end
@@ -514,20 +610,25 @@ START
                                              AssignOrFuncCall
                                                 AssignOp
                                                    =
-                                                Expr
-                                                   ArithExpr
+                                                StartFuncOrExpr
+                                                   Variable
+                                                      RepIdnest
+                                                         Idnest
+                                                            Id
+                                                               id
+                                                                  i
+                                                            OptNest
+                                                               EPSILON
+                                                         EPSILON
+                                                      EPSILON
+                                                   ExprOrFunc
+                                                      AddOrMultOp
+                                                         AddOp
+                                                            +
                                                       Term
                                                          Factor
-                                                            Variable
-                                                               RepIdnest
-                                                                  Idnest
-                                                                     Id
-                                                                        id
-                                                                           i
-                                                                     OptNest
-                                                                        EPSILON
-                                                                  EPSILON
-                                                               EPSILON
+                                                            intnum
+                                                               1
                                              ;
                                           EPSILON
                                     end
@@ -604,20 +705,19 @@ START
                         AssignOrFuncCall
                            AssignOp
                               =
-                           Expr
-                              ArithExpr
-                                 Term
-                                    Factor
-                                       Variable
-                                          RepIdnest
-                                             Idnest
-                                                Id
-                                                   id
-                                                      size
-                                                OptNest
-                                                   EPSILON
-                                             EPSILON
+                           StartFuncOrExpr
+                              Variable
+                                 RepIdnest
+                                    Idnest
+                                       Id
+                                          id
+                                             size
+                                       OptNest
                                           EPSILON
+                                    EPSILON
+                                 EPSILON
+                              ExprOrFunc
+                                 EPSILON
                         ;
                      RepStatement
                         Statement
@@ -632,12 +732,15 @@ START
                            AssignOrFuncCall
                               AssignOp
                                  =
-                              Expr
-                                 ArithExpr
-                                    Term
-                                       Factor
-                                          intnum
-                                             0
+                              StartFuncOrExpr
+                                 Expr
+                                    ArithExpr
+                                       Term
+                                          Factor
+                                             intnum
+                                                0
+                                       OptMultArith
+                                          EPSILON
                            ;
                         RepStatement
                            Statement
@@ -657,6 +760,8 @@ START
                                                       EPSILON
                                                 EPSILON
                                              EPSILON
+                                    OptMultArith
+                                       EPSILON
                                  RelOp
                                     lt
                                        <
@@ -673,6 +778,8 @@ START
                                                       EPSILON
                                                 EPSILON
                                              EPSILON
+                                    OptMultArith
+                                       EPSILON
                               )
                               StatBlock
                                  do
@@ -709,8 +816,12 @@ START
                                                                                  EPSILON
                                                                            EPSILON
                                                                         EPSILON
+                                                               OptMultArith
+                                                                  EPSILON
                                                             ]
                                                          EPSILON
+                                             OptMultArith
+                                                EPSILON
                                        )
                                        ;
                                     RepStatement
@@ -726,20 +837,25 @@ START
                                           AssignOrFuncCall
                                              AssignOp
                                                 =
-                                             Expr
-                                                ArithExpr
+                                             StartFuncOrExpr
+                                                Variable
+                                                   RepIdnest
+                                                      Idnest
+                                                         Id
+                                                            id
+                                                               i
+                                                         OptNest
+                                                            EPSILON
+                                                      EPSILON
+                                                   EPSILON
+                                                ExprOrFunc
+                                                   AddOrMultOp
+                                                      AddOp
+                                                         +
                                                    Term
                                                       Factor
-                                                         Variable
-                                                            RepIdnest
-                                                               Idnest
-                                                                  Id
-                                                                     id
-                                                                        i
-                                                                  OptNest
-                                                                     EPSILON
-                                                               EPSILON
-                                                            EPSILON
+                                                         intnum
+                                                            1
                                           ;
                                        EPSILON
                                  end
@@ -788,16 +904,21 @@ START
                               Factor
                                  intnum
                                     0
+                           OptMultArith
+                              EPSILON
                         ]
                      EPSILON
                   AssignOp
                      =
-                  Expr
-                     ArithExpr
-                        Term
-                           Factor
-                              intnum
-                                 64
+                  StartFuncOrExpr
+                     Expr
+                        ArithExpr
+                           Term
+                              Factor
+                                 intnum
+                                    64
+                           OptMultArith
+                              EPSILON
                ;
             RepStatement
                Statement
@@ -818,16 +939,21 @@ START
                                  Factor
                                     intnum
                                        1
+                              OptMultArith
+                                 EPSILON
                            ]
                         EPSILON
                      AssignOp
                         =
-                     Expr
-                        ArithExpr
-                           Term
-                              Factor
-                                 intnum
-                                    34
+                     StartFuncOrExpr
+                        Expr
+                           ArithExpr
+                              Term
+                                 Factor
+                                    intnum
+                                       34
+                              OptMultArith
+                                 EPSILON
                   ;
                RepStatement
                   Statement
@@ -848,16 +974,21 @@ START
                                     Factor
                                        intnum
                                           2
+                                 OptMultArith
+                                    EPSILON
                               ]
                            EPSILON
                         AssignOp
                            =
-                        Expr
-                           ArithExpr
-                              Term
-                                 Factor
-                                    intnum
-                                       25
+                        StartFuncOrExpr
+                           Expr
+                              ArithExpr
+                                 Term
+                                    Factor
+                                       intnum
+                                          25
+                                 OptMultArith
+                                    EPSILON
                      ;
                   RepStatement
                      Statement
@@ -878,16 +1009,21 @@ START
                                        Factor
                                           intnum
                                              3
+                                    OptMultArith
+                                       EPSILON
                                  ]
                               EPSILON
                            AssignOp
                               =
-                           Expr
-                              ArithExpr
-                                 Term
-                                    Factor
-                                       intnum
-                                          12
+                           StartFuncOrExpr
+                              Expr
+                                 ArithExpr
+                                    Term
+                                       Factor
+                                          intnum
+                                             12
+                                    OptMultArith
+                                       EPSILON
                         ;
                      RepStatement
                         Statement
@@ -908,16 +1044,21 @@ START
                                           Factor
                                              intnum
                                                 4
+                                       OptMultArith
+                                          EPSILON
                                     ]
                                  EPSILON
                               AssignOp
                                  =
-                              Expr
-                                 ArithExpr
-                                    Term
-                                       Factor
-                                          intnum
-                                             22
+                              StartFuncOrExpr
+                                 Expr
+                                    ArithExpr
+                                       Term
+                                          Factor
+                                             intnum
+                                                22
+                                       OptMultArith
+                                          EPSILON
                            ;
                         RepStatement
                            Statement
@@ -938,16 +1079,21 @@ START
                                              Factor
                                                 intnum
                                                    5
+                                          OptMultArith
+                                             EPSILON
                                        ]
                                     EPSILON
                                  AssignOp
                                     =
-                                 Expr
-                                    ArithExpr
-                                       Term
-                                          Factor
-                                             intnum
-                                                11
+                                 StartFuncOrExpr
+                                    Expr
+                                       ArithExpr
+                                          Term
+                                             Factor
+                                                intnum
+                                                   11
+                                          OptMultArith
+                                             EPSILON
                               ;
                            RepStatement
                               Statement
@@ -968,16 +1114,21 @@ START
                                                 Factor
                                                    intnum
                                                       6
+                                             OptMultArith
+                                                EPSILON
                                           ]
                                        EPSILON
                                     AssignOp
                                        =
-                                    Expr
-                                       ArithExpr
-                                          Term
-                                             Factor
-                                                intnum
-                                                   90
+                                    StartFuncOrExpr
+                                       Expr
+                                          ArithExpr
+                                             Term
+                                                Factor
+                                                   intnum
+                                                      90
+                                             OptMultArith
+                                                EPSILON
                                  ;
                               RepStatement
                                  Statement
@@ -1006,6 +1157,8 @@ START
                                                                   EPSILON
                                                             EPSILON
                                                          EPSILON
+                                                OptMultArith
+                                                   EPSILON
                                           RepAParamsTail
                                              AParamsTail
                                                 ,
@@ -1015,6 +1168,8 @@ START
                                                          Factor
                                                             intnum
                                                                7
+                                                      OptMultArith
+                                                         EPSILON
                                              EPSILON
                                        )
                                     ;
@@ -1045,6 +1200,8 @@ START
                                                                      EPSILON
                                                                EPSILON
                                                             EPSILON
+                                                   OptMultArith
+                                                      EPSILON
                                              RepAParamsTail
                                                 AParamsTail
                                                    ,
@@ -1054,6 +1211,8 @@ START
                                                             Factor
                                                                intnum
                                                                   7
+                                                         OptMultArith
+                                                            EPSILON
                                                 EPSILON
                                           )
                                        ;
@@ -1084,6 +1243,8 @@ START
                                                                         EPSILON
                                                                   EPSILON
                                                                EPSILON
+                                                      OptMultArith
+                                                         EPSILON
                                                 RepAParamsTail
                                                    AParamsTail
                                                       ,
@@ -1093,6 +1254,8 @@ START
                                                                Factor
                                                                   intnum
                                                                      7
+                                                            OptMultArith
+                                                               EPSILON
                                                    EPSILON
                                              )
                                           ;

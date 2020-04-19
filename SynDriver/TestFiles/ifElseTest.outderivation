@@ -39,14 +39,15 @@ START
                AssignOrFuncCall
                   AssignOp
                      =
-                  Expr
-                     ArithExpr
-                        Term
-                           Factor
-                              intnum
-                                 0
-                        OptMultArith
-                           EPSILON
+                  StartFuncOrExpr
+                     Expr
+                        ArithExpr
+                           Term
+                              Factor
+                                 intnum
+                                    0
+                           OptMultArith
+                              EPSILON
                ;
             RepStatement
                Statement
@@ -61,14 +62,15 @@ START
                   AssignOrFuncCall
                      AssignOp
                         =
-                     Expr
-                        ArithExpr
-                           Term
-                              Factor
-                                 intnum
-                                    9
-                           OptMultArith
-                              EPSILON
+                     StartFuncOrExpr
+                        Expr
+                           ArithExpr
+                              Term
+                                 Factor
+                                    intnum
+                                       9
+                              OptMultArith
+                                 EPSILON
                   ;
                RepStatement
                   Statement

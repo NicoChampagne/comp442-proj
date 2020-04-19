@@ -80,6 +80,7 @@ namespace SynSemDriver
             //{ ("AssignStat", ";"), "AssignStat → Variable AssignOp Expr"},
             { ("StatBlock", ";"), "EPSILON"}, { ("StatBlock", "else"), "EPSILON"},
             { ("AssignOrFuncCall", ";"), "EPSILON"},
+            { ("ExprOrFunc", ";"), "EPSILON"},
             //{ ("Expr", ")"), "Expr → ArithExpr"}, { ("Expr", ";"), "Expr → ArithExpr"}, { ("Expr", ","), "Expr → ArithExpr"},
             //{ ("RelExpr", ")"), "RelExpr → ArithExpr RelOp ArithExpr"}, { ("RelExpr", ";"), "RelExpr → ArithExpr RelOp ArithExpr"}, { ("RelExpr", ","), "RelExpr → ArithExpr RelOp ArithExpr"},
             //{ ("ArithExpr", ")"), "ArithExpr AddOp Term"}, //{ ("ArithExpr", ";"), "ArithExpr → Term"}, { ("ArithExpr", "eq"), "ArithExpr → Term"}, { ("ArithExpr", "neq"), "ArithExpr → Term"}, { ("lt", "+"), "ArithExpr -> Term"}, { ("ArithExpr", "gt"), "ArithExpr → Term"}, { ("ArithExpr", "or"), "ArithExpr → ArithExpr AddOp Term"}, { ("ArithExpr", "]"), "ArithExpr → Term"}, { ("ArithExpr", ","), "ArithExpr → Term"},

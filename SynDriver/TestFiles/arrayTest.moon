@@ -116,7 +116,7 @@
 	lw R1,arr(R2)
 	sw temp_2(R0),R1
 
-	%- Adding variables temp_2 and temp_1 -%
+	%- Computation temp_2 add temp_1 -%
 	lw R2,temp_2(R0)
 	lw R1,temp_1(R0)
 	add R3,R2,R1
@@ -131,7 +131,7 @@
 	add R1,R0,R2
 	jl R15,putint
 
-	%- Adding literals 1 and 3 -%
+	%- Computation 1 add 3 -%
 	addi R3,R0,1
 	addi R1,R3,3
 	sw temp_4(R0),R1
@@ -146,7 +146,7 @@
 	lw R3,arr(R1)
 	sw temp_5(R0),R3
 
-	%- Adding literals 2 and 3 -%
+	%- Computation 2 add 3 -%
 	addi R1,R0,2
 	addi R3,R1,3
 	sw temp_7(R0),R3
@@ -161,7 +161,7 @@
 	lw R1,arr(R3)
 	sw temp_8(R0),R1
 
-	%- Adding variables temp_8 and temp_5 -%
+	%- Computation temp_8 add temp_5 -%
 	lw R3,temp_8(R0)
 	lw R1,temp_5(R0)
 	add R2,R3,R1
