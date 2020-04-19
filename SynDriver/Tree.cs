@@ -61,7 +61,7 @@ namespace SynSemDriver
                 return;
             }
 
-            Console.WriteLine(spaces + root.Value);
+            //Console.WriteLine(spaces + root.Value);
 
             TreeNode<T> child = null;
 

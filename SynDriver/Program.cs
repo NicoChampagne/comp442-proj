@@ -65,7 +65,7 @@ namespace SynSemDriver
                         {
                             if (!inline)
                             {
-                                swErrors.WriteLine(token.ToErrorString());
+                                IOHelper.WriteLine(swErrors, token.ToErrorString());
                             }
                         }
                         else
@@ -125,56 +125,6 @@ namespace SynSemDriver
                 swTokens.Close();
                 swErrors.Close();
 
-                ////Read the first line of file
-                //var line = sr.ReadLine();
-                ////Continue to read until you reach end of file
-                //while (line != null)
-                //{
-                //    // Analyze the line
-                //    var trimmedLine = Regex.Replace(line, @"\s+", "");
-                //    string[] separator = { "][" };
-                //    var words = trimmedLine.Split(separator, StringSplitOptions.None);
-
-                //    for (int i = 0; i < words.Length; i++)
-                //    {
-                //        if (words[i].Equals(string.Empty))
-                //        {
-                //            continue;
-                //        }
-
-                //        if (i == 0)
-                //        {
-                //            words[i] = words[i].Substring(1);
-                //        }
-
-                //        if (i == words.Length - 1)
-                //        {
-                //            words[i] = words[i].Substring(0, words[i].Length-1);
-                //        }
-
-                //        var splitToken = words[i].Trim().Split(',');
-
-                //        if (splitToken[0].Equals("inlinecmt") || splitToken[0].Equals("blockcmt"))
-                //        {
-                //            continue;
-                //        }
-
-                //        if (splitToken[0].Equals("comma"))
-                //        {
-                //            splitToken[2] = splitToken[3];
-                //            splitToken[3] = splitToken[4];
-                //            splitToken[1] = ",";
-                //        }
-
-
-                //        var token = new TokenData(splitToken[0], splitToken[1], int.Parse(splitToken[2]), int.Parse(splitToken[3]));
-                //        tokens.Add(token);
-                //    }
-
-                //    //Read the next line
-                //    line = sr.ReadLine();
-                //}
-
                 var swDev = new StreamWriter(Path.GetDirectoryName(args[0]) + "\\" + fileName + ".outderivation");
                 var swTree = new StreamWriter(Path.GetDirectoryName(args[0]) + "\\" + fileName + ".outast");
                 var swSynErrors = new StreamWriter(Path.GetDirectoryName(args[0]) + "\\" + fileName + ".outsyntaxerrors");
@@ -183,7 +133,7 @@ namespace SynSemDriver
 
                 foreach (string errorLine in parsedOutput.errorList)
                 {
-                    swSynErrors.WriteLine(errorLine);
+                    IOHelper.WriteLine(swSynErrors, errorLine);
                 }
 
                 parsedOutput.parseTree.TraverseDFSInFile(swDev);
@@ -211,9 +161,9 @@ namespace SynSemDriver
                 // Traverse Ast and ensure semantics are good.
                 var semResult = SemanticAnalyzer.SemanticAnalysis(absTree, symbolTableResult.symbolTable, symbolTableResult.errorList);
 
-                foreach(var error in symbolTableResult.errorList)
+                foreach(var errorLine in symbolTableResult.errorList)
                 {
-                    swSemErrors.WriteLine(error);
+                    IOHelper.WriteLine(swSemErrors, errorLine);
                 }
 
                 swTable.Close();

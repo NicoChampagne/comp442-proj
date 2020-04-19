@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeGenerator.cs" />
+    <Compile Include="IOHelper.cs" />
     <Compile Include="ParseTable.cs" />
     <Compile Include="SemanticAnalyzer.cs" />
     <Compile Include="SymbolTable.cs" />
@@ -61,6 +62,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestFiles\bubblesort.src" />
+    <None Include="TestFiles\polynomial.src" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

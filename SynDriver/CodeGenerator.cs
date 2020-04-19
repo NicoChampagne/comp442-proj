@@ -92,7 +92,7 @@ namespace SynSemDriver
                     inLoop = statementStack.Contains("while");
                 }
 
-                Console.WriteLine(items);
+                //Console.WriteLine(items);
                 if (items.Equals(";") || (items.Equals(")") && inLoop && startingIfOrLoop) || (items.Equals(")") && inIf && startingIfOrLoop))
                 {
                     // interpret the line of code
@@ -910,7 +910,7 @@ namespace SynSemDriver
                     inLoop = statementStack.Contains("while");
                 }
 
-                Console.WriteLine(items);
+                //Console.WriteLine(items);
                 if (items.Equals(";") || (items.Equals(")") && inLoop && startingIfOrLoop) || (items.Equals(")") && inIf && startingIfOrLoop) || items.Equals(":"))
                 {
                     // interpret the line of code
