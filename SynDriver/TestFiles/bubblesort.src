@@ -3,31 +3,35 @@ bubbleSort(integer arr[], integer size) : void
   local
     integer n;
     integer i;
-    integer j;
+    integer k;
     integer temp; 
+    integer temp2; 
   do
     n = size;
     i = 0;
-    j = 0;
+    k = 0;
     temp = 0;
     while (i < n-1)
       do
-        while (j < n-i-1)
+		temp2 = i+1; 
+        while (k < n-temp2)
           do
-            if (arr[j] > arr[j+1]) 
+            if (arr[k] > arr[k+1]) 
               then
                 do
                   // swap temp and arr[i]
-                  temp = arr[j];
-                  arr[j] = arr[j+1];
-                  arr[j+1] = temp;
+                  temp = arr[k];
+                  arr[k] = arr[k+1];
+                  arr[k+1] = temp;
                 end
               else
 	        ;
-            j = j+1;
-          end;
+            k = k+1;
+          end
+		  ;
         i = i+1;
-      end;
+      end
+	  ;
   end
    
 /* Print the array */
@@ -42,7 +46,8 @@ printarray(integer arr[], integer size) : void
       do
         write(arr[i]);
         i = i+1;
-      end;
+      end
+	  ;
   end 
 
 // main funtion to test above

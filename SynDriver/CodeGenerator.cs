@@ -444,7 +444,7 @@ namespace SynSemDriver
 
                                 var register = registerPool.Pop();
                                 moonExecCode.Add("\n\t%- Assigning function parameter " + paramName + " -%");
-                                moonExecCode.Add("\taddi " + register + ",R0," + lineOfCodeToInterpret[parenthesisIndex + 1]);
+                                moonExecCode.Add("\taddi " + register + ",R0," + paramList[0]);
                                 moonExecCode.Add("\tsw " + paramName + "(R0)," + register);
                                 registerPool.Push(register);
 
@@ -900,8 +900,10 @@ namespace SynSemDriver
             var startingIfOrLoop = false;
             var gotParams = false;
             var funcParamCounter = 0;
+			var ifCountStack = new Stack<int>();
+			var loopCountStack = new Stack<int>();
 
-            moonFunctionCode.Add("\n\t%- Function definition for " + functionName + " -%");
+			moonFunctionCode.Add("\n\t%- Function definition for " + functionName + " -%");
             moonFunctionCode.Add(functionName);
 
             var lineOfCodeToInterpret = new List<string>();
@@ -946,7 +948,19 @@ namespace SynSemDriver
                     // interpret the line of code
                     startingIfOrLoop = false;
 
-                    if ((lineOfCodeToInterpret.Count() == 1 || lineOfCodeToInterpret.Count() == 0) && items.Equals(";") && (inLoop || inIf))
+					if (lineOfCodeToInterpret.Contains("else") && inStatements)
+					{
+						var currentIfCount = ifCountStack.Peek();
+						// write out else beginning 
+						var endElseNumber = functionName + "_else" + currentIfCount;
+						var endIfNumber = functionName + "_endif" + currentIfCount;
+
+						moonFunctionCode.Add("\n\t%- Start branch for else statement -%");
+						moonFunctionCode.Add("\tj " + endIfNumber);
+						moonFunctionCode.Add(endElseNumber);
+					}
+
+					if ((lineOfCodeToInterpret.Count() == 2 || lineOfCodeToInterpret.Count() == 1 || lineOfCodeToInterpret.Count() == 0) && items.Equals(";") && (inLoop || inIf))
                     {
                         var ending = statementStack.Pop();
                         inIf = statementStack.Contains("if");
@@ -955,29 +969,24 @@ namespace SynSemDriver
                         // write out while loop ending 
                         if (ending.Equals("while"))
                         {
-                            var startWhileNumber = "gowhile" + loopCountFunc;
-                            var endWhileNumber = "endwhile" + loopCountFunc;
+							var currentloopCount = loopCountStack.Peek();
+							var startWhileNumber = functionName + "_gowhile" + currentloopCount;
+                            var endWhileNumber = functionName + "_endwhile" + currentloopCount;
                             moonFunctionCode.Add("\tj " + startWhileNumber);
                             moonFunctionCode.Add(endWhileNumber);
-                        }
+
+							loopCountStack.Pop();
+						}
                         else if (ending.Equals("if"))
                         {
-                            // write out else beginning 
-                            var endIfNumber = "endif" + ifCountFunc;
+							var currentIfCount = ifCountStack.Peek();
+							// write out else beginning 
+							var endIfNumber = functionName + "_endif" + currentIfCount;
                             moonFunctionCode.Add("\n\t%- End if statement -%");
                             moonFunctionCode.Add(endIfNumber);
-                        }
-                    }
 
-                    if (lineOfCodeToInterpret.Contains("else") && inStatements && inIf)
-                    {
-                        // write out else beginning 
-                        var endElseNumber = "else" + ifCountFunc;
-                        var endIfNumber = "endif" + ifCountFunc;
-
-                        moonFunctionCode.Add("\n\t%- Start branch for else statement -%");
-                        moonFunctionCode.Add("\tj " + endIfNumber);
-                        moonFunctionCode.Add(endElseNumber);
+							ifCountStack.Pop();
+						}
                     }
 
                     if (!gotParams)
@@ -1014,9 +1023,10 @@ namespace SynSemDriver
 
                     if (lineOfCodeToInterpret.Contains("while") && inStatements && inLoop)
                     {
-                        // write out while loop beginning 
-                        var startWhileNumber = "gowhile" + ++loopCountFunc;
-                        var endWhileNumber = "endwhile" + loopCountFunc;
+						loopCountStack.Push(++loopCountFunc);
+						// write out while loop beginning 
+						var startWhileNumber = functionName+"_gowhile" + loopCountFunc;
+                        var endWhileNumber = functionName + "_endwhile" + loopCountFunc;
                         moonFunctionCode.Add(startWhileNumber);
                         var expressionResult = ComputeExpression(lineOfCodeToInterpret, true, functionName, functionInfo.Item2);
 
@@ -1029,9 +1039,10 @@ namespace SynSemDriver
                     }
                     else if (lineOfCodeToInterpret.Contains("if") && inStatements && inIf)
                     {
-                        // write out while loop beginning 
-                        var startElseNumber = "else" + ++ifCountFunc;
-                        var expressionResult = ComputeExpression(lineOfCodeToInterpret, symbolTable: functionInfo.Item2);
+						ifCountStack.Push(++ifCountFunc);
+						// write out while loop beginning 
+						var startElseNumber = functionName + "_else" + ifCountFunc;
+                        var expressionResult = ComputeExpression(lineOfCodeToInterpret, isaFunc: true, funcName: functionName, symbolTable: functionInfo.Item2);
 
                         var register = registerPool.Pop();
                         moonFunctionCode.Add("\n\t%- Start branch for if statement -%");
@@ -1112,7 +1123,7 @@ namespace SynSemDriver
                                 if (lineOfCodeToInterpret[idIndex + 2].Equals("["))
                                 {
                                     var varValue = lineOfCodeToInterpret[idIndex + 1];
-                                    var offsetVar = lineOfCodeToInterpret[idIndex + 4];
+                                    var offsetVar = functionInfo.Item2.Name + "_" + lineOfCodeToInterpret[idIndex + 4];
 
                                     moonFunctionCode.Add("\n\t%- Printing value of " + functionInfo.Item2.Name + "_" + varValue + " -%");
                                     moonFunctionCode.Add("\tlw R3," + offsetVar + "(R0)");
@@ -1237,7 +1248,7 @@ namespace SynSemDriver
                             if (lineOfCodeToInterpret[idIndex + 2].Equals("["))
                             {
                                 var varValue = lineOfCodeToInterpret[idIndex + 1];
-                                var offsetVar = lineOfCodeToInterpret[idIndex + 4];
+                                var offsetVar = functionInfo.Item2.Name + "_" + lineOfCodeToInterpret[idIndex + 4];
 
                                 moonFunctionCode.Add("\n\t%- Printing value of " + functionInfo.Item2.Name + "_" + varValue + " -%");
                                 moonFunctionCode.Add("\tlw R3," + offsetVar + "(R0)");
@@ -1332,7 +1343,7 @@ namespace SynSemDriver
                                 }
 
                                 var register = registerPool.Pop();
-                                moonFunctionCode.Add("\tlw " + register + ",R0," + returnOfExpression);
+                                moonFunctionCode.Add("\tlw " + register + "," + returnOfExpression+ "(R0)");
                                 moonFunctionCode.Add("\tsw " + functionName + "_" + varNameToAssign + "(" + offsetRegister + ")," + register);
                                 registerPool.Push(offsetRegister);
                                 registerPool.Push(register);
@@ -1412,8 +1423,9 @@ namespace SynSemDriver
                             else
                             {
                                 var register = registerPool.Pop();
+								varName = !varName.Contains("lit_") ? functionName + "_" + varName : varName;
                                 moonFunctionCode.Add("\n\t%- Assigning variable " + functionName + "_" + varNameToAssign + " -%");
-                                moonFunctionCode.Add("\tlw " + register + "," + functionName + "_" + varName + "(R0)");
+                                moonFunctionCode.Add("\tlw " + register + "," + varName + "(R0)");
                                 moonFunctionCode.Add("\tsw " + functionName + "_" + varNameToAssign + "(R0)," + register);
                                 registerPool.Push(register);
                             }
@@ -1744,10 +1756,10 @@ namespace SynSemDriver
                     var offsetTempVarName2 = "temp_" + ++tempCount;
                     moonDataCode.Add(offsetTempVarName2 + " res 4");
 
-                    var offsetVar = items[count - 2];
+                    var offsetVar = isaFunc && !items[count - 2].Contains("temp_") ? funcName + "_" + items[count - 2] : items[count - 2];
 
-                    var register = registerPool.Pop();
-                    listToOutput.Add("\n\t%- Retriving value of  " + offsetVar + " -%");
+					var register = registerPool.Pop();
+                    listToOutput.Add("\n\t%- Retriving value of " + offsetVar + " -%");
                     listToOutput.Add("\tlw " + register + "," + offsetVar + "(R0)");
                     listToOutput.Add("\tsw " + offsetTempVarName1 + "(R0)," + register);
                     registerPool.Push(register);
@@ -1856,7 +1868,7 @@ namespace SynSemDriver
                 }
                 else
                 {
-                    lastOperand = isaFunc ? funcName + "_" + items[count - 1] : items[count - 1];
+                    lastOperand = isaFunc && !items[count - 1].Contains("temp_") ? funcName + "_" + items[count - 1] : items[count - 1];
                     lastOperandType = "variable";
                     items.RemoveAt(count - 1);
                     items.RemoveAt(count - 2);
@@ -1940,10 +1952,10 @@ namespace SynSemDriver
                     var offsetTempVarName2 = "temp_" + ++tempCount;
                     moonDataCode.Add(offsetTempVarName2 + " res 4");
 
-                    var offsetVar = items[count - 2];
+					var offsetVar = isaFunc && !items[count - 2].Contains("temp_") ? funcName + "_" + items[count - 2] : items[count - 2];
 
-                    var register = registerPool.Pop();
-                    listToOutput.Add("\n\t%- Retriving value of  " + offsetVar + " -%");
+					var register = registerPool.Pop();
+                    listToOutput.Add("\n\t%- Retriving value of " + offsetVar + " -%");
                     listToOutput.Add("\tlw " + register + "," + offsetVar + "(R0)");
                     listToOutput.Add("\tsw " + offsetTempVarName1 + "(R0)," + register);
                     registerPool.Push(register);
@@ -2053,7 +2065,7 @@ namespace SynSemDriver
                 }
                 else
                 {
-                    firstOperand = isaFunc ? funcName + "_" + items[count - 1] : items[count - 1];
+                    firstOperand = isaFunc && !items[count - 1].Contains("temp_") ? funcName + "_" + items[count - 1] : items[count - 1];
                     firstOperandType = "variable";
                     items.RemoveAt(count - 1);
                     items.RemoveAt(count - 2);

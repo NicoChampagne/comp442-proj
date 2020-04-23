@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------
 Table: Global
-Name = bubbleSort; Kind = Function; Type = void: integer[], integer; Offset = 20; ScopedOffset = 0; Link = bubbleSort
+Name = bubbleSort; Kind = Function; Type = void: integer[], integer; Offset = 24; ScopedOffset = 0; Link = bubbleSort
 Name = printarray; Kind = Function; Type = void: integer[], integer; Offset = 12; ScopedOffset = 0; Link = printarray
 Name = main; Kind = Function; Type = ; Offset = 0; ScopedOffset = 0; Link = main
 ----------------------------------------------------------------------------
@@ -10,8 +10,9 @@ Name = arr; Kind = Variable; Type = integer[]; Offset = 0; ScopedOffset = 0; Lin
 Name = size; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
 Name = n; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 8; Link = 
 Name = i; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 12; Link = 
-Name = j; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 16; Link = 
+Name = k; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 16; Link = 
 Name = temp; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 20; Link = 
+Name = temp2; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 24; Link = 
 ----------------------------------------------------------------------------
 ----------------------------------------------------------------------------
 Table: printarray

@@ -19,25 +19,25 @@ bubbleSort
 	sw lit_0(R0),R1
 
 	%- Assigning variable bubbleSort_i -%
-	lw R1,bubbleSort_lit_0(R0)
+	lw R1,lit_0(R0)
 	sw bubbleSort_i(R0),R1
 
 	%- Storing literal lit_1 -%
 	addi R1,R0,0
 	sw lit_1(R0),R1
 
-	%- Assigning variable bubbleSort_j -%
-	lw R1,bubbleSort_lit_1(R0)
-	sw bubbleSort_j(R0),R1
+	%- Assigning variable bubbleSort_k -%
+	lw R1,lit_1(R0)
+	sw bubbleSort_k(R0),R1
 
 	%- Storing literal lit_2 -%
 	addi R1,R0,0
 	sw lit_2(R0),R1
 
 	%- Assigning variable bubbleSort_temp -%
-	lw R1,bubbleSort_lit_2(R0)
+	lw R1,lit_2(R0)
 	sw bubbleSort_temp(R0),R1
-gowhile1
+bubbleSort_gowhile1
 
 	%- Computation bubbleSort_n sub 1 -%
 	lw R1,bubbleSort_n(R0)
@@ -46,34 +46,73 @@ gowhile1
 
 	%- Branch to end while loop -%
 	lw R2,temp_1(R0)
-	bz R2,endwhile1
-gowhile2
+	bz R2,bubbleSort_endwhile1
 
-	%- Computation bubbleSort_i sub 1 -%
+	%- Computation bubbleSort_i add 1 -%
 	lw R2,bubbleSort_i(R0)
-	subi R1,R2,1
+	addi R1,R2,1
 	sw temp_2(R0),R1
 
-	%- Computation bubbleSort_n sub bubbleSort_temp_2 -%
+	%- Storing result of temp_2 in bubbleSort_temp2 -%
+	lw R1,temp_2(R0)
+	sw bubbleSort_temp2(R0),R1
+bubbleSort_gowhile2
+
+	%- Computation bubbleSort_n sub bubbleSort_temp2 -%
 	lw R1,bubbleSort_n(R0)
-	lw R2,bubbleSort_temp_2(R0)
+	lw R2,bubbleSort_temp2(R0)
 	sub R3,R1,R2
 	sw temp_3(R0),R3
 
 	%- Branch to end while loop -%
 	lw R3,temp_3(R0)
-	bz R3,endwhile2
+	bz R3,bubbleSort_endwhile2
+
+	%- Computation bubbleSort_k add 1 -%
+	lw R3,bubbleSort_k(R0)
+	addi R2,R3,1
+	sw temp_4(R0),R2
+
+	%- Mult value of temp_4 by int size -%
+	lw R2,temp_4(R0)
+	muli R3,R2,4
+	sw temp_6(R0),R3
+
+	%- Setting arr[temp_4] to temp variable temp_5 -%
+	lw R2,temp_6(R0)
+	lw R3,arr(R2)
+	sw temp_5(R0),R3
+
+	%- Retriving value of bubbleSort_k -%
+	lw R2,bubbleSort_k(R0)
+	sw temp_8(R0),R2
+
+	%- Mult value of temp_8 by int size -%
+	lw R2,temp_8(R0)
+	muli R3,R2,4
+	sw temp_9(R0),R3
+
+	%- Setting arr[0] to temp variable temp_7 -%
+	lw R2,temp_9(R0)
+	lw R3,arr(R2)
+	sw temp_7(R0),R3
+
+	%- Computation temp_7 cgt temp_5 -%
+	lw R2,temp_7(R0)
+	lw R3,temp_5(R0)
+	cgt R1,R2,R3
+	sw temp_10(R0),R1
 
 	%- Start branch for if statement -%
 	lw R1,temp_10(R0)
-	bz R1,else1
+	bz R1,bubbleSort_else1
 
 	%- Assigning variable bubbleSort_temp -%
 	lw R1,bubbleSort_arr(R0)
 	sw bubbleSort_temp(R0),R1
 
-	%- Computation bubbleSort_j add 1 -%
-	lw R1,bubbleSort_j(R0)
+	%- Computation bubbleSort_k add 1 -%
+	lw R1,bubbleSort_k(R0)
 	addi R3,R1,1
 	sw temp_11(R0),R3
 
@@ -86,23 +125,28 @@ gowhile2
 	lw R3,temp_13(R0)
 	lw R1,arr(R3)
 	sw temp_12(R0),R1
-	lw R3,R0,temp_12
+	lw R3,temp_12(R0)
 	sw bubbleSort_arr(R0),R3
 	lw R3,bubbleSort_temp(R0)
 	sw bubbleSort_arr(R0),R3
 
 	%- Start branch for else statement -%
-	j endif1
-else1
+	j bubbleSort_endif1
+bubbleSort_else1
 
-	%- Computation bubbleSort_j add 1 -%
-	lw R3,bubbleSort_j(R0)
+	%- End if statement -%
+bubbleSort_endif1
+
+	%- Computation bubbleSort_k add 1 -%
+	lw R3,bubbleSort_k(R0)
 	addi R0,R3,1
 	sw temp_14(R0),R0
 
-	%- Storing result of temp_14 in bubbleSort_j -%
+	%- Storing result of temp_14 in bubbleSort_k -%
 	lw R0,temp_14(R0)
-	sw bubbleSort_j(R0),R0
+	sw bubbleSort_k(R0),R0
+	j bubbleSort_gowhile2
+bubbleSort_endwhile2
 
 	%- Computation bubbleSort_i add 1 -%
 	lw R0,bubbleSort_i(R0)
@@ -112,6 +156,8 @@ else1
 	%- Storing result of temp_15 in bubbleSort_i -%
 	lw R3,temp_15(R0)
 	sw bubbleSort_i(R0),R3
+	j bubbleSort_gowhile1
+bubbleSort_endwhile1
 
 	jr R15
 
@@ -135,9 +181,9 @@ printarray
 	sw lit_3(R0),R3
 
 	%- Assigning variable printarray_i -%
-	lw R3,printarray_lit_3(R0)
+	lw R3,lit_3(R0)
 	sw printarray_i(R0),R3
-gowhile3
+printarray_gowhile3
 
 	%- Computation printarray_i clt printarray_n -%
 	lw R3,printarray_i(R0)
@@ -147,10 +193,10 @@ gowhile3
 
 	%- Branch to end while loop -%
 	lw R0,temp_16(R0)
-	bz R0,endwhile3
+	bz R0,printarray_endwhile3
 
 	%- Printing value of printarray_arr -%
-	lw R3,i(R0)
+	lw R3,printarray_i(R0)
 	lw R2,printarray_arr(R3)
 	add R1,R0,R2
 	jl R15,putint
@@ -166,47 +212,12 @@ gowhile3
 	%- Storing result of temp_17 in printarray_i -%
 	lw R0,temp_17(R0)
 	sw printarray_i(R0),R0
-	j gowhile3
-endwhile3
+	j printarray_gowhile3
+printarray_endwhile3
 
 	jr R15
 
 	entry
-
-	%- Computation j add 1 -%
-	lw R3,j(R0)
-	addi R2,R3,1
-	sw temp_4(R0),R2
-
-	%- Mult value of temp_4 by int size -%
-	lw R2,temp_4(R0)
-	muli R3,R2,4
-	sw temp_6(R0),R3
-
-	%- Setting arr[temp_4] to temp variable temp_5 -%
-	lw R2,temp_6(R0)
-	lw R3,arr(R2)
-	sw temp_5(R0),R3
-
-	%- Retriving value of  j -%
-	lw R2,j(R0)
-	sw temp_8(R0),R2
-
-	%- Mult value of temp_8 by int size -%
-	lw R2,temp_8(R0)
-	muli R3,R2,4
-	sw temp_9(R0),R3
-
-	%- Setting arr[0] to temp variable temp_7 -%
-	lw R2,temp_9(R0)
-	lw R3,arr(R2)
-	sw temp_7(R0),R3
-
-	%- Computation temp_7 glt temp_5 -%
-	lw R2,temp_7(R0)
-	lw R3,temp_5(R0)
-	glt R1,R2,R3
-	sw temp_10(R0),R1
 
 	%- Storing literal lit_4 -%
 	addi R0,R0,64
@@ -276,7 +287,7 @@ endwhile3
 	sw printarray_param1(R0),R0
 
 	%- Assigning function parameter printarray_param2 -%
-	addi R0,R0,id
+	addi R0,R0,7
 	sw printarray_param2(R0),R0
 
 	%- Jump to function printarray -%
@@ -287,7 +298,7 @@ endwhile3
 	sw bubbleSort_param1(R0),R0
 
 	%- Assigning function parameter bubbleSort_param2 -%
-	addi R0,R0,id
+	addi R0,R0,7
 	sw bubbleSort_param2(R0),R0
 
 	%- Jump to function bubbleSort -%
@@ -298,7 +309,7 @@ endwhile3
 	sw printarray_param1(R0),R0
 
 	%- Assigning function parameter printarray_param2 -%
-	addi R0,R0,id
+	addi R0,R0,7
 	sw printarray_param2(R0),R0
 
 	%- Jump to function printarray -%
@@ -306,12 +317,15 @@ endwhile3
 
 	hlt
 
+bubbleSort_param1 res 4
+bubbleSort_param2 res 4
 bubbleSort_arr	res 4
 bubbleSort_size	res 4
 bubbleSort_n	res 4
 bubbleSort_i	res 4
-bubbleSort_j	res 4
+bubbleSort_k	res 4
 bubbleSort_temp	res 4
+bubbleSort_temp2	res 4
 lit_0 res 4
 lit_1 res 4
 lit_2 res 4
@@ -330,6 +344,8 @@ temp_12 res 4
 temp_13 res 4
 temp_14 res 4
 temp_15 res 4
+printarray_param1 res 4
+printarray_param2 res 4
 printarray_arr	res 4
 printarray_size	res 4
 printarray_n	res 4
@@ -345,7 +361,3 @@ lit_7 res 4
 lit_8 res 4
 lit_9 res 4
 lit_10 res 4
-printarray_param1 res 4
-printarray_param2 res 4
-bubbleSort_param1 res 4
-bubbleSort_param2 res 4
