@@ -1,0 +1,67 @@
+----------------------------------------------------------------------------
+Table: Global
+Name = POLYNOMIAL; Kind = Class; Type = ; Offset = 0; ScopedOffset = 0; Link = POLYNOMIAL
+Name = LINEAR; Kind = Class; Type = ; Offset = 0; ScopedOffset = 0; Link = LINEAR
+Name = QUADRATIC; Kind = Class; Type = ; Offset = 0; ScopedOffset = 0; Link = QUADRATIC
+Name = POLYNOMIAL; Kind = Function; Type = float: float; Offset = 8; ScopedOffset = 0; Link = POLYNOMIAL_evaluate
+Name = LINEAR; Kind = Function; Type = float: float; Offset = 0; ScopedOffset = 0; Link = LINEAR_evaluate
+Name = QUADRATIC; Kind = Function; Type = id: float, float, float; Offset = 0; ScopedOffset = 0; Link = QUADRATIC_build
+Name = main; Kind = Function; Type = ; Offset = 44; ScopedOffset = 0; Link = main
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: POLYNOMIAL
+Name = evaluate; Kind = Function; Type = float: float; Offset = 0; ScopedOffset = 0; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: LINEAR
+Inherits: POLYNOMIAL
+Name = private; Kind = Variable; Type = POLYNOMIAL; Offset = 0; ScopedOffset = 0; Link = 
+Name = a; Kind = Variable; Type = float; Offset = 8; ScopedOffset = 8; Link = 
+Name = b; Kind = Variable; Type = float; Offset = 8; ScopedOffset = 16; Link = 
+Name = build; Kind = Function; Type = float: float; Offset = 0; ScopedOffset = 0; Link = 
+Name = evaluate; Kind = Function; Type = float: float; Offset = 0; ScopedOffset = 0; Link = 
+Name = evaluate; Kind = Function; Type = float: float; Offset = 0; ScopedOffset = 0; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: QUADRATIC
+Inherits: POLYNOMIAL
+Name = private; Kind = Variable; Type = POLYNOMIAL; Offset = 0; ScopedOffset = 0; Link = 
+Name = a; Kind = Variable; Type = float; Offset = 8; ScopedOffset = 8; Link = 
+Name = b; Kind = Variable; Type = float; Offset = 8; ScopedOffset = 16; Link = 
+Name = c; Kind = Variable; Type = float; Offset = 8; ScopedOffset = 24; Link = 
+Name = build; Kind = Function; Type = float: float; Offset = 0; ScopedOffset = 0; Link = 
+Name = evaluate; Kind = Function; Type = float: float; Offset = 0; ScopedOffset = 0; Link = 
+Name = evaluate; Kind = Function; Type = float: float; Offset = 0; ScopedOffset = 0; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: POLYNOMIAL_evaluate
+Name = x; Kind = Variable; Type = float; Offset = 8; ScopedOffset = 8; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: LINEAR_evaluate
+Name = x; Kind = Variable; Type = float; Offset = 0; ScopedOffset = 0; Link = 
+Name = result; Kind = Variable; Type = float; Offset = 0; ScopedOffset = 0; Link = 
+Name = :; Kind = Variable; Type = QUADRATIC; Offset = 0; ScopedOffset = 0; Link = 
+Name = x; Kind = Variable; Type = float; Offset = 0; ScopedOffset = 0; Link = 
+Name = result; Kind = Variable; Type = float; Offset = 0; ScopedOffset = 0; Link = 
+Name = :; Kind = Variable; Type = LINEAR; Offset = 0; ScopedOffset = 0; Link = 
+Name = A; Kind = Variable; Type = float; Offset = 0; ScopedOffset = 0; Link = 
+Name = B; Kind = Variable; Type = float; Offset = 0; ScopedOffset = 0; Link = 
+Name = id; Kind = Variable; Type = LINEAR; Offset = 0; ScopedOffset = 0; Link = 
+Name = new_function; Kind = Variable; Type = LINEAR; Offset = 0; ScopedOffset = 0; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: QUADRATIC_build
+Name = A; Kind = Variable; Type = float; Offset = 0; ScopedOffset = 0; Link = 
+Name = B; Kind = Variable; Type = float; Offset = 0; ScopedOffset = 0; Link = 
+Name = C; Kind = Variable; Type = float; Offset = 0; ScopedOffset = 0; Link = 
+Name = id; Kind = Variable; Type = QUADRATIC; Offset = 0; ScopedOffset = 0; Link = 
+Name = new_function; Kind = Variable; Type = QUADRATIC; Offset = 0; ScopedOffset = 0; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: main
+Name = f1; Kind = Variable; Type = LINEAR; Offset = 16; ScopedOffset = 16; Link = 
+Name = f2; Kind = Variable; Type = QUADRATIC; Offset = 24; ScopedOffset = 40; Link = 
+Name = counter; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 44; Link = 
+----------------------------------------------------------------------------
+

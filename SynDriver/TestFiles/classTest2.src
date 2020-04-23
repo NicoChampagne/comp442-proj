@@ -1,0 +1,44 @@
+// Assignment 4 coverage:
+//      -------
+//      | YES |
+//      -------
+// 1.1: |  X  |
+// 1.2: |     |
+// 1.3: |  X  |
+// 1.4: |     |
+// 2.1: |  X  |
+// 2.2: |  X  |
+// 2.3: |     |
+// 2.4: |     |
+// 3.1: |  X  |
+// 3.2: |     |
+// 3.3: |     |
+// 3.4: |  X  |
+// 4.1: |  X  |
+// 4.2: |     |
+// 4.3: |  X  |
+// 4.4: |     |
+// 5.1: |  X  |
+// 5.2: |     |
+// 5.3: |  X  |
+//      ------
+
+class Line {
+	private integer x;
+	private integer y;
+};
+
+class Linear {
+	private Line line;
+};
+
+main  
+  local
+	Linear  linear;
+	integer sum;
+  do
+	linear.line.x = 2;
+	linear.line.y = 3;
+	sum = linear.line.x + linear.line.y;
+	write(sum);
+  end

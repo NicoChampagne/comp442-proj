@@ -1,0 +1,11 @@
+----------------------------------------------------------------------------
+Table: Global
+Name = main; Kind = Function; Type = ; Offset = 8; ScopedOffset = 0; Link = main
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: main
+Name = arr; Kind = Variable; Type = integer[]; Offset = 0; ScopedOffset = 0; Link = 
+Name = complex; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+Name = complex2; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 8; Link = 
+----------------------------------------------------------------------------
+

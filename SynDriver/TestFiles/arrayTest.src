@@ -1,0 +1,26 @@
+main  
+  local
+    integer arr[7]; 
+	integer complex;
+	integer complex2;
+  do
+    arr[0] = 64;
+    arr[1] = 34;
+    arr[2] = 25;
+    arr[3] = 12;
+    arr[4] = 22;
+    arr[5] = 11;
+    arr[6] = 90;
+	write(arr[0]);
+	write(arr[1]);
+	write(arr[2]);
+	write(arr[3]);
+	write(arr[4]);
+	write(arr[5]);
+	write(arr[6]);
+	complex = arr[5] + arr[4];
+	write(complex);
+	complex2 = arr[2+3] + arr[1+3];
+	write(complex2);
+
+  end

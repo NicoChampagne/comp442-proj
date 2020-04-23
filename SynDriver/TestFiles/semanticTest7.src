@@ -1,0 +1,11 @@
+
+main  
+  local
+	integer b;
+	Linear linear;
+  do
+	b.a = 2;
+	c = 1;
+	print(b);
+
+  end

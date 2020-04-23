@@ -51,8 +51,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="bubblesort.src" />
-    <None Include="conditionals.src" />
-    <None Include="minProg.src" />
     <None Include="polynomial.src" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

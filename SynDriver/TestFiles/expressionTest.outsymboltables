@@ -1,0 +1,22 @@
+----------------------------------------------------------------------------
+Table: Global
+Name = main; Kind = Function; Type = ; Offset = 56; ScopedOffset = 0; Link = main
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: main
+Name = a; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+Name = b; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 8; Link = 
+Name = c; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 12; Link = 
+Name = d; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 16; Link = 
+Name = e; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 20; Link = 
+Name = f; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 24; Link = 
+Name = g; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 28; Link = 
+Name = h; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 32; Link = 
+Name = i; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 36; Link = 
+Name = ii; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 40; Link = 
+Name = k; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 44; Link = 
+Name = l; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 48; Link = 
+Name = m; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 52; Link = 
+Name = n; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 56; Link = 
+----------------------------------------------------------------------------
+

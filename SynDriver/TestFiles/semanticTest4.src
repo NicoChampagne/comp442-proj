@@ -1,0 +1,10 @@
+main  
+  local
+	integer a[2][2];
+	integer b[2];
+	integer c;
+  do
+	a[0] = 2;
+	b[0][0] = 2;
+	c = a[0] + b[0][0];
+  end

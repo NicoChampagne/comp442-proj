@@ -1,0 +1,48 @@
+// Assignment 4 coverage:
+//      -------
+//      | YES |
+//      -------
+// 1.1: |  X  |
+// 1.2: |     |
+// 1.3: |  X  |
+// 1.4: |     |
+// 2.1: |  X  |
+// 2.2: |  X  |
+// 2.3: |     |
+// 2.4: |     |
+// 3.1: |  X  |
+// 3.2: |     |
+// 3.3: |     |
+// 3.4: |  X  |
+// 4.1: |  X  |
+// 4.2: |     |
+// 4.3: |  X  |
+// 4.4: |     |
+// 5.1: |  X  |
+// 5.2: |     |
+// 5.3: |  X  |
+//      ------
+
+class Linear {
+	private integer a;
+	private integer b;
+};
+
+main  
+  local
+    integer a;
+    integer b;
+	Linear  c;
+    integer d;
+  do
+	a = 2;
+	write(a);
+	b = 3;
+	write(b);
+	c.a = 4;
+	write(c.a);
+	c.b = 5;
+	write(c.b);
+	d = c.a + c.b;
+	write(d);
+  end

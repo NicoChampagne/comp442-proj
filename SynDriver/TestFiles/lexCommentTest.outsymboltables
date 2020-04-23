@@ -1,0 +1,15 @@
+----------------------------------------------------------------------------
+Table: Global
+Name = BClass; Kind = Class; Type = ; Offset = 0; ScopedOffset = 0; Link = BClass
+Name = main; Kind = Function; Type = ; Offset = 4; ScopedOffset = 0; Link = main
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: BClass
+Name = array; Kind = Variable; Type = integer[]; Offset = 16; ScopedOffset = 16; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: main
+Name = arr; Kind = Variable; Type = integer[]; Offset = 0; ScopedOffset = 0; Link = 
+Name = int; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+----------------------------------------------------------------------------
+

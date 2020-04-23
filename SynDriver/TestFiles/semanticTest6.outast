@@ -1,0 +1,107 @@
+START
+   ->
+      ->
+         Class:
+            class
+            ->
+               id
+                  Linear
+            ->
+               
+            {
+            ->
+               ->
+                  private
+               ->
+                  ->
+                     id
+                        Quadratic
+                  ->
+                     ->
+                        ->
+                           id
+                              a
+                        
+                  ;
+               
+            }
+            ;
+         ->
+            Class:
+               class
+               ->
+                  id
+                     Quadratic
+               ->
+                  
+               {
+               ->
+                  ->
+                     private
+                  ->
+                     ->
+                        id
+                           Linear
+                     ->
+                        ->
+                           ->
+                              id
+                                 a
+                           
+                     ;
+                  ->
+                     ->
+                        private
+                     ->
+                        ->
+                           ->
+                              integer
+                           ->
+                              id
+                                 b
+                           
+                           ;
+                     
+               }
+               ;
+            
+      
+      main
+      ->
+         ->
+            local
+            ->
+               ->
+                  ->
+                     ->
+                        id
+                           Quadratic
+                  ->
+                     id
+                        quad
+                  
+                  ;
+               ->
+                  ->
+                     ->
+                        ->
+                           id
+                              Linear
+                     ->
+                        id
+                           linear
+                     
+                     ;
+                  ->
+                     ->
+                        ->
+                           integer
+                        ->
+                           id
+                              a
+                        
+                        ;
+                     
+         do
+         
+         end

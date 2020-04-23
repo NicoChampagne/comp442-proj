@@ -1,0 +1,5 @@
+Syntactic error on line (19,4) Skipping token: * with production: ExprOrFunc
+Syntactic error on line (20,4) Skipping token: / with production: ExprOrFunc
+Syntactic error on line (22,4) Skipping token: / with production: ExprOrFunc
+Syntactic error on line (22,5) Skipping token: quad with production: ExprOrFunc
+Syntactic error on line (24,4) Skipping token: / with production: ExprOrFunc

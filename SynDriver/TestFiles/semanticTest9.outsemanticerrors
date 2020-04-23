@@ -1,0 +1,5 @@
+Error(5,8): multiple variables with same name in the same scope, var: a in Scope: main
+Error(5,8): multiple variables with same name in the same scope, var: a in Scope: main
+Warning(5): shadowed inherited class member: x
+Warning(5): shadowed inherited class member: y
+Error(11): use of undeclared local variable, class, or function, named: x in class/function: main

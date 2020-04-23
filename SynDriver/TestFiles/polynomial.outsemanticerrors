@@ -1,0 +1,87 @@
+Error(5): function with same name and same type, function: evaluate with Type: float: float
+Error(5): function with same name and same type, function: evaluate with Type: float: float
+Warning(9): function overloaded, function: evaluate in class: LINEAR
+Error(5): function with same name and same type, function: evaluate with Type: float: float
+Error(5): function with same name and same type, function: evaluate with Type: float: float
+Warning(9): function overloaded, function: evaluate in class: LINEAR
+Error(5): function with same name and same type, function: evaluate with Type: float: float
+Error(5): function with same name and same type, function: evaluate with Type: float: float
+Warning(9): function overloaded, function: evaluate in class: QUADRATIC
+Error(5): function with same name and same type, function: evaluate with Type: float: float
+Error(5): function with same name and same type, function: evaluate with Type: float: float
+Warning(9): function overloaded, function: evaluate in class: QUADRATIC
+Error(5,8): multiple variables with same name in the same scope, var: x in Scope: LINEAR_evaluate
+Error(5,8): multiple variables with same name in the same scope, var: result in Scope: LINEAR_evaluate
+Error(5,8): multiple variables with same name in the same scope, var: : in Scope: LINEAR_evaluate
+Error(5,8): multiple variables with same name in the same scope, var: x in Scope: LINEAR_evaluate
+Error(5,8): multiple variables with same name in the same scope, var: result in Scope: LINEAR_evaluate
+Error(5,8): multiple variables with same name in the same scope, var: : in Scope: LINEAR_evaluate
+Error(12): function call parameters do not match function definition, function: evaluate
+Error(6): function called does not contain definition, function: evaluate, with parameters: 
+Error(11): use of undeclared local variable or function, name: x in class/function: POLYNOMIAL
+Error(12): function call parameters do not match function definition, function: build
+Error(6): function called does not contain definition, function: build, with parameters: 
+Error(11): use of undeclared local variable or function, name: A in class/function: LINEAR
+Error(11): use of undeclared local variable or function, name: B in class/function: LINEAR
+Error(12): function call parameters do not match function definition, function: evaluate
+Error(6): function called does not contain definition, function: evaluate, with parameters: 
+Error(11): use of undeclared local variable or function, name: x in class/function: LINEAR
+Error(11): use of undeclared local variable or function, name: c in class/function: LINEAR
+Error(12): function call parameters do not match function definition, function: build
+Error(6): function called does not contain definition, function: build, with parameters: 
+Error(11): use of undeclared local variable or function, name: A in class/function: LINEAR
+Error(11): use of undeclared local variable or function, name: B in class/function: LINEAR
+Error(11): use of undeclared local variable or function, name: C in class/function: LINEAR
+Error(12): function call parameters do not match function definition, function: evaluate
+Error(6): function called does not contain definition, function: evaluate, with parameters: 
+Error(11): use of undeclared local variable or function, name: x in class/function: LINEAR
+Error(11): use of undeclared local variable or function, name: evaluate in class/function: POLYNOMIAL_evaluate
+Error(12): function call parameters do not match function definition, function: evaluate
+Error(6): function called does not contain definition, function: evaluate, with parameters: 
+Error(10): returned value type does not match function return type, function: POLYNOMIAL
+Error(11): use of undeclared local variable or function, name: evaluate in class/function: LINEAR_evaluate
+Error(12): function call parameters do not match function definition, function: evaluate
+Error(6): function called does not contain definition, function: evaluate, with parameters: 
+Error(10): expression types are incompatible, first operand: result, second operand: 0
+Error(10): expression types are incompatible, first operand: result, second operand: a
+Error(11): use of undeclared local variable or function, name: a in class/function: LINEAR_evaluate
+Error(11): use of undeclared local variable or function, name: b in class/function: LINEAR_evaluate
+Error(10): returned value type does not match function return type, function: LINEAR
+Error(11): use of undeclared local variable or function, name: evaluate in class/function: LINEAR_evaluate
+Error(12): function call parameters do not match function definition, function: evaluate
+Error(6): function called does not contain definition, function: evaluate, with parameters: 
+Error(10): expression types are incompatible, first operand: result, second operand: a
+Error(11): use of undeclared local variable or function, name: a in class/function: LINEAR_evaluate
+Error(10): expression types are incompatible, first operand: result, second operand: b
+Error(11): use of undeclared local variable or function, name: b in class/function: LINEAR_evaluate
+Error(10): expression types are incompatible, first operand: result, second operand: c
+Error(11): use of undeclared local variable or function, name: c in class/function: LINEAR_evaluate
+Error(10): returned value type does not match function return type, function: LINEAR
+Error(11): use of undeclared local variable or function, name: build in class/function: LINEAR_evaluate
+Error(12): function call parameters do not match function definition, function: build
+Error(6): function called does not contain definition, function: build, with parameters: 
+Error(11): use of undeclared local variable or function, name: a in class/function: LINEAR_evaluate
+Error(10): expression types are incompatible, first operand: a, second operand: A
+Error(11): use of undeclared local variable or function, name: b in class/function: LINEAR_evaluate
+Error(10): expression types are incompatible, first operand: b, second operand: B
+Error(10): returned value type does not match function return type, function: LINEAR
+Error(11): use of undeclared local variable or function, name: build in class/function: LINEAR_evaluate
+Error(12): function call parameters do not match function definition, function: build
+Error(6): function called does not contain definition, function: build, with parameters: 
+Error(11): use of undeclared local variable or function, name: C in class/function: LINEAR_evaluate
+Error(11): use of undeclared local variable or function, name: a in class/function: LINEAR_evaluate
+Error(10): expression types are incompatible, first operand: a, second operand: A
+Error(11): use of undeclared local variable or function, name: b in class/function: LINEAR_evaluate
+Error(10): expression types are incompatible, first operand: b, second operand: B
+Error(15): Dot Operator error, variable/function not found in class: LINEAR for variable/function: c
+Error(11): use of undeclared local variable or function, name: c in class/function: LINEAR_evaluate
+Error(11): use of undeclared local variable or function, name: C in class/function: LINEAR_evaluate
+Error(10): returned value type does not match function return type, function: LINEAR
+Error(11): use of undeclared local variable or function, name: build in class/function: main
+Error(11): use of undeclared local variable or function, name: build in class/function: main
+Error(10): expression types are incompatible, first operand: build, second operand: 2
+Error(11): use of undeclared local variable or function, name: evaluate in class/function: main
+Error(11): use of undeclared local variable or function, name: evaluate in class/function: main
+Warning(6): function definition is not used, function: POLYNOMIAL, with return and parameters; float: float
+Warning(6): function definition is not used, function: LINEAR, with return and parameters; float: float
+Warning(6): function definition is not used, function: QUADRATIC, with return and parameters; id: float, float, float

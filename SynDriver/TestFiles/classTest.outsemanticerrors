@@ -1,0 +1,2 @@
+Error(10): expression types are incompatible, first operand: d, second operand: c
+Error(10): expression types are incompatible, first operand: a, second operand: c

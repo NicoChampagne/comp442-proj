@@ -1,0 +1,71 @@
+// Assignment 4 coverage:
+//      -------
+//      | YES |
+//      -------
+// 1.1: |  X  |
+// 1.2: |     |
+// 1.3: |     |
+// 1.4: |     |
+// 2.1: |  X  |
+// 2.2: |  X  |
+// 2.3: |     |
+// 2.4: |     |
+// 3.1: |  X  |
+// 3.2: |     |
+// 3.3: |     |
+// 3.4: |  X  |
+// 4.1: |     |
+// 4.2: |     |
+// 4.3: |     |
+// 4.4: |     |
+// 5.1: |  X  |
+// 5.2: |     |
+// 5.3: |     |
+//      ------
+
+main  
+  local
+    integer a; 
+    integer b;
+    integer c;
+    integer d;
+    integer e;
+    integer f;
+    integer g;
+	integer h; 
+    integer i;
+    integer ii;
+    integer k;
+    integer l;
+    integer m;
+    integer n;
+  do
+    a = 6;
+	write(a);
+	b = 2;
+	write(b);
+	c = a+2;
+	write(c);
+	d = 2+a;
+	write(d);
+	e = 2+2;
+	write(e);
+	f = b+b;
+	write(f);
+	g = b+b+b;
+	write(g);
+	h = 8-a;
+	write(h);
+	i = a-2;
+	write(i);
+	ii = a-b;
+	write(ii);
+	k = 2 * 2;
+	write(k);
+	l = 2 * b;
+	write(l);
+	m = a * b;
+	write(m);
+	n = a / b;
+	write(n);
+  end

@@ -1,0 +1,16 @@
+class Linear {
+	private Quadratic a;
+};
+
+class Quadratic {
+	private Linear a;
+	private integer b;
+};
+
+main  
+  local
+    Quadratic quad;
+	Linear linear;
+	integer a;
+  do
+  end

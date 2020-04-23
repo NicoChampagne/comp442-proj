@@ -1,0 +1,1198 @@
+START
+   ->
+      ->
+         Class:
+            class
+            ->
+               id
+                  POLYNOMIAL
+            ->
+               
+            {
+            ->
+               ->
+                  public
+               ->
+                  ->
+                     id
+                        evaluate
+                  ->
+                     ->
+                        (
+                        ->
+                           ->
+                              float
+                           ->
+                              id
+                                 x
+                           
+                           
+                        )
+                        :
+                        ->
+                           ->
+                              float
+                  ;
+               
+            }
+            ;
+         ->
+            Class:
+               class
+               ->
+                  id
+                     LINEAR
+               ->
+                  inherits
+                  ->
+                     id
+                        POLYNOMIAL
+                  
+               {
+               ->
+                  ->
+                     private
+                  ->
+                     ->
+                        ->
+                           float
+                        ->
+                           id
+                              a
+                        
+                        ;
+                  ->
+                     ->
+                        private
+                     ->
+                        ->
+                           ->
+                              float
+                           ->
+                              id
+                                 b
+                           
+                           ;
+                     ->
+                        ->
+                           public
+                        ->
+                           ->
+                              id
+                                 build
+                           ->
+                              ->
+                                 (
+                                 ->
+                                    ->
+                                       float
+                                    ->
+                                       id
+                                          A
+                                    
+                                    ->
+                                       ->
+                                          ,
+                                          ->
+                                             float
+                                          ->
+                                             id
+                                                B
+                                          
+                                       
+                                 )
+                                 :
+                                 ->
+                                    ->
+                                       ->
+                                          id
+                                             LINEAR
+                           ;
+                        ->
+                           ->
+                              public
+                           ->
+                              ->
+                                 id
+                                    evaluate
+                              ->
+                                 ->
+                                    (
+                                    ->
+                                       ->
+                                          float
+                                       ->
+                                          id
+                                             x
+                                       
+                                       
+                                    )
+                                    :
+                                    ->
+                                       ->
+                                          float
+                              ;
+                           
+               }
+               ;
+            ->
+               Class:
+                  class
+                  ->
+                     id
+                        QUADRATIC
+                  ->
+                     inherits
+                     ->
+                        id
+                           POLYNOMIAL
+                     
+                  {
+                  ->
+                     ->
+                        private
+                     ->
+                        ->
+                           ->
+                              float
+                           ->
+                              id
+                                 a
+                           
+                           ;
+                     ->
+                        ->
+                           private
+                        ->
+                           ->
+                              ->
+                                 float
+                              ->
+                                 id
+                                    b
+                              
+                              ;
+                        ->
+                           ->
+                              private
+                           ->
+                              ->
+                                 ->
+                                    float
+                                 ->
+                                    id
+                                       c
+                                 
+                                 ;
+                           ->
+                              ->
+                                 public
+                              ->
+                                 ->
+                                    id
+                                       build
+                                 ->
+                                    ->
+                                       (
+                                       ->
+                                          ->
+                                             float
+                                          ->
+                                             id
+                                                A
+                                          
+                                          ->
+                                             ->
+                                                ,
+                                                ->
+                                                   float
+                                                ->
+                                                   id
+                                                      B
+                                                
+                                             ->
+                                                ->
+                                                   ,
+                                                   ->
+                                                      float
+                                                   ->
+                                                      id
+                                                         C
+                                                   
+                                                
+                                       )
+                                       :
+                                       ->
+                                          ->
+                                             ->
+                                                id
+                                                   QUADRATIC
+                                 ;
+                              ->
+                                 ->
+                                    public
+                                 ->
+                                    ->
+                                       id
+                                          evaluate
+                                    ->
+                                       ->
+                                          (
+                                          ->
+                                             ->
+                                                float
+                                             ->
+                                                id
+                                                   x
+                                             
+                                             
+                                          )
+                                          :
+                                          ->
+                                             ->
+                                                float
+                                    ;
+                                 
+                  }
+                  ;
+               
+      ->
+         Function:
+            ->
+               ->
+                  id
+                     POLYNOMIAL
+               ->
+                  :
+                  :
+                  ->
+                     id
+                        evaluate
+               (
+               ->
+                  ->
+                     float
+                  ->
+                     id
+                        x
+                  
+                  
+               )
+               :
+               ->
+                  ->
+                     float
+            ->
+               ->
+                  
+               do
+               ->
+                  ->
+                     return
+                     (
+                     ->
+                        ->
+                           ->
+                              ->
+                                 
+                                    0
+                           ->
+                              
+                     )
+                     ;
+                  
+               end
+         ->
+            Function:
+               ->
+                  ->
+                     id
+                        LINEAR
+                  ->
+                     :
+                     :
+                     ->
+                        id
+                           evaluate
+                  (
+                  ->
+                     ->
+                        float
+                     ->
+                        id
+                           x
+                     
+                     
+                  )
+                  :
+                  ->
+                     ->
+                        float
+               ->
+                  ->
+                     local
+                     ->
+                        ->
+                           ->
+                              float
+                           ->
+                              id
+                                 result
+                           
+                           ;
+                        
+                  do
+                  ->
+                     ->
+                        ->
+                           ->
+                              ->
+                                 id
+                                    result
+                              ->
+                                 
+                           
+                        ->
+                           ->
+                              =
+                           ->
+                              ->
+                                 ->
+                                    ->
+                                       ->
+                                          
+                                             0
+                                    ->
+                                       
+                        ;
+                     ->
+                        ->
+                           ->
+                              ->
+                                 ->
+                                    id
+                                       result
+                                 ->
+                                    
+                              
+                           ->
+                              ->
+                                 =
+                              ->
+                                 ->
+                                    ->
+                                       ->
+                                          ->
+                                             id
+                                                a
+                                          ->
+                                             
+                                       
+                                    
+                                 ->
+                                    ->
+                                       ->
+                                          +
+                                    ->
+                                       ->
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      id
+                                                         b
+                                                   ->
+                                                      
+                                                
+                                             
+                           ;
+                        ->
+                           ->
+                              return
+                              (
+                              ->
+                                 ->
+                                    ->
+                                       ->
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      id
+                                                         result
+                                                   ->
+                                                      
+                                                
+                                             
+                                    ->
+                                       
+                              )
+                              ;
+                           
+                  end
+            ->
+               Function:
+                  ->
+                     ->
+                        id
+                           QUADRATIC
+                     ->
+                        :
+                        :
+                        ->
+                           id
+                              evaluate
+                     (
+                     ->
+                        ->
+                           float
+                        ->
+                           id
+                              x
+                        
+                        
+                     )
+                     :
+                     ->
+                        ->
+                           float
+                  ->
+                     ->
+                        local
+                        ->
+                           ->
+                              ->
+                                 float
+                              ->
+                                 id
+                                    result
+                              
+                              ;
+                           
+                     do
+                     ->
+                        ->
+                           ->
+                              ->
+                                 ->
+                                    id
+                                       result
+                                 ->
+                                    
+                              
+                           ->
+                              ->
+                                 =
+                              ->
+                                 ->
+                                    ->
+                                       ->
+                                          ->
+                                             id
+                                                a
+                                          ->
+                                             
+                                       
+                                    
+                                 ->
+                                    
+                           ;
+                        ->
+                           ->
+                              ->
+                                 ->
+                                    ->
+                                       id
+                                          result
+                                    ->
+                                       
+                                 
+                              ->
+                                 ->
+                                    =
+                                 ->
+                                    ->
+                                       ->
+                                          ->
+                                             ->
+                                                id
+                                                   result
+                                             ->
+                                                
+                                          
+                                       
+                                    ->
+                                       ->
+                                          ->
+                                             +
+                                       ->
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      ->
+                                                         id
+                                                            b
+                                                      ->
+                                                         
+                                                   
+                                                
+                              ;
+                           ->
+                              ->
+                                 ->
+                                    ->
+                                       ->
+                                          id
+                                             result
+                                       ->
+                                          
+                                    
+                                 ->
+                                    ->
+                                       =
+                                    ->
+                                       ->
+                                          ->
+                                             ->
+                                                ->
+                                                   id
+                                                      result
+                                                ->
+                                                   
+                                             
+                                          
+                                       ->
+                                          ->
+                                             ->
+                                                +
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      ->
+                                                         ->
+                                                            id
+                                                               c
+                                                         ->
+                                                            
+                                                      
+                                                   
+                                 ;
+                              ->
+                                 ->
+                                    return
+                                    (
+                                    ->
+                                       ->
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      ->
+                                                         ->
+                                                            id
+                                                               result
+                                                         ->
+                                                            
+                                                      
+                                                   
+                                          ->
+                                             
+                                    )
+                                    ;
+                                 
+                     end
+               ->
+                  Function:
+                     ->
+                        ->
+                           id
+                              LINEAR
+                        ->
+                           :
+                           :
+                           ->
+                              id
+                                 build
+                        (
+                        ->
+                           ->
+                              float
+                           ->
+                              id
+                                 A
+                           
+                           ->
+                              ->
+                                 ,
+                                 ->
+                                    float
+                                 ->
+                                    id
+                                       B
+                                 
+                              
+                        )
+                        :
+                        ->
+                           ->
+                              ->
+                                 id
+                                    LINEAR
+                     ->
+                        ->
+                           local
+                           ->
+                              ->
+                                 ->
+                                    ->
+                                       id
+                                          LINEAR
+                                 ->
+                                    id
+                                       new_function
+                                 
+                                 ;
+                              
+                        do
+                        ->
+                           ->
+                              ->
+                                 ->
+                                    ->
+                                       id
+                                          new_function
+                                    ->
+                                       .
+                                 ->
+                                    ->
+                                       ->
+                                          id
+                                             a
+                                       ->
+                                          
+                                    
+                              ->
+                                 ->
+                                    =
+                                 ->
+                                    ->
+                                       ->
+                                          ->
+                                             ->
+                                                id
+                                                   A
+                                             ->
+                                                
+                                          
+                                       
+                                    ->
+                                       
+                              ;
+                           ->
+                              ->
+                                 ->
+                                    ->
+                                       ->
+                                          id
+                                             new_function
+                                       ->
+                                          .
+                                    ->
+                                       ->
+                                          ->
+                                             id
+                                                b
+                                          ->
+                                             
+                                       
+                                 ->
+                                    ->
+                                       =
+                                    ->
+                                       ->
+                                          ->
+                                             ->
+                                                ->
+                                                   id
+                                                      B
+                                                ->
+                                                   
+                                             
+                                          
+                                       ->
+                                          
+                                 ;
+                              ->
+                                 ->
+                                    return
+                                    (
+                                    ->
+                                       ->
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      ->
+                                                         ->
+                                                            id
+                                                               new_function
+                                                         ->
+                                                            
+                                                      
+                                                   
+                                          ->
+                                             
+                                    )
+                                    ;
+                                 
+                        end
+                  ->
+                     Function:
+                        ->
+                           ->
+                              id
+                                 QUADRATIC
+                           ->
+                              :
+                              :
+                              ->
+                                 id
+                                    build
+                           (
+                           ->
+                              ->
+                                 float
+                              ->
+                                 id
+                                    A
+                              
+                              ->
+                                 ->
+                                    ,
+                                    ->
+                                       float
+                                    ->
+                                       id
+                                          B
+                                    
+                                 ->
+                                    ->
+                                       ,
+                                       ->
+                                          float
+                                       ->
+                                          id
+                                             C
+                                       
+                                    
+                           )
+                           :
+                           ->
+                              ->
+                                 ->
+                                    id
+                                       QUADRATIC
+                        ->
+                           ->
+                              local
+                              ->
+                                 ->
+                                    ->
+                                       ->
+                                          id
+                                             QUADRATIC
+                                    ->
+                                       id
+                                          new_function
+                                    
+                                    ;
+                                 
+                           do
+                           ->
+                              ->
+                                 ->
+                                    ->
+                                       ->
+                                          id
+                                             new_function
+                                       ->
+                                          .
+                                    ->
+                                       ->
+                                          ->
+                                             id
+                                                a
+                                          ->
+                                             
+                                       
+                                 ->
+                                    ->
+                                       =
+                                    ->
+                                       ->
+                                          ->
+                                             ->
+                                                ->
+                                                   id
+                                                      A
+                                                ->
+                                                   
+                                             
+                                          
+                                       ->
+                                          
+                                 ;
+                              ->
+                                 ->
+                                    ->
+                                       ->
+                                          ->
+                                             id
+                                                new_function
+                                          ->
+                                             .
+                                       ->
+                                          ->
+                                             ->
+                                                id
+                                                   b
+                                             ->
+                                                
+                                          
+                                    ->
+                                       ->
+                                          =
+                                       ->
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      id
+                                                         B
+                                                   ->
+                                                      
+                                                
+                                             
+                                          ->
+                                             
+                                    ;
+                                 ->
+                                    ->
+                                       ->
+                                          ->
+                                             ->
+                                                id
+                                                   new_function
+                                             ->
+                                                .
+                                          ->
+                                             ->
+                                                ->
+                                                   id
+                                                      c
+                                                ->
+                                                   
+                                             
+                                       ->
+                                          ->
+                                             =
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      ->
+                                                         id
+                                                            C
+                                                      ->
+                                                         
+                                                   
+                                                
+                                             ->
+                                                
+                                       ;
+                                    ->
+                                       ->
+                                          return
+                                          (
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      ->
+                                                         ->
+                                                            ->
+                                                               ->
+                                                                  id
+                                                                     new_function
+                                                               ->
+                                                                  
+                                                            
+                                                         
+                                                ->
+                                                   
+                                          )
+                                          ;
+                                       
+                           end
+                     
+      main
+      ->
+         ->
+            local
+            ->
+               ->
+                  ->
+                     ->
+                        id
+                           LINEAR
+                  ->
+                     id
+                        f1
+                  
+                  ;
+               ->
+                  ->
+                     ->
+                        ->
+                           id
+                              QUADRATIC
+                     ->
+                        id
+                           f2
+                     
+                     ;
+                  ->
+                     ->
+                        ->
+                           integer
+                        ->
+                           id
+                              counter
+                        
+                        ;
+                     
+         do
+         ->
+            ->
+               ->
+                  ->
+                     ->
+                        id
+                           f1
+                     ->
+                        
+                  
+               ->
+                  ->
+                     =
+                  ->
+                     ->
+                        ->
+                           ->
+                              ->
+                                 id
+                                    f1
+                              ->
+                                 .
+                           ->
+                              ->
+                                 ->
+                                    id
+                                       build
+                                 ->
+                                    
+                              
+                        
+                     ->
+                        ->
+                           ->
+                              ->
+                                 ->
+                                    
+                                       3
+                              ->
+                                 
+               ;
+            ->
+               ->
+                  ->
+                     ->
+                        ->
+                           id
+                              f2
+                        ->
+                           
+                     
+                  ->
+                     ->
+                        =
+                     ->
+                        ->
+                           ->
+                              ->
+                                 ->
+                                    id
+                                       f2
+                                 ->
+                                    .
+                              ->
+                                 ->
+                                    ->
+                                       id
+                                          build
+                                    ->
+                                       
+                                 
+                           
+                        ->
+                           ->
+                              ->
+                                 -
+                           ->
+                              ->
+                                 
+                                    2
+                  ;
+               ->
+                  ->
+                     ->
+                        ->
+                           ->
+                              id
+                                 counter
+                           ->
+                              
+                        
+                     ->
+                        ->
+                           =
+                        ->
+                           ->
+                              ->
+                                 ->
+                                    ->
+                                       
+                                          1
+                                 ->
+                                    
+                     ;
+                  ->
+                     ->
+                        while
+                        (
+                        ->
+                           ->
+                              ->
+                                 ->
+                                    ->
+                                       ->
+                                          ->
+                                             ->
+                                                id
+                                                   counter
+                                             ->
+                                                
+                                          
+                                       
+                              ->
+                                 
+                           ->
+                              
+                                 <
+                           ->
+                              ->
+                                 ->
+                                    
+                                       10
+                              ->
+                                 
+                        )
+                        ->
+                           do
+                           ->
+                              ->
+                                 write
+                                 (
+                                 ->
+                                    ->
+                                       ->
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      ->
+                                                         id
+                                                            counter
+                                                      ->
+                                                         
+                                                   
+                                                
+                                       ->
+                                          
+                                 )
+                                 ;
+                              ->
+                                 ->
+                                    write
+                                    (
+                                    ->
+                                       ->
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      ->
+                                                         ->
+                                                            id
+                                                               f1
+                                                         ->
+                                                            .
+                                                      ->
+                                                         ->
+                                                            ->
+                                                               id
+                                                                  evaluate
+                                                            ->
+                                                               
+                                                         
+                                                   
+                                          ->
+                                             
+                                    )
+                                    ;
+                                 ->
+                                    ->
+                                       write
+                                       (
+                                       ->
+                                          ->
+                                             ->
+                                                ->
+                                                   ->
+                                                      ->
+                                                         ->
+                                                            ->
+                                                               id
+                                                                  f2
+                                                            ->
+                                                               .
+                                                         ->
+                                                            ->
+                                                               ->
+                                                                  id
+                                                                     evaluate
+                                                               ->
+                                                                  
+                                                            
+                                                      
+                                             ->
+                                                
+                                       )
+                                       ;
+                                    
+                           end
+                        ;
+                     
+         end

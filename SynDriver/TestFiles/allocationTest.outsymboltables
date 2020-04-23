@@ -1,0 +1,32 @@
+----------------------------------------------------------------------------
+Table: Global
+Name = AClass; Kind = Class; Type = ; Offset = 0; ScopedOffset = 0; Link = AClass
+Name = BClass; Kind = Class; Type = ; Offset = 0; ScopedOffset = 0; Link = BClass
+Name = CClass; Kind = Class; Type = ; Offset = 0; ScopedOffset = 0; Link = CClass
+Name = main; Kind = Function; Type = ; Offset = 84; ScopedOffset = 0; Link = main
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: AClass
+Name = a; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+Name = arr; Kind = Variable; Type = integer[]; Offset = 16; ScopedOffset = 20; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: BClass
+Name = array; Kind = Variable; Type = integer[]; Offset = 4; ScopedOffset = 16; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: CClass
+Inherits: AClass
+Name = parent_a; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+Name = parent_arr; Kind = Variable; Type = integer[]; Offset = 16; ScopedOffset = 20; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: main
+Name = arr; Kind = Variable; Type = integer[]; Offset = 0; ScopedOffset = 0; Link = 
+Name = int; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+Name = ft; Kind = Variable; Type = float; Offset = 8; ScopedOffset = 12; Link = 
+Name = a; Kind = Variable; Type = AClass; Offset = 20; ScopedOffset = 32; Link = 
+Name = bClasses; Kind = Variable; Type = BClass[]; Offset = 32; ScopedOffset = 64; Link = 
+Name = cClass; Kind = Variable; Type = CClass; Offset = 20; ScopedOffset = 84; Link = 
+----------------------------------------------------------------------------
+

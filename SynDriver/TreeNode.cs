@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SynDriver
+namespace SynSemDriver
 {
     /// <summary>Represents a tree node</summary>
     /// <typeparam name="T">the type of the values in nodes

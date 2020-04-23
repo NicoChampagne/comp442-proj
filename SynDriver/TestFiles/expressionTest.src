@@ -1,0 +1,46 @@
+main  
+  local
+    integer a; 
+    integer b;
+    integer c;
+    integer d;
+    integer e;
+    integer f;
+    integer g;
+	integer h; 
+    integer i;
+    integer ii;
+    integer k;
+    integer l;
+    integer m;
+    integer n;
+  do
+    a = 6;
+	write(a);
+	b = 2;
+	write(b);
+	c = a+2;
+	write(c);
+	d = 2+a;
+	write(d);
+	e = 2+2;
+	write(e);
+	f = b+b;
+	write(f);
+	g = b+b+b;
+	write(g);
+	h = 8-a;
+	write(h);
+	i = a-2;
+	write(i);
+	ii = a-b;
+	write(ii);
+	k = 2 * 2;
+	write(k);
+	l = 2 * b;
+	write(l);
+	m = a * b;
+	write(m);
+	n = a / b;
+	write(n);
+  end

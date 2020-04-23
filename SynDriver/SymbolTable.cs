@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SynDriver
+namespace SynSemDriver
 {
     public class SymbolTable
     {
@@ -17,6 +17,10 @@ namespace SynDriver
         public bool IsInherited { get; set; } = false;
 
         public List<SymbolValue> TableEntries { get; } = new List<SymbolValue>();
+
+        public int TableOffset = 0;
+
+        public bool IsAFunctionTable { get; set; } = false;
 
         public SymbolTable(string name = "")
         {
@@ -157,7 +161,7 @@ namespace SynDriver
             return "----------------------------------------------------------------------------\n" +
                 "Table: " + Name + "\n" + inheritsString +
                 EntriesToString() +
-                "---------------------------------------------------------------------------\n" +
+                "----------------------------------------------------------------------------\n" +
                 subTables;
         }
     }
