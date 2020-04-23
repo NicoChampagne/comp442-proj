@@ -1,0 +1,25 @@
+----------------------------------------------------------------------------
+Table: Global
+Name = Linear; Kind = Class; Type = ; Offset = 0; ScopedOffset = 0; Link = Linear
+Name = addition; Kind = Function; Type = integer: integer, integer; Offset = 12; ScopedOffset = 0; Link = addition
+Name = main; Kind = Function; Type = ; Offset = 24; ScopedOffset = 0; Link = main
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: Linear
+Name = a; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+Name = b; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 8; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: addition
+Name = a; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+Name = b; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 8; Link = 
+Name = c; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 12; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: main
+Name = linear1; Kind = Variable; Type = Linear; Offset = 8; ScopedOffset = 8; Link = 
+Name = linear2; Kind = Variable; Type = Linear; Offset = 8; ScopedOffset = 16; Link = 
+Name = a; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 20; Link = 
+Name = b; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 24; Link = 
+----------------------------------------------------------------------------
+

@@ -1,0 +1,25 @@
+class Linear {
+	private integer a;
+	private integer b;
+};
+
+class Quadratic {
+	private integer a;
+	private integer b;
+};
+
+main  
+  local
+    Quadratic quad;
+	Linear linear;
+	integer a;
+  do
+	a = linear + 1;
+	a = linear - 1;
+	a = linear * 1;
+	a = linear / 1;
+	
+	a = linear / quad;
+	quad = 1;
+	quad = linear / 1;
+  end

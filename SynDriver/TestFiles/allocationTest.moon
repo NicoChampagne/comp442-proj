@@ -16,6 +16,9 @@
 	add R1,R0,R2
 	jl R15,putint
 
+	%- Printing a space -%
+	putc R0
+
 	%- Storing literal lit_1 -%
 	addi R2,R0,2
 	sw lit_1(R0),R2
@@ -31,6 +34,9 @@
 	add R1,R0,R2
 	jl R15,putint
 
+	%- Printing a space -%
+	putc R0
+
 	%- Storing literal lit_2 -%
 	addi R1,R0,3
 	sw lit_2(R0),R1
@@ -43,6 +49,9 @@
 	lw R2,int(R0)
 	add R1,R0,R2
 	jl R15,putint
+
+	%- Printing a space -%
+	putc R0
 
 	%- Storing literal lit_3 -%
 	addi R1,R0,12
@@ -65,6 +74,9 @@
 	add R1,R0,R2
 	jl R15,putint
 
+	%- Printing a space -%
+	putc R0
+
 	%- Storing literal lit_5 -%
 	addi R1,R0,4
 	sw lit_5(R0),R1
@@ -80,6 +92,9 @@
 	add R1,R0,R2
 	jl R15,putint
 
+	%- Printing a space -%
+	putc R0
+
 	hlt
 
 arr	res 12
@@ -89,6 +104,9 @@ a res 20
 a_a	res 4
 a_arr	res 16
 bClasses res 32
+cClass res 20
+cClass_parent_a	res 4
+cClass_parent_arr	res 16
 lit_0 res 4
 lit_1 res 4
 lit_2 res 4

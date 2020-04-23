@@ -15,6 +15,9 @@ print
 	add R1,R0,R2
 	jl R15,putint
 
+	%- Printing a space -%
+	putc R0
+
 	%- Unload R15 contents -%
 	lw R1,temp_1(R0)
 	add R15,R0,R1
@@ -32,7 +35,7 @@ addition
 	lw R1,addition_param2(R0)
 	sw addition_b(R0),R1
 
-	%- Adding variables addition_a and addition_b -%
+	%- Computation addition_a add addition_b -%
 	lw R1,addition_a(R0)
 	lw R2,addition_b(R0)
 	add R3,R1,R2
@@ -50,6 +53,9 @@ addition
 	lw R2,addition_c(R0)
 	add R1,R0,R2
 	jl R15,putint
+
+	%- Printing a space -%
+	putc R0
 
 	%- Unload R15 contents -%
 	lw R1,temp_3(R0)
@@ -112,6 +118,9 @@ addition
 	lw R2,c(R0)
 	add R1,R0,R2
 	jl R15,putint
+
+	%- Printing a space -%
+	putc R0
 
 	hlt
 

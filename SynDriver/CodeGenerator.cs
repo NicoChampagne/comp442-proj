@@ -53,7 +53,9 @@ namespace SynSemDriver
             var inLoop = false;
             var inIf = false;
             var statementStack = new Stack<string>();
-            var startingIfOrLoop = false;
+			var ifCountStack = new Stack<int>();
+			var loopCountStack = new Stack<int>();
+			var startingIfOrLoop = false;
 
 
             var lineOfCodeToInterpret = new List<string>();
@@ -107,26 +109,33 @@ namespace SynSemDriver
                         // write out while loop ending 
                         if (ending.Equals("while"))
                         {
-                            var startWhileNumber = "gowhile" + loopCount;
-                            var endWhileNumber = "endwhile" + loopCount;
+							var currentloopCount = loopCountStack.Peek();
+							var startWhileNumber = "gowhile" + currentloopCount;
+                            var endWhileNumber = "endwhile" + currentloopCount;
                             moonExecCode.Add("\tj " + startWhileNumber);
                             moonExecCode.Add(endWhileNumber);
+
+							loopCountStack.Pop();
                         }
                         else if (ending.Equals("if"))
                         {
-                            // write out else beginning 
-                            var endIfNumber = "endif" + ifCount;
+							var currentIfCount = ifCountStack.Peek();
+							// write out else beginning 
+							var endIfNumber = "endif" + currentIfCount;
                             moonExecCode.Add("\n\t%- End if statement -%");
                             moonExecCode.Add(endIfNumber);
-                        }
+
+							ifCountStack.Pop();
+						}
                     }
 
 
                     if (lineOfCodeToInterpret.Contains("else") && inStatements && inIf)
                     {
-                        // write out else beginning 
-                        var endElseNumber = "else" + ifCount;
-                        var endIfNumber = "endif" + ifCount;
+						var currentIfCount = ifCountStack.Peek();
+						// write out else beginning 
+						var endElseNumber = "else" + currentIfCount;
+                        var endIfNumber = "endif" + currentIfCount;
 
                         moonExecCode.Add("\n\t%- Start branch for else statement -%");
                         moonExecCode.Add("\tj " + endIfNumber);
@@ -135,8 +144,10 @@ namespace SynSemDriver
 
                     if (lineOfCodeToInterpret.Contains("while") && inStatements && inLoop)
                     {
+						loopCountStack.Push(++loopCount);
+
                         // write out while loop beginning 
-                        var startWhileNumber = "gowhile" + ++loopCount;
+                        var startWhileNumber = "gowhile" + loopCount;
                         var endWhileNumber = "endwhile" + loopCount;
                         moonExecCode.Add(startWhileNumber);
                         var expressionResult = ComputeExpression(lineOfCodeToInterpret, symbolTable: mainMethod.Item2);
@@ -150,8 +161,9 @@ namespace SynSemDriver
                     }
                     else if (lineOfCodeToInterpret.Contains("if") && inStatements && inIf)
                     {
-                        // write out while loop beginning 
-                        var startElseNumber = "else" + ++ifCount;
+						// write out while loop beginning 
+						ifCountStack.Push(++ifCount);
+						var startElseNumber = "else" + ifCount;
                         var expressionResult = ComputeExpression(lineOfCodeToInterpret, symbolTable: mainMethod.Item2);
 
                         var register = registerPool.Pop();
@@ -176,6 +188,9 @@ namespace SynSemDriver
                                 moonExecCode.Add("\n\t%- Printing int " + theInt + " -%");
                                 moonExecCode.Add("\taddi R1,R0," + theInt);
                                 moonExecCode.Add("\tjl R15,putint");
+
+                                moonExecCode.Add("\n\t%- Printing a space -%");
+                                moonExecCode.Add("\tputc R0");
                             }
                         }
                         else if (ids.Count() == 1 && !containsExpression)
@@ -206,6 +221,9 @@ namespace SynSemDriver
                                 moonExecCode.Add("\tlw R2," + value + "(R3)");
                                 moonExecCode.Add("\tadd R1,R0,R2");
                                 moonExecCode.Add("\tjl R15,putint");
+
+                                moonExecCode.Add("\n\t%- Printing a space -%");
+                                moonExecCode.Add("\tputc R0");
                             }
                             else
                             {
@@ -213,6 +231,9 @@ namespace SynSemDriver
                                 moonExecCode.Add("\tlw R2," + value + "(R0)");
                                 moonExecCode.Add("\tadd R1,R0,R2");
                                 moonExecCode.Add("\tjl R15,putint");
+
+                                moonExecCode.Add("\n\t%- Printing a space -%");
+                                moonExecCode.Add("\tputc R0");
                             }
                         }
                         else if (ids.Count() == 2 && lineOfCodeToInterpret.Contains("[") && !containsExpression)
@@ -229,6 +250,9 @@ namespace SynSemDriver
                                 moonExecCode.Add("\tlw R2," + varValue + "(R4)");
                                 moonExecCode.Add("\tadd R1,R0,R2");
                                 moonExecCode.Add("\tjl R15,putint");
+                                
+                                moonExecCode.Add("\n\t%- Printing a space -%");
+                                moonExecCode.Add("\tputc R0");
                             }
                             else
                             {
@@ -245,6 +269,9 @@ namespace SynSemDriver
                                     moonExecCode.Add("\tlw R2," + value + "_" + innerVariable + "(R3)");
                                     moonExecCode.Add("\tadd R1,R0,R2");
                                     moonExecCode.Add("\tjl R15,putint");
+
+                                    moonExecCode.Add("\n\t%- Printing a space -%");
+                                    moonExecCode.Add("\tputc R0");
                                 }
                             }
                         }
@@ -264,6 +291,9 @@ namespace SynSemDriver
                                 moonExecCode.Add("\tlw R2," + value + "_" + innerVariable + "(R0)");
                                 moonExecCode.Add("\tadd R1,R0,R2");
                                 moonExecCode.Add("\tjl R15,putint");
+
+                                moonExecCode.Add("\n\t%- Printing a space -%");
+                                moonExecCode.Add("\tputc R0");
                             }
                         }
                     }
@@ -966,6 +996,12 @@ namespace SynSemDriver
                                 var varParamName = functionName + "_" + parameters[i + 1];
                                 var paramName = functionName + "_param" + ++funcParamCounter;
 
+                                if (!calledFunctionsParams.Contains(paramName))
+                                {
+                                    moonDataCode.Add(paramName + " res 4");
+                                    calledFunctionsParams.Add(paramName);
+                                }
+
                                 var register = registerPool.Pop();
                                 moonFunctionCode.Add("\n\t%- Assigning inner function parameter " + varParamName + " -%");
                                 moonFunctionCode.Add("\tlw " + register + "," + paramName + "(R0)");
@@ -1123,6 +1159,8 @@ namespace SynSemDriver
                                 moonFunctionCode.Add("\n\t%- Printing int " + theInt + " -%");
                                 moonFunctionCode.Add("\taddi R1,R0," + theInt);
                                 moonFunctionCode.Add("\tjl R15,putint");
+                                moonFunctionCode.Add("\n\t%- Printing a space -%");
+                                moonFunctionCode.Add("\tputc R0");
 
                                 moonFunctionCode.Add("\n\t%- Unload R15 contents -%");
                                 moonFunctionCode.Add("\tlw R1," + tempStorage + "(R0)");
@@ -1164,6 +1202,8 @@ namespace SynSemDriver
                                 moonFunctionCode.Add("\tlw R2," + functionInfo.Item2.Name + "_" + value + "(R3)");
                                 moonFunctionCode.Add("\tadd R1,R0,R2");
                                 moonFunctionCode.Add("\tjl R15,putint");
+                                moonFunctionCode.Add("\n\t%- Printing a space -%");
+                                moonFunctionCode.Add("\tputc R0");
 
                                 moonFunctionCode.Add("\n\t%- Unload R15 contents -%");
                                 moonFunctionCode.Add("\tlw R1," + tempStorage + "(R0)");
@@ -1183,6 +1223,8 @@ namespace SynSemDriver
                                 moonFunctionCode.Add("\tlw R2," + functionInfo.Item2.Name + "_" + valueOfId + "(R0)");
                                 moonFunctionCode.Add("\tadd R1,R0,R2");
                                 moonFunctionCode.Add("\tjl R15,putint");
+                                moonFunctionCode.Add("\n\t%- Printing a space -%");
+                                moonFunctionCode.Add("\tputc R0");
 
                                 moonFunctionCode.Add("\n\t%- Unload R15 contents -%");
                                 moonFunctionCode.Add("\tlw R1," + tempStorage + "(R0)");
@@ -1202,6 +1244,9 @@ namespace SynSemDriver
                                 moonFunctionCode.Add("\tlw R2," + functionInfo.Item2.Name + "_" + varValue + "(R3)");
                                 moonFunctionCode.Add("\tadd R1,R0,R2");
                                 moonFunctionCode.Add("\tjl R15,putint");
+
+                                moonFunctionCode.Add("\n\t%- Printing a space -%");
+                                moonFunctionCode.Add("\tputc R0");
                             }
                             else
                             {
@@ -1209,6 +1254,9 @@ namespace SynSemDriver
                                 moonFunctionCode.Add("\n\t%- Printing value of " + functionInfo.Item2.Name + "_" + value + " -%");
                                 moonFunctionCode.Add("\taddi R1,R0," + functionInfo.Item2.Name + "_" + value);
                                 moonFunctionCode.Add("\tjl R15,putint");
+
+                                moonFunctionCode.Add("\n\t%- Printing a space -%");
+                                moonFunctionCode.Add("\tputc R0");
                             }
                         }
                         else if (containsExpression)
@@ -1480,6 +1528,7 @@ namespace SynSemDriver
                                     else
                                     {
                                         // reserve space for a class variable
+
                                         moonDataCode.Add(functionInfo.Item2.Name + "_" + lineOfCodeToInterpret[index + 3] + " res " + classOffset);
                                     }
                                 }
@@ -2036,7 +2085,7 @@ namespace SynSemDriver
             }
             else if (operand.Equals(">"))
             {
-                operation = "glt";
+                operation = "cgt";
             }
             else if (operand.Equals("<"))
             {

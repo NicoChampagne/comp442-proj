@@ -1,0 +1,6 @@
+Error(11): use of undeclared local variable or function, name: substraction in class/function: Line_substraction
+Error(12): function call parameters do not match function definition, function: substraction
+Error(6): function called does not contain definition, function: substraction, with parameters: 
+Error(10): function does not contain a return statement, function: addition
+Warning(6): function definition is not used, function: addition, with return and parameters; integer: integer, integer
+Warning(6): function definition is not used, function: Line, with return and parameters; integer: integer, integer

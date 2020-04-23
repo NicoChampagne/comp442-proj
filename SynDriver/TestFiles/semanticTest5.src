@@ -1,0 +1,16 @@
+class Linear {
+	private integer a;
+	private integer b;
+};
+
+main  
+  local
+	Linear linear;
+	integer arr[2];
+	integer b;
+  do
+	arr[0] = 2;
+	arr[linear] = 2;
+	arr[1 + linear] = 2;
+	write(arr[linear]);
+  end

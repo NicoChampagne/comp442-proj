@@ -1,0 +1,28 @@
+class Linear {
+	private integer a;
+	private integer b;
+};
+
+addition(integer a, integer b) : integer
+  local 
+	integer c;
+  do
+	c = a + b;
+	write(c);
+    return (c);
+  end 
+
+main  
+  local
+	Linear linear1;
+	Linear linear2;
+	integer a;
+	integer b;
+  do
+	a = 2;
+	b = addition(a,linear1);
+	b = addition(linear1,a);
+	b = addition(linear1,linear2);
+	b = addition(linear1,a);
+	b = addition(a);
+  end

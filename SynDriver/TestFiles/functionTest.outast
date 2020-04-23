@@ -7,6 +7,8 @@ START
                ->
                   id
                      print
+               ->
+                  
                (
                ->
                   ->
@@ -54,6 +56,8 @@ START
                   ->
                      id
                         addition
+                  ->
+                     
                   (
                   ->
                      ->
@@ -106,8 +110,15 @@ START
                               =
                            ->
                               ->
-                                 id
-                                    a
+                                 ->
+                                    ->
+                                       ->
+                                          id
+                                             a
+                                       ->
+                                          
+                                    
+                                 
                               ->
                                  ->
                                     ->
@@ -330,8 +341,15 @@ START
                                  =
                               ->
                                  ->
-                                    id
-                                       addition
+                                    ->
+                                       ->
+                                          ->
+                                             id
+                                                addition
+                                          ->
+                                             
+                                       
+                                    
                                  ->
                                     (
                                     ->

@@ -1,0 +1,22 @@
+----------------------------------------------------------------------------
+Table: Global
+Name = Linear; Kind = Class; Type = ; Offset = 0; ScopedOffset = 0; Link = Linear
+Name = Quadratic; Kind = Class; Type = ; Offset = 0; ScopedOffset = 0; Link = Quadratic
+Name = main; Kind = Function; Type = ; Offset = 8; ScopedOffset = 0; Link = main
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: Linear
+Name = a; Kind = Variable; Type = Quadratic; Offset = 0; ScopedOffset = 0; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: Quadratic
+Name = a; Kind = Variable; Type = Linear; Offset = 0; ScopedOffset = 0; Link = 
+Name = b; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: main
+Name = quad; Kind = Variable; Type = Quadratic; Offset = 4; ScopedOffset = 4; Link = 
+Name = linear; Kind = Variable; Type = Linear; Offset = 0; ScopedOffset = 4; Link = 
+Name = a; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 8; Link = 
+----------------------------------------------------------------------------
+

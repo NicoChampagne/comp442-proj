@@ -1,0 +1,9 @@
+Error(12): function call parameters do not match function definition, function: addition
+Error(6): function called does not contain definition, function: addition, with parameters: integer, Linear
+Error(12): function call parameters do not match function definition, function: addition
+Error(6): function called does not contain definition, function: addition, with parameters: Linear, integer
+Error(12): function call parameters do not match function definition, function: addition
+Error(6): function called does not contain definition, function: addition, with parameters: Linear, Linear
+Error(12): function call parameters do not match function definition, function: addition
+Error(6): function called does not contain definition, function: addition, with parameters: Linear, integer
+Error(12): function call parameters do not match function definition, function: addition

@@ -1,0 +1,10 @@
+Error(11): use of undeclared local variable, class, or function, named: Linear in class/function: main
+Error(11): use of undeclared local variable, class, or function, named: linear in class/function: main
+Error(15): Dot Operator error, class not found, for class: integer of variable: b
+Error(11): use of undeclared local variable, class, or function, named: a in class/function: main
+Error(10): expression types are incompatible, first operand: a, second operand: 2
+Error(11): use of undeclared local variable, class, or function, named: c in class/function: main
+Error(10): expression types are incompatible, first operand: c, second operand: 1
+Error(11): use of undeclared local variable, class, or function, named: print in class/function: main
+Error(12): function call parameters do not match function definition, function: print
+Error(6): function called does not contain definition, function: print, with parameters: integer

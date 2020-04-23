@@ -74,7 +74,23 @@ START
                   
                }
                ;
-            
+            ->
+               Class:
+                  class
+                  ->
+                     id
+                        CClass
+                  ->
+                     inherits
+                     ->
+                        id
+                           AClass
+                     
+                  {
+                  
+                  }
+                  ;
+               
       
       main
       ->
@@ -143,7 +159,18 @@ START
                                     ]
                                  
                               ;
-                           
+                           ->
+                              ->
+                                 ->
+                                    ->
+                                       id
+                                          CClass
+                                 ->
+                                    id
+                                       cClass
+                                 
+                                 ;
+                              
          do
          ->
             ->

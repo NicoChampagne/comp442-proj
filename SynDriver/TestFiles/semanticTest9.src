@@ -1,0 +1,19 @@
+class Line {
+	private integer x;
+	private integer y;
+};
+
+class Line2 inherits Line {
+	private integer x;
+	private integer y;
+	private integer z;
+};
+
+main
+  local
+	Line line;
+	integer a;
+	integer a;
+  do
+	write(line.x);
+  end

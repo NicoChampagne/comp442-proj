@@ -1,0 +1,158 @@
+START
+   ->
+      ->
+         Class:
+            class
+            ->
+               id
+                  Line
+            ->
+               
+            {
+            ->
+               ->
+                  private
+               ->
+                  ->
+                     ->
+                        integer
+                     ->
+                        id
+                           x
+                     
+                     ;
+               ->
+                  ->
+                     private
+                  ->
+                     ->
+                        ->
+                           integer
+                        ->
+                           id
+                              y
+                        
+                        ;
+                  
+            }
+            ;
+         ->
+            Class:
+               class
+               ->
+                  id
+                     Line2
+               ->
+                  inherits
+                  ->
+                     id
+                        Line
+                  
+               {
+               ->
+                  ->
+                     private
+                  ->
+                     ->
+                        ->
+                           integer
+                        ->
+                           id
+                              x
+                        
+                        ;
+                  ->
+                     ->
+                        private
+                     ->
+                        ->
+                           ->
+                              integer
+                           ->
+                              id
+                                 y
+                           
+                           ;
+                     ->
+                        ->
+                           private
+                        ->
+                           ->
+                              ->
+                                 integer
+                              ->
+                                 id
+                                    z
+                              
+                              ;
+                        
+               }
+               ;
+            
+      
+      main
+      ->
+         ->
+            local
+            ->
+               ->
+                  ->
+                     ->
+                        id
+                           Line
+                  ->
+                     id
+                        line
+                  
+                  ;
+               ->
+                  ->
+                     ->
+                        integer
+                     ->
+                        id
+                           a
+                     
+                     ;
+                  ->
+                     ->
+                        ->
+                           integer
+                        ->
+                           id
+                              a
+                        
+                        ;
+                     
+         do
+         ->
+            ->
+               write
+               (
+               ->
+                  ->
+                     ->
+                        ->
+                           ->
+                              ->
+                                 ->
+                                    ->
+                                       id
+                                          line
+                                    ->
+                                       .
+                                 ->
+                                    ->
+                                       ->
+                                          id
+                                             x
+                                       ->
+                                          
+                                    
+                              
+                     ->
+                        
+               )
+               ;
+            
+         end

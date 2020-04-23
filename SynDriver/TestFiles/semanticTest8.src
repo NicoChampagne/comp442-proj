@@ -1,0 +1,18 @@
+addition(integer a, integer b) : integer
+  local 
+	integer c;
+  do
+	c = a + b;
+  end 
+
+Line::substraction(integer a, integer b) : integer
+  local 
+	integer c;
+  do
+	c = a - b;
+	return (c);
+  end 
+
+main  
+  do
+  end

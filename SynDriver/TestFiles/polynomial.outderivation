@@ -262,6 +262,12 @@ START
                Id
                   id
                      POLYNOMIAL
+               OptId
+                  :
+                  :
+                  Id
+                     id
+                        evaluate
                (
                FParams
                   Type
@@ -302,6 +308,12 @@ START
                   Id
                      id
                         LINEAR
+                  OptId
+                     :
+                     :
+                     Id
+                        id
+                           evaluate
                   (
                   FParams
                      Type
@@ -424,6 +436,12 @@ START
                      Id
                         id
                            QUADRATIC
+                     OptId
+                        :
+                        :
+                        Id
+                           id
+                              evaluate
                      (
                      FParams
                         Type
@@ -591,6 +609,12 @@ START
                         Id
                            id
                               LINEAR
+                        OptId
+                           :
+                           :
+                           Id
+                              id
+                                 build
                         (
                         FParams
                            Type
@@ -730,6 +754,12 @@ START
                            Id
                               id
                                  QUADRATIC
+                           OptId
+                              :
+                              :
+                              Id
+                                 id
+                                    build
                            (
                            FParams
                               Type

@@ -74,7 +74,23 @@ START
                   EPSILON
                }
                ;
-            EPSILON
+            RepClassDecl
+               ClassDecl
+                  class
+                  Id
+                     id
+                        CClass
+                  OptInherits
+                     inherits
+                     Id
+                        id
+                           AClass
+                     EPSILON
+                  {
+                  EPSILON
+                  }
+                  ;
+               EPSILON
       EPSILON
       main
       FuncBody
@@ -143,7 +159,18 @@ START
                                     ]
                                  EPSILON
                               ;
-                           EPSILON
+                           RepVarDecl
+                              VarDecl
+                                 Type
+                                    Id
+                                       id
+                                          CClass
+                                 Id
+                                    id
+                                       cClass
+                                 EPSILON
+                                 ;
+                              EPSILON
          do
          RepStatement
             Statement

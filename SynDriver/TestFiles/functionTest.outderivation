@@ -7,6 +7,8 @@ START
                Id
                   id
                      print
+               OptId
+                  EPSILON
                (
                FParams
                   Type
@@ -54,6 +56,8 @@ START
                   Id
                      id
                         addition
+                  OptId
+                     EPSILON
                   (
                   FParams
                      Type
@@ -105,9 +109,16 @@ START
                            AssignOp
                               =
                            StartFuncOrExpr
-                              Id
-                                 id
-                                    a
+                              Variable
+                                 RepIdnest
+                                    Idnest
+                                       Id
+                                          id
+                                             a
+                                       OptNest
+                                          EPSILON
+                                    EPSILON
+                                 EPSILON
                               ExprOrFunc
                                  AddOrMultOp
                                     AddOp
@@ -329,9 +340,16 @@ START
                               AssignOp
                                  =
                               StartFuncOrExpr
-                                 Id
-                                    id
-                                       addition
+                                 Variable
+                                    RepIdnest
+                                       Idnest
+                                          Id
+                                             id
+                                                addition
+                                          OptNest
+                                             EPSILON
+                                       EPSILON
+                                    EPSILON
                                  ExprOrFunc
                                     (
                                     AParams

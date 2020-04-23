@@ -23,8 +23,8 @@ namespace SynSemDriver
             { ("VarOrFunc", "("), "FuncDeclEnd"}, { ("VarOrFunc", "id"), "VarDeclEnd"},
             { ("VarDeclEnd", "id"), "Id RepArraySize"},
             { ("FuncDeclEnd", "("), "( FParams ) : VoidOrType"},
-            { ("FuncHead", "id"), "Id ( FParams ) : VoidOrType"},
-            { ("OptId", "id"), "Id sr"}, //challenge, what is sr
+            { ("FuncHead", "id"), "Id OptId ( FParams ) : VoidOrType"},
+            { ("OptId", ":"), ": : Id"}, //challenge, what is sr
             { ("FuncDef", "id"), "FuncHead FuncBody"},
             { ("FuncBody", "local"), "OptLocalVD do RepStatement end"}, { ("FuncBody", "do"), "OptLocalVD do RepStatement end"},
             { ("OptLocalVD", "local"), "local RepVarDecl"},
@@ -66,6 +66,7 @@ namespace SynSemDriver
             { ("AddOrMultOp", "*"), "MultOp"}, { ("AddOrMultOp", "/"), "MultOp"}, { ("AddOrMultOp", "+"), "AddOp"}, { ("AddOrMultOp", "-"), "AddOp"},
             { ("VoidOrType", "integer"), "Type"}, { ("VoidOrType", "float"), "Type"}, { ("VoidOrType", "id"), "Type"}, { ("VoidOrType", "void"), "void"},
             { ("OptIntNum", "intnum"), "intnum"},
+            { ("OptId", "("), "EPSILON"},
             // Follow Sets
             { ("RepFuncDef", "main"), "EPSILON"},
             { ("RepClassDecl", "id"), "EPSILON"}, { ("RepClassDecl", "main"), "EPSILON"},
@@ -94,12 +95,13 @@ namespace SynSemDriver
             { ("OptNest", "id"), "EPSILON"}, { ("OptNest", "["), "EPSILON"}, { ("OptNest", ")"), "EPSILON"}, { ("OptNest", "="), "EPSILON"}, { ("OptNest", ";"), "EPSILON"}, { ("OptNest", "eq"), "EPSILON"}, { ("OptNest", "neq"), "EPSILON"}, { ("OptNest", "lt"), "EPSILON"}, { ("OptNest", "gt"), "EPSILON"}, { ("OptNest", "leq"), "EPSILON"}, { ("OptNest", "geq"), "EPSILON"}, { ("OptNest", "+"), "EPSILON"}, { ("OptNest", "-"), "EPSILON"}, { ("OptNest", "or"), "EPSILON"}, { ("OptNest", "*"), "EPSILON"}, { ("OptNest", "/"), "EPSILON"}, { ("OptNest", "and"), "EPSILON"}, { ("OptNest", "("), "EPSILON"}, { ("OptNest", "]"), "EPSILON"}, { ("OptNest", ","), "EPSILON"},
             { ("RepIdnest", "["), "EPSILON"}, { ("RepIdnest", ")"), "EPSILON"}, { ("RepIdnest", "="), "EPSILON"}, { ("RepIdnest", ";"), "EPSILON"}, { ("RepIdnest", "eq"), "EPSILON"}, { ("RepIdnest", "neq"), "EPSILON"}, { ("RepIdnest", "lt"), "EPSILON"}, { ("RepIdnest", "gt"), "EPSILON"}, { ("RepIdnest", "leq"), "EPSILON"}, { ("RepIdnest", "geq"), "EPSILON"}, { ("RepIdnest", "+"), "EPSILON"}, { ("RepIdnest", "-"), "EPSILON"}, { ("RepIdnest", "or"), "EPSILON"}, { ("RepIdnest", "*"), "EPSILON"}, { ("RepIdnest", "/"), "EPSILON"}, { ("RepIdnest", "and"), "EPSILON"}, { ("RepIdnest", "("), "EPSILON"}, { ("RepIdnest", "]"), "EPSILON"}, { ("RepIdnest", ","), "EPSILON"},
             { ("Indice", ")"), "EPSILON"}, { ("Indice", "="), "EPSILON"},{ ("Indice", ";"), "EPSILON"}, { ("Indice", "eq"), "EPSILON"},{ ("Indice", "neq"), "EPSILON"}, { ("Indice", "lt"), "EPSILON"},{ ("Indice", "gt"), "EPSILON"}, { ("Indice", "leq"), "EPSILON"},{ ("Indice", "geq"), "EPSILON"}, { ("Indice", "+"), "EPSILON"},{ ("Indice", "-"), "EPSILON"}, { ("Indice", "or"), "EPSILON"},{ ("Indice", "*"), "EPSILON"}, { ("Indice", "/"), "EPSILON"},{ ("Indice", "and"), "EPSILON"}, { ("Indice", "]"), "EPSILON"},{ ("Indice", ","), "EPSILON"},
-            { ("RepIndice", ")"), "EPSILON"}, { ("RepIndice", "="), "EPSILON"},{ ("RepIndice", ";"), "EPSILON"}, { ("RepIndice", "eq"), "EPSILON"},{ ("RepIndice", "neq"), "EPSILON"}, { ("RepIndice", "lt"), "EPSILON"},{ ("RepIndice", "gt"), "EPSILON"}, { ("RepIndice", "leq"), "EPSILON"},{ ("RepIndice", "geq"), "EPSILON"}, { ("RepIndice", "+"), "EPSILON"},{ ("RepIndice", "-"), "EPSILON"}, { ("RepIndice", "or"), "EPSILON"},{ ("RepIndice", "*"), "EPSILON"}, { ("RepIndice", "/"), "EPSILON"},{ ("RepIndice", "and"), "EPSILON"}, { ("RepIndice", "]"), "EPSILON"},{ ("RepIndice", ","), "EPSILON"},
+            { ("RepIndice", ")"), "EPSILON"}, { ("RepIndice", "="), "EPSILON"},{ ("RepIndice", ";"), "EPSILON"}, { ("RepIndice", "eq"), "EPSILON"},{ ("RepIndice", "neq"), "EPSILON"}, { ("RepIndice", "lt"), "EPSILON"},{ ("RepIndice", "gt"), "EPSILON"}, { ("RepIndice", "leq"), "EPSILON"},{ ("RepIndice", "geq"), "EPSILON"}, { ("RepIndice", "+"), "EPSILON"},{ ("RepIndice", "-"), "EPSILON"}, { ("RepIndice", "or"), "EPSILON"},{ ("RepIndice", "*"), "EPSILON"}, { ("RepIndice", "/"), "EPSILON"},{ ("RepIndice", "and"), "EPSILON"}, { ("RepIndice", "]"), "EPSILON"},{ ("RepIndice", ","), "EPSILON"}, { ("RepIndice", "("), "EPSILON"},
             //{ ("ArraySize", "["), "ArraySize → [ intNum ]"}, // possible intnum or epsilon
             { ("RepArraySize", ";"), "EPSILON"}, { ("RepArraySize", ","), "EPSILON"}, { ("RepArraySize", ")"), "EPSILON"},
             //{ ("Type", "intNum"), "Type -> integer"}, { ("Type", "floatNum"), "Type -> float"}, { ("Type", "id"), "Type -> id"},
             //{ ("FParams", "intNum"), "FParams -> Type id RepArraySize RepFParamsTail"}, { ("FParams", "floatNum"), "FParams -> Type id RepArraySize RepFParamsTail"}, { ("FParams", "id"), "FParams -> Type id RepArraySize RepFParamsTail"}, { ("FParams", "EPSILON"), "FParams -> EPSILON"},
             //{ ("AParams", "intNum"), "AParams → Expr RepAParamsTail"},{ ("AParams", "floatNum"), "AParams → Expr RepAParamsTail"}, { ("AParams", "("), "AParams → Expr RepAParamsTail"}, { ("AParams", "not"), "AParams → Expr RepAParamsTail"}, { ("AParams", "+"), "AParams -> Expr RepAParamsTail"}, { ("AParams", "-"), "AParams → Expr RepAParamsTail"}, { ("AParams", "id"), "AParams -> Expr RepAParamsTail"}, { ("AParams", "EPSILON"), "AParams -> EPSILON"},
+            { ("AParams", ")"), "EPSILON"},
             //{ ("AParamsTail", ","), "AParamsTail → , Type id RepArraySize"},
             { ("RepAParamsTail", ")"), "EPSILON"},
             //{ ("FParamsTail", ","), "FParamsTail → , Expr"},

@@ -70,11 +70,17 @@
 	add R1,R0,R2
 	jl R15,putint
 
+	%- Printing a space -%
+	putc R0
+
 	%- Printing value of arr at 1 -%
 	addi R3,R0,4
 	lw R2,arr(R3)
 	add R1,R0,R2
 	jl R15,putint
+
+	%- Printing a space -%
+	putc R0
 
 	%- Printing value of arr at 2 -%
 	addi R3,R0,8
@@ -82,11 +88,17 @@
 	add R1,R0,R2
 	jl R15,putint
 
+	%- Printing a space -%
+	putc R0
+
 	%- Printing value of arr at 3 -%
 	addi R3,R0,12
 	lw R2,arr(R3)
 	add R1,R0,R2
 	jl R15,putint
+
+	%- Printing a space -%
+	putc R0
 
 	%- Printing value of arr at 4 -%
 	addi R3,R0,16
@@ -94,17 +106,26 @@
 	add R1,R0,R2
 	jl R15,putint
 
+	%- Printing a space -%
+	putc R0
+
 	%- Printing value of arr at 5 -%
 	addi R3,R0,20
 	lw R2,arr(R3)
 	add R1,R0,R2
 	jl R15,putint
 
+	%- Printing a space -%
+	putc R0
+
 	%- Printing value of arr at 6 -%
 	addi R3,R0,24
 	lw R2,arr(R3)
 	add R1,R0,R2
 	jl R15,putint
+
+	%- Printing a space -%
+	putc R0
 
 	%- Setting arr[4] to temp variable temp_1 -%
 	addi R2,R0,16
@@ -130,6 +151,9 @@
 	lw R2,complex(R0)
 	add R1,R0,R2
 	jl R15,putint
+
+	%- Printing a space -%
+	putc R0
 
 	%- Computation 1 add 3 -%
 	addi R3,R0,1
@@ -175,6 +199,9 @@
 	lw R2,complex2(R0)
 	add R1,R0,R2
 	jl R15,putint
+
+	%- Printing a space -%
+	putc R0
 
 	hlt
 

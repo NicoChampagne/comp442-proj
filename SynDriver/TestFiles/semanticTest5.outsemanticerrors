@@ -1,0 +1,4 @@
+Error(13): array index not an integer, array: arr
+Error(10): expression types are incompatible, first operand: 1, second operand: linear
+Error(13): array index not an integer, array: 1
+Error(10): expression types are incompatible, first operand: 1, second operand: 2

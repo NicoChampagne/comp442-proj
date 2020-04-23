@@ -1,0 +1,24 @@
+----------------------------------------------------------------------------
+Table: Global
+Name = Linear; Kind = Class; Type = ; Offset = 0; ScopedOffset = 0; Link = Linear
+Name = print; Kind = Function; Type = void: integer; Offset = 4; ScopedOffset = 0; Link = print
+Name = main; Kind = Function; Type = ; Offset = 20; ScopedOffset = 0; Link = main
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: Linear
+Name = a; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+Name = b; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 8; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: print
+Name = a; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: main
+Name = a; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+Name = b; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 8; Link = 
+Name = c; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 12; Link = 
+Name = arr; Kind = Variable; Type = integer[]; Offset = 0; ScopedOffset = 0; Link = 
+Name = linear; Kind = Variable; Type = Linear; Offset = 8; ScopedOffset = 20; Link = 
+----------------------------------------------------------------------------
+

@@ -262,6 +262,12 @@ START
                ->
                   id
                      POLYNOMIAL
+               ->
+                  :
+                  :
+                  ->
+                     id
+                        evaluate
                (
                ->
                   ->
@@ -302,6 +308,12 @@ START
                   ->
                      id
                         LINEAR
+                  ->
+                     :
+                     :
+                     ->
+                        id
+                           evaluate
                   (
                   ->
                      ->
@@ -424,6 +436,12 @@ START
                      ->
                         id
                            QUADRATIC
+                     ->
+                        :
+                        :
+                        ->
+                           id
+                              evaluate
                      (
                      ->
                         ->
@@ -591,6 +609,12 @@ START
                         ->
                            id
                               LINEAR
+                        ->
+                           :
+                           :
+                           ->
+                              id
+                                 build
                         (
                         ->
                            ->
@@ -730,6 +754,12 @@ START
                            ->
                               id
                                  QUADRATIC
+                           ->
+                              :
+                              :
+                              ->
+                                 id
+                                    build
                            (
                            ->
                               ->

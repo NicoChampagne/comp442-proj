@@ -1,0 +1,28 @@
+----------------------------------------------------------------------------
+Table: Global
+Name = Line; Kind = Class; Type = ; Offset = 0; ScopedOffset = 0; Link = Line
+Name = Line2; Kind = Class; Type = ; Offset = 0; ScopedOffset = 0; Link = Line2
+Name = main; Kind = Function; Type = ; Offset = 16; ScopedOffset = 0; Link = main
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: Line
+Name = x; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+Name = y; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 8; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: Line2
+Inherits: Line
+Name = private; Kind = Variable; Type = Line; Offset = 8; ScopedOffset = 8; Link = 
+Name = x; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 12; Link = 
+Name = y; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 16; Link = 
+Name = z; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 20; Link = 
+Name = parent_x; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 4; Link = 
+Name = parent_y; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 8; Link = 
+----------------------------------------------------------------------------
+----------------------------------------------------------------------------
+Table: main
+Name = line; Kind = Variable; Type = Line; Offset = 8; ScopedOffset = 8; Link = 
+Name = a; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 12; Link = 
+Name = a; Kind = Variable; Type = integer; Offset = 4; ScopedOffset = 16; Link = 
+----------------------------------------------------------------------------
+

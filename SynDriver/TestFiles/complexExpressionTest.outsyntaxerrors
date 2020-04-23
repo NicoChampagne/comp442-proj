@@ -1,0 +1,4 @@
+Syntactic error on line (18,6) Skipping token: and with production: OptMultArith
+Syntactic error on line (18,7) Skipping token: a with production: OptMultArith
+Syntactic error on line (18,8) Skipping token: > with production: )
+Syntactic error on line (18,9) Skipping token: b with production: )
