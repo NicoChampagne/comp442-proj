@@ -317,7 +317,6 @@ printarray_endwhile3
 
 	hlt
 
-bubbleSort_param1 res 4
 bubbleSort_param2 res 4
 bubbleSort_arr	res 4
 bubbleSort_size	res 4
@@ -344,7 +343,6 @@ temp_12 res 4
 temp_13 res 4
 temp_14 res 4
 temp_15 res 4
-printarray_param1 res 4
 printarray_param2 res 4
 printarray_arr	res 4
 printarray_size	res 4
@@ -361,3 +359,5 @@ lit_7 res 4
 lit_8 res 4
 lit_9 res 4
 lit_10 res 4
+printarray_param1 res 28
+bubbleSort_param1 res 28
